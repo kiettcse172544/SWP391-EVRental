@@ -15,6 +15,8 @@ namespace EVRenter_Service.RequestModel
         public int TrunkCapatity { get; set; }
         public int Hoursepower { get; set; }
         public int MoveLimit { get; set; }
+        public int ChargingTime { get; set; }
+        public int ChargePower { get; set; }
     }
 
     public class ModelUpdateRequest
@@ -26,5 +28,7 @@ namespace EVRenter_Service.RequestModel
         public int? TrunkCapatity { get; set; }
         public int? Hoursepower { get; set; }
         public int? MoveLimit { get; set; }
+        public int? ChargingTime { get; set; }
+        public int? ChargePower { get; set; }
     }
 }

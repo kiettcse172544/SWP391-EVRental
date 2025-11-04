@@ -58,9 +58,9 @@ namespace EVRenter_Data
             modelBuilder.Entity<Booking>()
                 .HasKey(b => b.Id);
             modelBuilder.Entity<Booking>()
-                .HasOne(b => b.Model)
+                .HasOne(b => b.Vehicle)
                 .WithMany(m => m.Bookings)
-                .HasForeignKey(v => v.ModelID)
+                .HasForeignKey(v => v.VehicleID)
                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Booking>()
                 .HasOne(b => b.User)
@@ -84,11 +84,6 @@ namespace EVRenter_Data
                 .HasOne(hr => hr.User)
                 .WithMany(b => b.HandoverAndReturns)
                 .HasForeignKey(hr => hr.StaffID)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<HandoverAndReturn>()
-                .HasOne(hr => hr.Vehicle)
-                .WithMany(b => b.HandoverAndReturns)
-                .HasForeignKey(hr => hr.VehicleID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Payment>()

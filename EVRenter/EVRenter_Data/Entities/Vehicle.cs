@@ -11,12 +11,15 @@ namespace EVRenter_Data.Entities
         public string PlateNumber { get; set; }
         public int ModelID { get; set; }
         public int StationID { get; set; }
+        public string Location { get; set; }
         public int BatteryLevel { get; set; }
         public int Odometer { get; set; }
-        public int Status { get; set; } //1: Available, 2: Reserved, 3: InUse, Maintenance
+        public string Color { get; set; }
+        public int Status { get; set; } //1: Available, 2: Reserved, 3: InUse, 4: Maintenance
         public virtual Station Station { get; set; }
         public virtual Model Model { get; set; }
-        public virtual ICollection<HandoverAndReturn> HandoverAndReturns { get; set; }
+        public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<CarItem> CarItems { get; set; }
     }
 }
+

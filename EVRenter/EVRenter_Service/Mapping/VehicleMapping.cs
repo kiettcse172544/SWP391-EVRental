@@ -14,10 +14,15 @@ namespace EVRenter_Service.Mapping
     {
         public VehicleMapping()
         {
+            CreateMap<Model, CarSpecifications>()
+                .ForMember(dest => dest.ChargingTime, opt => opt.MapFrom(src => src.ChargingTime))
+                .ForMember(dest => dest.ChargePower, opt => opt.MapFrom(src => src.ChargePower))
+                .ForMember(dest => dest.Seat, opt => opt.MapFrom(src => src.Seat));
             CreateMap<Vehicle, VehicleResponseModel>()
                 .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.Model.ModelName))
                 .ForMember(dest => dest.StationName, opt => opt.MapFrom(src => src.Station.Name))
-                .ForMember(dest => dest.StationLocation, opt => opt.MapFrom(src => src.Station.Location));
+                .ForMember(dest => dest.Specifications,
+                opt => opt.MapFrom(src => src.Model));
 
             CreateMap<Vehicle, VehicleDetailResponseModel>()
                .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.Model.ModelName))

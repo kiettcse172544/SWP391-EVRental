@@ -58,12 +58,12 @@ namespace EVRenter_Service.Service
             if (request == null)
                 throw new ArgumentException("Invalid request data.");
 
-            var model = await _unitOfWork.Repository<Model>().AsQueryable()
-               .Where(u => u.Id == request.ModelID)
+            var vehicle = await _unitOfWork.Repository<Vehicle>().AsQueryable()
+               .Where(u => u.Id == request.VehicleID)
                .FirstOrDefaultAsync();
-            if (model == null)
+            if (vehicle == null)
             {
-                throw new Exception("Model not found");
+                throw new Exception("Car not found");
             }
 
             var user = await _unitOfWork.Repository<User>().AsQueryable()
@@ -82,7 +82,7 @@ namespace EVRenter_Service.Service
             else booking.RentalType = 4; //Yearly
 
             var price = await _unitOfWork.Repository<RentalPrice>().AsQueryable()
-               .Where(u => u.ModelID == request.ModelID)
+               .Where(u => u.ModelID == vehicle.ModelID)
                .FirstOrDefaultAsync();
             if (price == null)
             {

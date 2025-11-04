@@ -9,7 +9,7 @@ namespace EVRenter_Data.Entities
 {
     public class Booking : BaseEntity
     {
-        public int ModelID { get; set; }
+        public int VehicleID { get; set; }
         public int RenterID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -24,7 +24,7 @@ namespace EVRenter_Data.Entities
         [Precision(18, 2)]
         public decimal? FinalCost { get; set; }
         public int Status { get; set; }
-        public virtual Model Model { get; set; }
+        public virtual Vehicle Vehicle { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<HandoverAndReturn> HandoverAndReturns { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }

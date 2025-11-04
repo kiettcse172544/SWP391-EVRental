@@ -17,8 +17,10 @@ namespace EVRenter_Service.ResponseModel
         public int Odometer { get; set; }
         public int StationID { get; set; }
         public string StationName { get; set; }
-        public string StationLocation { get; set; }
+        public string Location { get; set; }
+        public string Color { get; set; }
         public int Status { get; set; }
+        public CarSpecifications Specifications { get; set; }
     }
 
     public class VehicleDetailResponseModel
@@ -48,5 +50,12 @@ namespace EVRenter_Service.ResponseModel
         public int Id { get; set; }
         public string Name { get; set; }
         public int Status { get; set; }
+    }
+
+    public class CarSpecifications
+    {
+        public int ChargingTime { get; set; }
+        public int ChargePower { get; set; }
+        public int Seat { get; set; }
     }
 }

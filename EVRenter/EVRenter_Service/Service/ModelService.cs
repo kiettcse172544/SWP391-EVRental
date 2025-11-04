@@ -168,6 +168,16 @@ namespace EVRenter_Service.Service
                 existingModel.MoveLimit = request.MoveLimit.Value;
                 hasUpdates = true;
             }
+            if (request.ChargingTime.HasValue)
+            {
+                existingModel.ChargingTime = request.ChargingTime.Value;
+                hasUpdates = true;
+            }
+            if (request.ChargePower.HasValue)
+            {
+                existingModel.ChargePower = request.ChargePower.Value;
+                hasUpdates = true;
+            }
 
             if (hasUpdates)
             {
@@ -218,3 +228,4 @@ namespace EVRenter_Service.Service
         }
     }
 }
+

@@ -15,7 +15,7 @@ namespace EVRenter_Service.Mapping
         public BookingMapping()
         {
             CreateMap<Booking, BookingResponseModel>()
-                .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.Model));
+                .ForMember(dest => dest.Vehicle, opt => opt.MapFrom(src => src.Vehicle));
             CreateMap<BookingRequestModel, Booking>();
         }
     }

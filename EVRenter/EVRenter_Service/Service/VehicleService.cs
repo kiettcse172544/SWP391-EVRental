@@ -176,9 +176,33 @@ namespace EVRenter_Service.Service
                 hasUpdates = true;
             }
 
+            if (!string.IsNullOrEmpty(request.Location))
+            {
+                existingVehicle.Location = request.Location;
+                hasUpdates = true;
+            }
+
+            if (request.BatteryLevel.HasValue)
+            {
+                existingVehicle.BatteryLevel = request.BatteryLevel.Value;
+                hasUpdates = true;
+            }
+
+            if (request.Odometer.HasValue)
+            {
+                existingVehicle.Odometer = request.Odometer.Value;
+                hasUpdates = true;
+            }
+
             if (request.Status.HasValue)
             {
                 existingVehicle.Status = request.Status.Value;
+                hasUpdates = true;
+            }
+
+            if (!string.IsNullOrEmpty(request.Color))
+            {
+                existingVehicle.Color = request.Color;
                 hasUpdates = true;
             }
 

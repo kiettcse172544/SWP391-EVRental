@@ -1,5 +1,37 @@
 [
   {
+    "ContainingType": "EVRenter_API.Controllers.AmenitiesController",
+    "Method": "CreateAmenities",
+    "RelativePath": "api/Amenities",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "EVRenter_Service.RequestModel.AmenitiesRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.AmenitiesController",
+    "Method": "GetAmenitiesByModel",
+    "RelativePath": "api/Amenities/{modelId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "modelId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EVRenter_API.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
@@ -34,7 +66,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "ModelID",
+        "Name": "VehicleID",
         "Type": "System.Int32",
         "IsRequired": false
       },
@@ -135,6 +167,16 @@
         "Name": "MoveLimit",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "ChargingTime",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "ChargePower",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -200,6 +242,16 @@
       },
       {
         "Name": "MoveLimit",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "ChargingTime",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "ChargePower",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }
@@ -657,11 +709,6 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "PlateNumber",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
         "Name": "ModelID",
         "Type": "System.Int32",
         "IsRequired": false
@@ -669,6 +716,31 @@
       {
         "Name": "StationID",
         "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Location",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PlateNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "BatteryLevel",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Odometer",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Color",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -716,6 +788,26 @@
       {
         "Name": "StationID",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Location",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "BatteryLevel",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Odometer",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Color",
+        "Type": "System.String",
         "IsRequired": false
       },
       {

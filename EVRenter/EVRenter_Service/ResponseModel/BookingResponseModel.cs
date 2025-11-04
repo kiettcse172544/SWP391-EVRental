@@ -11,8 +11,8 @@ namespace EVRenter_Service.ResponseModel
     public class BookingResponseModel
     {
         public int Id { get; set; }
-        public int ModelID { get; set; }
-        public virtual Model Model { get; set; }
+        public int VehicleID { get; set; }
+        public virtual Vehicle Vehicle { get; set; }
         public int RenterID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

@@ -28,6 +28,7 @@ builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IRentalPriceService, RentalPriceService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAmenitiesService, AmenitiesService>();
 
 // 💳 Payment-related
 builder.Services.AddScoped<IPaymentService, PaymentService>();
@@ -43,6 +44,7 @@ builder.Services.AddAutoMapper(typeof(VehicleMapping));
 builder.Services.AddAutoMapper(typeof(PriceMapping));
 builder.Services.AddAutoMapper(typeof(BookingMapping));
 builder.Services.AddAutoMapper(typeof(PaymentMapping));
+builder.Services.AddAutoMapper(typeof(AmenitiesMapping));
 
 // ======================================================
 // 🔐 4️⃣ JWT Authentication

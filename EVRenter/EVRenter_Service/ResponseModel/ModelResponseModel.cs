@@ -18,7 +18,8 @@ namespace EVRenter_Service.ResponseModel
         public List<string> Features { get; set; }
         //public List<string> Specifications { get; set; }
         public SpecificationsModel Specifications { get; set; }
-        public virtual ICollection<Vehicle> Vehicles { get; set; }
+        public List<string> Amenities { get; set; }
+        //public virtual ICollection<Vehicle> Vehicles { get; set; }
     }
 
     public class PriceResponseModel

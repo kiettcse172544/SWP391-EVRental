@@ -15,7 +15,7 @@ namespace EVRenter_Service.Mapping
         public ModelMapping()
         {
             CreateMap<Model, ModelResponseModel>()
-                .ForMember(dest => dest.Vehicles, opt => opt.MapFrom(src => src.Vehicles.Where(v => !v.IsDelete)))
+                //.ForMember(dest => dest.Vehicles, opt => opt.MapFrom(src => src.Vehicles.Where(v => !v.IsDelete)))
                 .ForMember(dest => dest.Price,
                 opt => opt.MapFrom(src => new PriceResponseModel
                 {
@@ -47,7 +47,9 @@ namespace EVRenter_Service.Mapping
                     Range = src.Range,
                     CarModel = src.Type,
                     MoveLimit = src.MoveLimit
-                }));
+                }))
+                .ForMember(dest => dest.Amenities,
+                opt => opt.MapFrom(src => src.Amenities.Where(a => !a.IsDelete).Select(a => a.Name).ToList()));
             CreateMap<ModelRequestModel, Model>();
             CreateMap<ModelUpdateRequest, Model>();
         }

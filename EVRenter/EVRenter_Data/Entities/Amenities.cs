@@ -8,8 +8,9 @@ namespace EVRenter_Data.Entities
 {
     public class Amenities : BaseEntity
     {
-        public string AmenityName { get; set; }
+        public string Name { get; set; }
         public int ModelID { get; set; }
+        public int Status { get; set; }
         public virtual Model Model { get; set; }
     }
 }

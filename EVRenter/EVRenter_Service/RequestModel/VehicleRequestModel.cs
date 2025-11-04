@@ -9,9 +9,13 @@ namespace EVRenter_Service.RequestModel
 {
     public class VehicleRequestModel
     {
-        public string PlateNumber { get; set; }
         public int ModelID { get; set; }
         public int StationID { get; set; }
+        public string Location { get; set; }
+        public string PlateNumber { get; set; }
+        public int BatteryLevel { get; set; }
+        public int Odometer { get; set; }
+        public string Color { get; set; }
     }
 
     public class VehicleUpdateRequest
@@ -19,6 +23,10 @@ namespace EVRenter_Service.RequestModel
         public string? PlateNumber { get; set; }
         public int? ModelID { get; set; }
         public int? StationID { get; set; }
+        public string? Location { get; set; }
+        public int? BatteryLevel { get; set; }
+        public int? Odometer { get; set; }
+        public string? Color { get; set; }
         public int? Status { get; set; }
     }
 }

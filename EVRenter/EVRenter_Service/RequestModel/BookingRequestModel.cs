@@ -9,7 +9,7 @@ namespace EVRenter_Service.RequestModel
 {
     public class BookingRequestModel
     {
-        public int ModelID { get; set; }
+        public int VehicleID { get; set; }
         public int RenterID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

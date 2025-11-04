@@ -30,14 +30,17 @@ namespace EVRenter_Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AmenityName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
                     b.Property<int>("ModelID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -73,9 +76,6 @@ namespace EVRenter_Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ModelID")
-                        .HasColumnType("int");
-
                     b.Property<int>("RentalType")
                         .HasColumnType("int");
 
@@ -92,14 +92,17 @@ namespace EVRenter_Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int>("VehicleID")
+                        .HasColumnType("int");
+
                     b.Property<int?>("VoucherID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ModelID");
-
                     b.HasIndex("RenterID");
+
+                    b.HasIndex("VehicleID");
 
                     b.HasIndex("VoucherID");
 
@@ -420,6 +423,12 @@ namespace EVRenter_Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ChargePower")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChargingTime")
+                        .HasColumnType("int");
+
                     b.Property<int>("Hoursepower")
                         .HasColumnType("int");
 
@@ -708,8 +717,16 @@ namespace EVRenter_Data.Migrations
                     b.Property<int>("BatteryLevel")
                         .HasColumnType("int");
 
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ModelID")
                         .HasColumnType("int");
@@ -781,15 +798,15 @@ namespace EVRenter_Data.Migrations
 
             modelBuilder.Entity("EVRenter_Data.Entities.Booking", b =>
                 {
-                    b.HasOne("EVRenter_Data.Entities.Model", "Model")
-                        .WithMany("Bookings")
-                        .HasForeignKey("ModelID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("EVRenter_Data.Entities.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("RenterID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EVRenter_Data.Entities.Vehicle", "Vehicle")
+                        .WithMany("Bookings")
+                        .HasForeignKey("VehicleID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -798,9 +815,9 @@ namespace EVRenter_Data.Migrations
                         .HasForeignKey("VoucherID")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Model");
-
                     b.Navigation("User");
+
+                    b.Navigation("Vehicle");
 
                     b.Navigation("Voucher");
                 });
@@ -913,9 +930,9 @@ namespace EVRenter_Data.Migrations
                         .IsRequired();
 
                     b.HasOne("EVRenter_Data.Entities.Vehicle", "Vehicle")
-                        .WithMany("HandoverAndReturns")
+                        .WithMany()
                         .HasForeignKey("VehicleID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Booking");
@@ -1076,8 +1093,6 @@ namespace EVRenter_Data.Migrations
                 {
                     b.Navigation("Amenities");
 
-                    b.Navigation("Bookings");
-
                     b.Navigation("Feedbacks");
 
                     b.Navigation("ModelImages");
@@ -1125,9 +1140,9 @@ namespace EVRenter_Data.Migrations
 
             modelBuilder.Entity("EVRenter_Data.Entities.Vehicle", b =>
                 {
-                    b.Navigation("CarItems");
+                    b.Navigation("Bookings");
 
-                    b.Navigation("HandoverAndReturns");
+                    b.Navigation("CarItems");
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Voucher", b =>
