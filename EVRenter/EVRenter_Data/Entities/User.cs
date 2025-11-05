@@ -10,6 +10,7 @@ namespace EVRenter_Data.Entities
         public string Password { get; set; }
         public string Email { get; set; }
         public string? Phone { get; set; }
+        public string? Address { get; set; }
 
         // Mỗi staff có một station riêng 
         public int? StationId { get; set; }

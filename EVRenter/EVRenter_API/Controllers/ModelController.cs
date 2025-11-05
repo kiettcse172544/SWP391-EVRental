@@ -44,7 +44,7 @@ namespace EVRenter_API.Controllers
             return Ok(model);
         }
 
-        [HttpGet("{stationId}")]
+        [HttpGet("GetByStationId/{stationId}")]
         public async Task<IActionResult> GetModelsByStation(int stationId)
         {
 

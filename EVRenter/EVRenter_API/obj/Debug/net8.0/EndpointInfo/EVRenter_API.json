@@ -112,11 +112,11 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "VehicleID": {
+                  "RenterID": {
                     "type": "integer",
                     "format": "int32"
                   },
-                  "RenterID": {
+                  "StationID": {
                     "type": "integer",
                     "format": "int32"
                   },
@@ -127,18 +127,14 @@
                   "EndDate": {
                     "type": "string",
                     "format": "date-time"
-                  },
-                  "RentalType": {
-                    "type": "integer",
-                    "format": "int32"
                   }
                 }
               },
               "encoding": {
-                "VehicleID": {
+                "RenterID": {
                   "style": "form"
                 },
-                "RenterID": {
+                "StationID": {
                   "style": "form"
                 },
                 "StartDate": {
@@ -146,14 +142,23 @@
                 },
                 "EndDate": {
                   "style": "form"
-                },
-                "RentalType": {
-                  "style": "form"
                 }
               }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Booking/Unapproval Booking": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -183,6 +188,68 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "Booking"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Status": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "VehicleID": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "StartDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "EndDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "encoding": {
+                "Status": {
+                  "style": "form"
+                },
+                "VehicleID": {
+                  "style": "form"
+                },
+                "StartDate": {
+                  "style": "form"
+                },
+                "EndDate": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "Booking"
@@ -190,6 +257,29 @@
         "parameters": [
           {
             "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Booking/GetByCar/{vehicleID}": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "parameters": [
+          {
+            "name": "vehicleID",
             "in": "path",
             "required": true,
             "schema": {
@@ -368,7 +458,7 @@
         }
       }
     },
-    "/api/Model/{stationId}": {
+    "/api/Model/GetByStationId/{stationId}": {
       "get": {
         "tags": [
           "Model"
@@ -918,6 +1008,9 @@
                     "pattern": "^\\+?[0-9]{10,15}$",
                     "type": "string"
                   },
+                  "Address": {
+                    "type": "string"
+                  },
                   "RoleID": {
                     "type": "integer",
                     "format": "int32"
@@ -938,6 +1031,9 @@
                   "style": "form"
                 },
                 "Phone": {
+                  "style": "form"
+                },
+                "Address": {
                   "style": "form"
                 },
                 "RoleID": {
@@ -1016,6 +1112,9 @@
                     "pattern": "^\\+?[0-9]{10,15}$",
                     "type": "string"
                   },
+                  "Address": {
+                    "type": "string"
+                  },
                   "RoleID": {
                     "type": "integer",
                     "format": "int32"
@@ -1030,6 +1129,9 @@
                   "style": "form"
                 },
                 "Phone": {
+                  "style": "form"
+                },
+                "Address": {
                   "style": "form"
                 },
                 "RoleID": {

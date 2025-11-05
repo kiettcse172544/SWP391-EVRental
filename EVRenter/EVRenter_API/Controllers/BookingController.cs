@@ -23,12 +23,32 @@ namespace EVRenter_API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("Unapproval Booking")]
+        public async Task<IActionResult> GetUnapprovalBookings()
+        {
+            var response = await _bookingService.GetUnapprovalBooking();
+            return Ok(response);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookingById(int id)
         {
 
 
             var vehicle = await _bookingService.GetBookingByIdAsync(id);
+            if (vehicle == null)
+            {
+                return NotFound("Booking not found.");
+            }
+
+            return Ok(vehicle);
+        }
+        [HttpGet("GetByCar/{vehicleID}")]
+        public async Task<IActionResult> GetBookingByCar(int vehicleID)
+        {
+
+
+            var vehicle = await _bookingService.GetBookingByVehicleAsync(vehicleID);
             if (vehicle == null)
             {
                 return NotFound("Booking not found.");
@@ -48,6 +68,24 @@ namespace EVRenter_API.Controllers
 
             var booking = await _bookingService.CreateBookingAsync(request);
             return CreatedAtAction(nameof(GetBookingById), new { id = booking.Id }, booking);
+        }
+
+        [HttpPut("{id}")]
+        //[Authorize]
+        public async Task<IActionResult> UpdateBookingStatus(int id, [FromForm] BookingUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedBooking = await _bookingService.UpdateBookingStatsusAsync(id, request);
+            if (updatedBooking == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok(updatedBooking);
         }
 
         [HttpDelete("{id}")]

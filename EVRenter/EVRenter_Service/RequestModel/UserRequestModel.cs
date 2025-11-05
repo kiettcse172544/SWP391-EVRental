@@ -28,6 +28,7 @@ namespace EVRenter_Service.RequestModel
         [Required(ErrorMessage = "Phone number is required.")]
         [RegularExpression(@"^\+?[0-9]{10,15}$", ErrorMessage = "Phone number must be between 10 and 15 digits and may start with a '+' sign.")]
         public string Phone { get; set; } = string.Empty;
+        public string? Address { get; set; } = string.Empty;
 
         public int? RoleID { get; set; }
         public bool IsActive { get; set; } = true;
@@ -44,6 +45,7 @@ namespace EVRenter_Service.RequestModel
 
         [RegularExpression(@"^\+?[0-9]{10,15}$", ErrorMessage = "Phone number must be between 10 and 15 digits and may start with a '+' sign.")]
         public string Phone { get; set; } = string.Empty;
+        public string? Address { get; set; } = string.Empty;
         public int? RoleID { get; set; }
     }
 }

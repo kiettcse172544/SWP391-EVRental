@@ -22,7 +22,50 @@ namespace EVRenter_Service.Mapping
                 .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.Model.ModelName))
                 .ForMember(dest => dest.StationName, opt => opt.MapFrom(src => src.Station.Name))
                 .ForMember(dest => dest.Specifications,
-                opt => opt.MapFrom(src => src.Model));
+                opt => opt.MapFrom(src => src.Model))
+
+                .ForMember(dest => dest.Customer, 
+                otp => otp.MapFrom(src => src.Bookings
+                .Where(x => x.VehicleID == src.Id && x.Status == 0)
+                .Select(x => x.User)
+                .FirstOrDefault()))
+
+                .ForMember(dest => dest.RequestTime, 
+                opt => opt.MapFrom(src => src.Bookings
+                .Where(x => x.VehicleID == src.Id && x.Status == 0)
+                .Select(x => x.CreatedAt)
+                .FirstOrDefault()))
+
+                .ForMember(dest => dest.PickupTime,
+                opt => opt.MapFrom(src => src.Bookings
+                .Where(x => x.VehicleID == src.Id && x.Status == 0)
+                .Select(x => x.StartDate)
+                .FirstOrDefault()))
+
+                .ForMember(dest => dest.ExpectedReturn,
+                opt => opt.MapFrom(src => src.Bookings
+                .Where(x => x.VehicleID == src.Id && x.Status == 0)
+                .Select(x => x.EndDate)
+                .FirstOrDefault()))
+
+                .ForMember(dest => dest.RentTime,
+                opt => opt.MapFrom(src => src.Bookings
+                .Where(x => x.VehicleID == src.Id && x.Status == 0)
+                .Select(x => x.EndDate - x.StartDate)
+                .FirstOrDefault()))
+
+                .ForMember(dest => dest.PricePerDay,
+                opt => opt.MapFrom(src => src.Model.RentalPrice.Price))
+
+                .ForMember(dest => dest.Deposit,
+                opt => opt.MapFrom(src => src.Model.RentalPrice.Deposit))
+
+                .ForMember(dest => dest.TotalCost,
+                opt => opt.MapFrom(src => src.Bookings
+                .Where(x => x.VehicleID == src.Id && x.Status == 0 && !x.IsDelete)
+                .Select(x => x.BaseCost)
+                .FirstOrDefault()));
+
 
             CreateMap<Vehicle, VehicleDetailResponseModel>()
                .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.Model.ModelName))

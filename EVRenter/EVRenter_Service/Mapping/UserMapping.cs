@@ -15,6 +15,9 @@ namespace EVRenter_Service.Mapping
         public UserMapping()
         {
             CreateMap<User, UserResponseModel>();
+            CreateMap<User, CustomerResponseModel>()
+                .ForMember(dest => dest.IdCard, otp => otp.MapFrom(src => src.RenterProfile.IDNumber))
+                .ForMember(dest => dest.DriverLicense, otp => otp.MapFrom(src => src.RenterProfile.DriverLicenseNo));
 
             CreateMap<UserCreateRequest, User>();
             CreateMap<UserUpdateRequest, User>();
