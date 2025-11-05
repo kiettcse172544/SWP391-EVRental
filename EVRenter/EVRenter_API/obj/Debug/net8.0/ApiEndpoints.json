@@ -66,12 +66,12 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "VehicleID",
+        "Name": "RenterID",
         "Type": "System.Int32",
         "IsRequired": false
       },
       {
-        "Name": "RenterID",
+        "Name": "StationID",
         "Type": "System.Int32",
         "IsRequired": false
       },
@@ -83,11 +83,6 @@
       {
         "Name": "EndDate",
         "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "RentalType",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }
     ],
@@ -111,6 +106,42 @@
   },
   {
     "ContainingType": "EVRenter_API.Controllers.BookingController",
+    "Method": "UpdateBookingStatus",
+    "RelativePath": "api/Booking/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "Status",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "VehicleID",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.BookingController",
     "Method": "DeleteUnpaidBooking",
     "RelativePath": "api/Booking/{id}",
     "HttpMethod": "DELETE",
@@ -123,6 +154,32 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.BookingController",
+    "Method": "GetBookingByCar",
+    "RelativePath": "api/Booking/GetByCar/{vehicleID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "vehicleID",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.BookingController",
+    "Method": "GetUnapprovalBookings",
+    "RelativePath": "api/Booking/Unapproval Booking",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -276,8 +333,18 @@
   },
   {
     "ContainingType": "EVRenter_API.Controllers.ModelController",
+    "Method": "GetAllModels",
+    "RelativePath": "api/Model/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.ModelController",
     "Method": "GetModelsByStation",
-    "RelativePath": "api/Model/{stationId}",
+    "RelativePath": "api/Model/GetByStationId/{stationId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -288,16 +355,6 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EVRenter_API.Controllers.ModelController",
-    "Method": "GetAllModels",
-    "RelativePath": "api/Model/GetAll",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -610,6 +667,11 @@
         "IsRequired": false
       },
       {
+        "Name": "Address",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "RoleID",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
@@ -663,6 +725,11 @@
       },
       {
         "Name": "Phone",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Address",
         "Type": "System.String",
         "IsRequired": false
       },

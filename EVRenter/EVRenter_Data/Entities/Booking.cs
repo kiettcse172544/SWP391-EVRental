@@ -23,6 +23,7 @@ namespace EVRenter_Data.Entities
         public decimal BaseCost { get; set; }
         [Precision(18, 2)]
         public decimal? FinalCost { get; set; }
+        public DateTime CreatedAt { get; set; }
         public int Status { get; set; }
         public virtual Vehicle Vehicle { get; set; }
         public virtual User User { get; set; }

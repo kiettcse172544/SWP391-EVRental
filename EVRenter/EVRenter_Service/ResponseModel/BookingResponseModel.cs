@@ -11,12 +11,11 @@ namespace EVRenter_Service.ResponseModel
     public class BookingResponseModel
     {
         public int Id { get; set; }
+        public int RentalType { get; set; }
         public int VehicleID { get; set; }
-        public virtual Vehicle Vehicle { get; set; }
         public int RenterID { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int RentalType { get; set; }
         [Precision(18, 0)]
         public decimal Deposit { get; set; }
         [Precision(18, 0)]
@@ -27,5 +26,15 @@ namespace EVRenter_Service.ResponseModel
         [Precision(18, 0)]
         public decimal? FinalCost { get; set; }
         public int Status { get; set; }
+    }
+
+    public class StaffBookingResponseModel
+    {
+        public int Id { get; set; }
+        public int RentalType { get; set; }
+        public int Status { get; set; }
+        public int VehicleID { get; set; }
+        public DateTime RequestTime { get; set; }
+        public CustomerResponseModel Customer { get; set; }
     }
 }

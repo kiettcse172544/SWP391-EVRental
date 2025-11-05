@@ -128,6 +128,12 @@ namespace EVRenter_Service.Service
                 hasUpdates = true;
             }
 
+            if (!string.IsNullOrEmpty(request.Address))
+            {
+                existingUser.Address = request.Address;
+                hasUpdates = true;
+            }
+
             if (request.RoleID.HasValue)
             {
                 existingUser.RoleID = (RoleType)request.RoleID.Value;
