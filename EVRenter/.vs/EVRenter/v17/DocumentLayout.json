@@ -19,10 +19,6 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:EVRenter_Data\\Migrations\\20251106062230_RefreshDBInit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Migrations\\20251106062040_FixBugV1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:EVRenter_Data\\Migrations\\20251106062040_FixBugV1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|d:\\fpt\\9th_2\\swp391\\gitcode\\swp391-evrental\\evrenter\\evrenter_data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|solutionrelative:evrenter_data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -33,6 +29,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|d:\\fpt\\9th_2\\swp391\\gitcode\\swp391-evrental\\evrenter\\evrenter_service\\requestmodel\\bookingrequestmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|solutionrelative:evrenter_service\\requestmodel\\bookingrequestmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|d:\\fpt\\9th_2\\swp391\\gitcode\\swp391-evrental\\evrenter\\evrenter_data\\migrations\\20251106062040_fixbugv1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|solutionrelative:evrenter_data\\migrations\\20251106062040_fixbugv1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -76,22 +76,9 @@
               "RelativeDocumentMoniker": "EVRenter_API\\Controllers\\BookingController.cs",
               "ToolTip": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_API\\Controllers\\BookingController.cs",
               "RelativeToolTip": "EVRenter_API\\Controllers\\BookingController.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAYwCEAAAA8AAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwCIAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-06T07:23:54.151Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserRequestModel.cs",
-              "DocumentMoniker": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\RequestModel\\UserRequestModel.cs",
-              "RelativeDocumentMoniker": "EVRenter_Service\\RequestModel\\UserRequestModel.cs",
-              "ToolTip": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\RequestModel\\UserRequestModel.cs",
-              "RelativeToolTip": "EVRenter_Service\\RequestModel\\UserRequestModel.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAowCAAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T06:24:26.88Z",
               "EditorCaption": ""
             },
             {
@@ -104,12 +91,11 @@
               "RelativeToolTip": "EVRenter_Data\\Migrations\\20251106062230_RefreshDBInit.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T06:22:30.343Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-06T06:22:30.343Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "20251106062040_FixBugV1.cs",
               "DocumentMoniker": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Migrations\\20251106062040_FixBugV1.cs",
               "RelativeDocumentMoniker": "EVRenter_Data\\Migrations\\20251106062040_FixBugV1.cs",
@@ -117,12 +103,11 @@
               "RelativeToolTip": "EVRenter_Data\\Migrations\\20251106062040_FixBugV1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T06:20:40.696Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-06T06:20:40.696Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "EVRenter_Data\\AppDbContext.cs",
@@ -130,8 +115,7 @@
               "RelativeToolTip": "EVRenter_Data\\AppDbContext.cs",
               "ViewState": "AgIAANcAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T06:19:23.974Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-06T06:19:23.974Z"
             },
             {
               "$type": "Document",
@@ -141,14 +125,26 @@
               "RelativeDocumentMoniker": "EVRenter_Service\\Service\\BookingService.cs",
               "ToolTip": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\BookingService.cs",
               "RelativeToolTip": "EVRenter_Service\\Service\\BookingService.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAAABcAAABPAAAAAAAAAA==",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAqwBgAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-06T05:18:05.984Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
+              "Title": "UserRequestModel.cs",
+              "DocumentMoniker": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\RequestModel\\UserRequestModel.cs",
+              "RelativeDocumentMoniker": "EVRenter_Service\\RequestModel\\UserRequestModel.cs",
+              "ToolTip": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\RequestModel\\UserRequestModel.cs",
+              "RelativeToolTip": "EVRenter_Service\\RequestModel\\UserRequestModel.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAowCAAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-06T06:24:26.88Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_API\\appsettings.json",
               "RelativeDocumentMoniker": "EVRenter_API\\appsettings.json",
@@ -156,16 +152,11 @@
               "RelativeToolTip": "EVRenter_API\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-11-05T16:23:42.206Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+              "WhenOpened": "2025-11-05T16:23:42.206Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "BookingRequestModel.cs",
               "DocumentMoniker": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\RequestModel\\BookingRequestModel.cs",
               "RelativeDocumentMoniker": "EVRenter_Service\\RequestModel\\BookingRequestModel.cs",
@@ -173,8 +164,11 @@
               "RelativeToolTip": "EVRenter_Service\\RequestModel\\BookingRequestModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T05:16:59.574Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-06T05:16:59.574Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
             },
             {
               "$type": "Bookmark",
