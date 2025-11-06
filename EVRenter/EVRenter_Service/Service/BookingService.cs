@@ -23,6 +23,7 @@ namespace EVRenter_Service.Service
         Task<BookingResponseModel?> GetBookingByVehicleAsync(int vehicleId);
         Task<IEnumerable<BookingResponseModel>> GetBookingbyUserId(int userID);
         Task<IEnumerable<StaffBookingResponseModel>> GetUnapprovalBooking();
+        Task<IEnumerable<StaffBookingResponseModel>> GetBookingsbyStaff();
         Task<BookingResponseModel> CreateBookingAsync(BookingRequestModel request);
         Task<StaffBookingResponseModel?> UpdateBookingStatsusAsync(int id, BookingUpdateRequest request);
         Task<bool> DeleteUnpaidBookingAsync(int id);
@@ -61,6 +62,15 @@ namespace EVRenter_Service.Service
             return await _unitOfWork.Repository<Booking>()
                 .GetQueryable()
                 .Where(x => !x.IsDelete && x.Status == 0)
+                .ProjectTo<StaffBookingResponseModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<StaffBookingResponseModel>> GetBookingsbyStaff()
+        {
+            return await _unitOfWork.Repository<Booking>()
+                .GetQueryable()
+                .Where(x => !x.IsDelete)
                 .ProjectTo<StaffBookingResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
