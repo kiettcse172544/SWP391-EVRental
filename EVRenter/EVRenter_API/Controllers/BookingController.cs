@@ -30,6 +30,13 @@ namespace EVRenter_API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("GetBookingByStaff")]
+        public async Task<IActionResult> GetBookingsByStaff()  
+        {
+            var response = await _bookingService.GetBookingsbyStaff();
+            return Ok(response);
+        }
+
         [HttpGet("GetByUserID/{userID}")]
         public async Task<IActionResult> GetBookingsByUserID(int userID)
         {
