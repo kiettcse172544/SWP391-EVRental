@@ -15,19 +15,16 @@ namespace EVRenter_Service.Service
         }
 
         public string CreatePaymentUrl(string txnRef, decimal amount, string orderInfo, string ipAddr,
-                                       string orderType = "other", string bankCode = "NCB")
+                               string orderType = "other", string bankCode = "NCB")
         {
-            // Lấy thời gian hiện tại 
             var now = DateTime.UtcNow.AddHours(7);
 
-            // Thiết lập ngày tạo và ngày hết hạn (30 phút)
             string createDate = now.ToString("yyyyMMddHHmmss");
             string expireDate = now.AddMinutes(30).ToString("yyyyMMddHHmmss");
 
-
             long vnpAmount = (long)(amount * 100);
 
-            var vnpParams = new SortedDictionary<string, string>
+            var vnpParams = new SortedDictionary<string, string>(StringComparer.Ordinal)
             {
                 ["vnp_Version"] = "2.1.0",
                 ["vnp_Command"] = "pay",
@@ -42,11 +39,13 @@ namespace EVRenter_Service.Service
                 ["vnp_IpAddr"] = ipAddr,
                 ["vnp_CreateDate"] = createDate,
                 ["vnp_ExpireDate"] = expireDate,
-                ["vnp_BankCode"] = bankCode   // ⚙️ Dùng "NCB" khi test sandbox, đổi "VNPAYQR" khi lên production
+                ["vnp_BankCode"] = bankCode
             };
 
-            string rawData = BuildQuery(vnpParams, false);
+            // Ký trên chuỗi ĐÃ URL-ENCODE
+            string rawData = BuildQuery(vnpParams, true);
             string secureHash = HmacSHA512(_options.HashSecret, rawData);
+
             string query = BuildQuery(vnpParams, true);
 
             Console.WriteLine("=== RAW DATA TO SIGN ===");
@@ -59,6 +58,7 @@ namespace EVRenter_Service.Service
             return $"{_options.PayUrl}?{query}&vnp_SecureHash={secureHash}";
         }
 
+
         public bool ValidateSignature(Dictionary<string, string> queryParams)
         {
             if (!queryParams.TryGetValue("vnp_SecureHash", out var receivedHash))
@@ -68,14 +68,16 @@ namespace EVRenter_Service.Service
                 .Where(x => x.Key.StartsWith("vnp_")
                          && x.Key != "vnp_SecureHash"
                          && x.Key != "vnp_SecureHashType")
-                .OrderBy(x => x.Key)
+                .OrderBy(x => x.Key, StringComparer.Ordinal)
                 .ToDictionary(x => x.Key, x => x.Value);
 
-            string rawData = BuildQuery(filtered, false);
+            // ký trên chuỗi đã UrlEncode
+            string rawData = BuildQuery(filtered, true);
             string computedHash = HmacSHA512(_options.HashSecret, rawData);
 
             return string.Equals(receivedHash, computedHash, StringComparison.OrdinalIgnoreCase);
         }
+
 
         private static string BuildQuery(IDictionary<string, string> values, bool urlEncode)
         {

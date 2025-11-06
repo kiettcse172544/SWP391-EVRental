@@ -112,6 +112,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "ModelID": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
                   "RenterID": {
                     "type": "integer",
                     "format": "int32"
@@ -131,6 +135,9 @@
                 }
               },
               "encoding": {
+                "ModelID": {
+                  "style": "form"
+                },
                 "RenterID": {
                   "style": "form"
                 },

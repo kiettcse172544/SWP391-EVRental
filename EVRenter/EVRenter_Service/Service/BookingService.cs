@@ -90,6 +90,7 @@ namespace EVRenter_Service.Service
                 throw new Exception("Car is full");
             }
 
+            vehicle.Status = 1;
             var user = await _unitOfWork.Repository<User>().AsQueryable()
                .Where(u => !u.IsDelete && u.Id == request.RenterID)
                .FirstOrDefaultAsync();
