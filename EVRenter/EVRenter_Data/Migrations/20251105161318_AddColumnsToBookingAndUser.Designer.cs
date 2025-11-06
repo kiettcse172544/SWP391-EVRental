@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVRenter_Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251105113749_UpdateBookingUser")]
-    partial class UpdateBookingUser
+    [Migration("20251105161318_AddColumnsToBookingAndUser")]
+    partial class AddColumnsToBookingAndUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

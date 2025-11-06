@@ -83,13 +83,12 @@ namespace EVRenter_Service.Service
                 throw new ArgumentException("Invalid request data.");
 
             var vehicle = await _unitOfWork.Repository<Vehicle>().AsQueryable()
-               .Where(u => !u.IsDelete && u.StationID == request.StationID && u.Status == 0)
+               .Where(u => !u.IsDelete && u.ModelID == request.ModelID && u.StationID == request.StationID && u.Status == 0)
                .FirstOrDefaultAsync();
             if (vehicle == null)
             {
                 throw new Exception("Car is full");
             }
-            vehicle.Status = 1;
 
             var user = await _unitOfWork.Repository<User>().AsQueryable()
                .Where(u => !u.IsDelete && u.Id == request.RenterID)

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVRenter_Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251104162452_NewVer")]
-    partial class NewVer
+    [Migration("20251105154626_UpdateBookingUser")]
+    partial class UpdateBookingUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,6 +64,9 @@ namespace EVRenter_Data.Migrations
                     b.Property<decimal>("BaseCost")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Deposit")
                         .HasPrecision(18, 2)
@@ -661,6 +664,9 @@ namespace EVRenter_Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()

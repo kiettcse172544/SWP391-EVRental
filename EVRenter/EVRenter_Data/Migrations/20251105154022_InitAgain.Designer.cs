@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVRenter_Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251022142003_DBInit")]
-    partial class DBInit
+    [Migration("20251105154022_InitAgain")]
+    partial class InitAgain
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,34 @@ namespace EVRenter_Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("EVRenter_Data.Entities.Amenities", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ModelID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModelID");
+
+                    b.ToTable("Amenities");
+                });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Booking", b =>
                 {
@@ -36,6 +64,9 @@ namespace EVRenter_Data.Migrations
                     b.Property<decimal>("BaseCost")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Deposit")
                         .HasPrecision(18, 2)
@@ -50,9 +81,6 @@ namespace EVRenter_Data.Migrations
 
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
-
-                    b.Property<int>("ModelID")
-                        .HasColumnType("int");
 
                     b.Property<int>("RentalType")
                         .HasColumnType("int");
@@ -70,16 +98,69 @@ namespace EVRenter_Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int>("VehicleID")
+                        .HasColumnType("int");
+
                     b.Property<int?>("VoucherID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ModelID");
-
                     b.HasIndex("RenterID");
 
+                    b.HasIndex("VehicleID");
+
+                    b.HasIndex("VoucherID");
+
                     b.ToTable("Bookings");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.CarItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryID");
+
+                    b.HasIndex("VehicleID");
+
+                    b.ToTable("CarItems");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.DriverLicenseImage", b =>
+                {
+                    b.Property<int>("RenterID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ImageID")
+                        .HasColumnType("int");
+
+                    b.HasKey("RenterID", "ImageID");
+
+                    b.HasIndex("ImageID");
+
+                    b.ToTable("DriverLicenseImages");
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.ExtraFee", b =>
@@ -255,6 +336,21 @@ namespace EVRenter_Data.Migrations
                     b.ToTable("HandoverAndReturn");
                 });
 
+            modelBuilder.Entity("EVRenter_Data.Entities.IDImage", b =>
+                {
+                    b.Property<int>("RenterID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ImageID")
+                        .HasColumnType("int");
+
+                    b.HasKey("RenterID", "ImageID");
+
+                    b.HasIndex("ImageID");
+
+                    b.ToTable("IDImages");
+                });
+
             modelBuilder.Entity("EVRenter_Data.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -279,6 +375,52 @@ namespace EVRenter_Data.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("EVRenter_Data.Entities.ItemCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ItemCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDelete = false,
+                            Name = "Ngoại thất"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDelete = false,
+                            Name = "Nội thất"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsDelete = false,
+                            Name = "Pin & Kỹ thuật"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsDelete = false,
+                            Name = "Phụ kiện"
+                        });
+                });
+
             modelBuilder.Entity("EVRenter_Data.Entities.Model", b =>
                 {
                     b.Property<int>("Id")
@@ -286,6 +428,12 @@ namespace EVRenter_Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChargePower")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChargingTime")
+                        .HasColumnType("int");
 
                     b.Property<int>("Hoursepower")
                         .HasColumnType("int");
@@ -311,6 +459,10 @@ namespace EVRenter_Data.Migrations
 
                     b.Property<int>("TrunkCapatity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -350,17 +502,29 @@ namespace EVRenter_Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PaymentMethod")
-                        .HasColumnType("int");
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PaymentTime")
+                    b.Property<DateTime?>("PaymentTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("PaymentType")
                         .HasColumnType("int");
 
+                    b.Property<string>("PaymentUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReferenceCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResponseCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<string>("TransactionId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
@@ -402,6 +566,61 @@ namespace EVRenter_Data.Migrations
                         .IsUnique();
 
                     b.ToTable("RentalPrices");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.RenterProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DriverLicenseNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IDNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
+
+                    b.ToTable("RenterProfiles");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.StaffProfile", b =>
+                {
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StationID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IsDelete")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StaffCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserID", "StationID");
+
+                    b.HasIndex("StationID");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
+
+                    b.ToTable("StaffProfiles");
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Station", b =>
@@ -446,9 +665,18 @@ namespace EVRenter_Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailVerificationToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EmailVerificationTokenExpiresAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -460,6 +688,9 @@ namespace EVRenter_Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsEmailVerified")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -467,7 +698,16 @@ namespace EVRenter_Data.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoleID")
+                    b.Property<string>("ResetPasswordToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ResetPasswordTokenExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RoleID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -483,10 +723,24 @@ namespace EVRenter_Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("BatteryLevel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ModelID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Odometer")
                         .HasColumnType("int");
 
                     b.Property<string>("PlateNumber")
@@ -508,23 +762,111 @@ namespace EVRenter_Data.Migrations
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("EVRenter_Data.Entities.Booking", b =>
+            modelBuilder.Entity("EVRenter_Data.Entities.Voucher", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppliedType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("SalePercent")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vouchers");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.Amenities", b =>
                 {
                     b.HasOne("EVRenter_Data.Entities.Model", "Model")
-                        .WithMany("Bookings")
+                        .WithMany("Amenities")
                         .HasForeignKey("ModelID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Model");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.Booking", b =>
+                {
                     b.HasOne("EVRenter_Data.Entities.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("RenterID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Model");
+                    b.HasOne("EVRenter_Data.Entities.Vehicle", "Vehicle")
+                        .WithMany("Bookings")
+                        .HasForeignKey("VehicleID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EVRenter_Data.Entities.Voucher", "Voucher")
+                        .WithMany("Bookings")
+                        .HasForeignKey("VoucherID")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("User");
+
+                    b.Navigation("Vehicle");
+
+                    b.Navigation("Voucher");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.CarItem", b =>
+                {
+                    b.HasOne("EVRenter_Data.Entities.ItemCategory", "Category")
+                        .WithMany("Items")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EVRenter_Data.Entities.Vehicle", "Vehicle")
+                        .WithMany("CarItems")
+                        .HasForeignKey("VehicleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Vehicle");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.DriverLicenseImage", b =>
+                {
+                    b.HasOne("EVRenter_Data.Entities.Image", "Image")
+                        .WithMany("DriverLicenseImages")
+                        .HasForeignKey("ImageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EVRenter_Data.Entities.RenterProfile", "Profile")
+                        .WithMany("DriverLicenseImages")
+                        .HasForeignKey("RenterID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Image");
+
+                    b.Navigation("Profile");
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.ExtraFee", b =>
@@ -597,9 +939,9 @@ namespace EVRenter_Data.Migrations
                         .IsRequired();
 
                     b.HasOne("EVRenter_Data.Entities.Vehicle", "Vehicle")
-                        .WithMany("HandoverAndReturns")
+                        .WithMany()
                         .HasForeignKey("VehicleID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Booking");
@@ -609,6 +951,25 @@ namespace EVRenter_Data.Migrations
                     b.Navigation("User");
 
                     b.Navigation("Vehicle");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.IDImage", b =>
+                {
+                    b.HasOne("EVRenter_Data.Entities.Image", "Image")
+                        .WithMany("IDImages")
+                        .HasForeignKey("ImageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EVRenter_Data.Entities.RenterProfile", "Profile")
+                        .WithMany("IDImages")
+                        .HasForeignKey("RenterID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Image");
+
+                    b.Navigation("Profile");
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.ModelImage", b =>
@@ -660,6 +1021,36 @@ namespace EVRenter_Data.Migrations
                     b.Navigation("Model");
                 });
 
+            modelBuilder.Entity("EVRenter_Data.Entities.RenterProfile", b =>
+                {
+                    b.HasOne("EVRenter_Data.Entities.User", "User")
+                        .WithOne("RenterProfile")
+                        .HasForeignKey("EVRenter_Data.Entities.RenterProfile", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.StaffProfile", b =>
+                {
+                    b.HasOne("EVRenter_Data.Entities.Station", "Station")
+                        .WithMany("StaffProfiles")
+                        .HasForeignKey("StationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EVRenter_Data.Entities.User", "User")
+                        .WithOne("StaffProfile")
+                        .HasForeignKey("EVRenter_Data.Entities.StaffProfile", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Station");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EVRenter_Data.Entities.Vehicle", b =>
                 {
                     b.HasOne("EVRenter_Data.Entities.Model", "Model")
@@ -695,12 +1086,21 @@ namespace EVRenter_Data.Migrations
 
             modelBuilder.Entity("EVRenter_Data.Entities.Image", b =>
                 {
+                    b.Navigation("DriverLicenseImages");
+
+                    b.Navigation("IDImages");
+
                     b.Navigation("ModelImages");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.ItemCategory", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Model", b =>
                 {
-                    b.Navigation("Bookings");
+                    b.Navigation("Amenities");
 
                     b.Navigation("Feedbacks");
 
@@ -712,9 +1112,18 @@ namespace EVRenter_Data.Migrations
                     b.Navigation("Vehicles");
                 });
 
+            modelBuilder.Entity("EVRenter_Data.Entities.RenterProfile", b =>
+                {
+                    b.Navigation("DriverLicenseImages");
+
+                    b.Navigation("IDImages");
+                });
+
             modelBuilder.Entity("EVRenter_Data.Entities.Station", b =>
                 {
                     b.Navigation("HandoverAndReturns");
+
+                    b.Navigation("StaffProfiles");
 
                     b.Navigation("Vehicles");
                 });
@@ -730,11 +1139,24 @@ namespace EVRenter_Data.Migrations
                     b.Navigation("HandoverAndReturns");
 
                     b.Navigation("Payments");
+
+                    b.Navigation("RenterProfile")
+                        .IsRequired();
+
+                    b.Navigation("StaffProfile")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Vehicle", b =>
                 {
-                    b.Navigation("HandoverAndReturns");
+                    b.Navigation("Bookings");
+
+                    b.Navigation("CarItems");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.Voucher", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }
