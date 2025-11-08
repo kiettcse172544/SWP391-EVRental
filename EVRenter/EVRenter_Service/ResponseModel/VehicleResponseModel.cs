@@ -22,14 +22,7 @@ namespace EVRenter_Service.ResponseModel
         public int Status { get; set; }
         public CarSpecifications Specifications { get; set; }
         public CustomerResponseModel Customer {  get; set; }
-        public BookingResponseModel Booking { get; set; }
-        public DateTime RequestTime { get; set; }
-        public DateTime PickupTime { get; set; }
-        public TimeSpan RentTime { get; set; }
-        public DateTime ExpectedReturn {  get; set; }
-        public decimal PricePerDay { get; set; }
-        public decimal Deposit {  get; set; }
-        public decimal TotalCost { get; set; }
+        public CarBookingResponseModel Booking { get; set; }
         public List<CategoryChecklistResponse> Categories { get; set; }
     }
 

@@ -20,6 +20,7 @@ namespace EVRenter_Service.Service
         Task<VehicleResponseModel?> GetVehicleByIdAsync(int id);
         Task<VehicleResponseModel> CreateVehicleAsync(VehicleRequestModel request);
         Task<VehicleResponseModel?> UpdateVehicleAsync(int id, VehicleUpdateRequest request);
+        Task<VehicleResponseModel?> UpdateVehicleStatusAsync(int vehicleId);
         Task<bool> DeleteVehicleAsync(int id);
     }
     public class VehicleService : IVehicleService
@@ -229,12 +230,16 @@ namespace EVRenter_Service.Service
                 .FirstOrDefaultAsync();
             if (existingBooking == null) return null;
 
-            if (existingVehicle.Status > 0 && existingVehicle.Status < 4)
+            if (existingVehicle.Status > 0 && existingVehicle.Status < 3)
             {
 
                 existingVehicle.Status++;
                 existingBooking.Status++;
-            } 
+            }
+            else if (existingVehicle.Status == 3)
+            {
+                existingVehicle.Status++;
+            }
             else if (existingVehicle.Status == 4)
             {
                 existingVehicle.Status = 0;
