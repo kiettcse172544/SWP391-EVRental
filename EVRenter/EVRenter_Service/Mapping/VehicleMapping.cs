@@ -5,6 +5,7 @@ using EVRenter_Service.ResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,41 +31,22 @@ namespace EVRenter_Service.Mapping
                 .Select(x => x.User)
                 .FirstOrDefault()))
 
-                .ForMember(dest => dest.RequestTime, 
-                opt => opt.MapFrom(src => src.Bookings
-                .Where(x => x.VehicleID == src.Id && x.Status == 0)
-                .Select(x => x.CreatedAt)
-                .FirstOrDefault()))
+                .ForMember(dest => dest.Booking, otp => otp.MapFrom(src => 
+                src.Bookings.Where(x => x.VehicleID == src.Id && !x.IsDelete && x.Status < 3).FirstOrDefault()))
 
-                .ForMember(dest => dest.PickupTime,
-                opt => opt.MapFrom(src => src.Bookings
-                .Where(x => x.VehicleID == src.Id && x.Status == 0)
-                .Select(x => x.StartDate)
-                .FirstOrDefault()))
-
-                .ForMember(dest => dest.ExpectedReturn,
-                opt => opt.MapFrom(src => src.Bookings
-                .Where(x => x.VehicleID == src.Id && x.Status == 0)
-                .Select(x => x.EndDate)
-                .FirstOrDefault()))
-
-                .ForMember(dest => dest.RentTime,
-                opt => opt.MapFrom(src => src.Bookings
-                .Where(x => x.VehicleID == src.Id && x.Status == 0)
-                .Select(x => x.EndDate - x.StartDate)
-                .FirstOrDefault()))
-
-                .ForMember(dest => dest.PricePerDay,
-                opt => opt.MapFrom(src => src.Model.RentalPrice.Price))
-
-                .ForMember(dest => dest.Deposit,
-                opt => opt.MapFrom(src => src.Model.RentalPrice.Deposit))
-
-                .ForMember(dest => dest.TotalCost,
-                opt => opt.MapFrom(src => src.Bookings
-                .Where(x => x.VehicleID == src.Id && x.Status == 0 && !x.IsDelete)
-                .Select(x => x.BaseCost)
-                .FirstOrDefault()));
+                .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.CarItems
+                .GroupBy(i => new { i.CategoryID, i.Category.Name })
+                .Select(g => new CategoryChecklistResponse
+                {
+                    CategoryName = g.Key.Name,
+                    Items = g.Select(i => new CarItemResponse
+                    {
+                        Id = i.Id,
+                        Name = i.Name,
+                        Status = i.Status
+                    }).ToList()
+                }).ToList()
+                ));
 
 
             CreateMap<Vehicle, VehicleDetailResponseModel>()

@@ -17,7 +17,7 @@ namespace EVRenter_Service.Service
     public interface IVehicleService
     {
         Task<IEnumerable<VehicleResponseModel>> GetAllVehicle();
-        Task<VehicleDetailResponseModel?> GetVehicleByIdAsync(int id);
+        Task<VehicleResponseModel?> GetVehicleByIdAsync(int id);
         Task<VehicleResponseModel> CreateVehicleAsync(VehicleRequestModel request);
         Task<VehicleResponseModel?> UpdateVehicleAsync(int id, VehicleUpdateRequest request);
         Task<bool> DeleteVehicleAsync(int id);
@@ -42,12 +42,12 @@ namespace EVRenter_Service.Service
                 .ToListAsync();
         }
 
-        public async Task<VehicleDetailResponseModel?> GetVehicleByIdAsync(int id)
+        public async Task<VehicleResponseModel?> GetVehicleByIdAsync(int id)
         {
             // Get the user with basic information
             var vehicle = await _unitOfWork.Repository<Vehicle>().AsQueryable()
                 .Where(u => u.Id == id)
-                .ProjectTo<VehicleDetailResponseModel>(_mapper.ConfigurationProvider)
+                .ProjectTo<VehicleResponseModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
             return vehicle;
@@ -211,6 +211,40 @@ namespace EVRenter_Service.Service
                 await _unitOfWork.Repository<Vehicle>().Update(existingVehicle, id);
                 await _unitOfWork.SaveChangesAsync();
             }
+
+            return _mapper.Map<VehicleResponseModel>(existingVehicle);
+        }
+
+        public async Task<VehicleResponseModel?> UpdateVehicleStatusAsync(int vehicleId)
+        {
+            var existingVehicle = await _unitOfWork.Repository<Vehicle>()
+                .AsQueryable()
+                .Where(s => s.Id == vehicleId && !s.IsDelete && s.Status < 5)
+                .FirstOrDefaultAsync();
+            if (existingVehicle == null || existingVehicle.Status == 0) return null;
+
+            var existingBooking = await _unitOfWork.Repository<Booking>()
+                .AsQueryable()
+                .Where(s => s.VehicleID == vehicleId && !s.IsDelete && s.Status < 3)
+                .FirstOrDefaultAsync();
+            if (existingBooking == null) return null;
+
+            if (existingVehicle.Status > 0 && existingVehicle.Status < 4)
+            {
+
+                existingVehicle.Status++;
+                existingBooking.Status++;
+            } 
+            else if (existingVehicle.Status == 4)
+            {
+                existingVehicle.Status = 0;
+                existingBooking.Status = 3;
+            }
+
+
+            await _unitOfWork.Repository<Vehicle>().Update(existingVehicle, vehicleId);
+            await _unitOfWork.Repository<Booking>().Update(existingBooking, existingBooking.Id);
+            await _unitOfWork.SaveChangesAsync();
 
             return _mapper.Map<VehicleResponseModel>(existingVehicle);
         }
