@@ -66,6 +66,11 @@
     "Order": 0,
     "Parameters": [
       {
+        "Name": "ModelID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "RenterID",
         "Type": "System.Int32",
         "IsRequired": false
