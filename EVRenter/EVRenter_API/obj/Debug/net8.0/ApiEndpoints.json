@@ -89,6 +89,11 @@
         "Name": "EndDate",
         "Type": "System.DateTime",
         "IsRequired": false
+      },
+      {
+        "Name": "Status",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -900,6 +905,22 @@
     "Parameters": [
       {
         "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.VehicleController",
+    "Method": "UpdateVehicleStatus",
+    "RelativePath": "api/Vehicle/AutpUpdateStatus/{vehicleId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "vehicleId",
         "Type": "System.Int32",
         "IsRequired": true
       }

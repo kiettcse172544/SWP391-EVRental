@@ -131,6 +131,10 @@
                   "EndDate": {
                     "type": "string",
                     "format": "date-time"
+                  },
+                  "Status": {
+                    "type": "integer",
+                    "format": "int32"
                   }
                 }
               },
@@ -148,6 +152,9 @@
                   "style": "form"
                 },
                 "EndDate": {
+                  "style": "form"
+                },
+                "Status": {
                   "style": "form"
                 }
               }
@@ -1373,6 +1380,29 @@
         "parameters": [
           {
             "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Vehicle/AutpUpdateStatus/{vehicleId}": {
+      "put": {
+        "tags": [
+          "Vehicle"
+        ],
+        "parameters": [
+          {
+            "name": "vehicleId",
             "in": "path",
             "required": true,
             "schema": {

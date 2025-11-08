@@ -206,6 +206,12 @@ namespace EVRenter_Service.Service
                 hasUpdates = true;
             }
 
+            if(request.StartDate.HasValue)
+            {
+                existingBooking.Status = request.Status.Value;
+                hasUpdates = true;
+            }
+
             if (hasUpdates)
             {
                 await _unitOfWork.Repository<Booking>().Update(existingBooking, id);
