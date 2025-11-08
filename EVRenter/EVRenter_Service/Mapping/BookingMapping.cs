@@ -19,6 +19,9 @@ namespace EVRenter_Service.Mapping
             CreateMap<Booking, StaffBookingResponseModel>()
                 .ForMember(dest => dest.Customer, otp => otp.MapFrom(src => src.User))
                 .ForMember(dest => dest.RequestTime, otp => otp.MapFrom(src => src.CreatedAt));
+            CreateMap<Booking, CarBookingResponseModel>()
+                .ForMember(dest => dest.RequestTime, otp => otp.MapFrom(src => src.CreatedAt))
+                .ForMember(dest => dest.RentalTime, opt => opt.MapFrom(src => (int)(src.EndDate - src.StartDate).TotalDays));
             CreateMap<BookingRequestModel, Booking>();
         }
     }
