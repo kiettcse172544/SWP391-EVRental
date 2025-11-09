@@ -23,7 +23,7 @@ namespace EVRenter_API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("Unapproval Booking")]
+        [HttpGet("Uncomplete Booking")]
         public async Task<IActionResult> GetUnapprovalBookings()
         {
             var response = await _bookingService.GetUnapprovalBooking();
@@ -56,6 +56,14 @@ namespace EVRenter_API.Controllers
 
             return Ok(vehicle);
         }
+
+        [HttpGet("GetBookingsByRenter/{renterID}")]
+        public async Task<IActionResult> GetBookingsByRenter(int renterID)
+        {
+            var response = await _bookingService.GetBookingByRenter(renterID);
+            return Ok(response);
+        }
+
 
         [HttpPost]
         //[Authorize(Roles = "Manager")]
