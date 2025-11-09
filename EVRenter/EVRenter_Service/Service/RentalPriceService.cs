@@ -118,6 +118,7 @@ namespace EVRenter_Service.Service
 
             // Kiểm tra xem có bất kỳ trường nào được cập nhật không
             bool hasUpdates = false;
+
             // Cập nhật từng trường nếu có giá trị mới
             if (request.Price.HasValue)
             {
@@ -126,7 +127,7 @@ namespace EVRenter_Service.Service
             }
             if (request.Deposit.HasValue)
             {
-                existingPrice.Price = request.Deposit.Value;
+                existingPrice.Deposit = request.Deposit.Value;
                 hasUpdates = true;
             }
 
