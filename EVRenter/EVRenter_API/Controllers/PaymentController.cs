@@ -58,6 +58,9 @@ namespace EVRenter_API.Controllers
                 var queryParams = HttpContext.Request.Query.ToDictionary(
                     kvp => kvp.Key, kvp => kvp.Value.ToString());
 
+                _logger.LogInformation("[IPN RAW QUERY] "
+                    + string.Join("&", queryParams.Select(kvp => $"{kvp.Key}={kvp.Value}")));
+
                 var callbackRequest = new PaymentCallbackRequest
                 {
                     AllParams = queryParams,
@@ -108,6 +111,25 @@ namespace EVRenter_API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error fetching payment history");
+                return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
+            }
+        }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllPayments()
+        {
+            try
+            {
+                var payments = await _paymentService.GetAllPaymentsAsync();
+
+                if (payments == null || !payments.Any())
+                    return NotFound(new { message = "No payments found" });
+
+                return Ok(payments);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching all payments");
                 return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
             }
         }

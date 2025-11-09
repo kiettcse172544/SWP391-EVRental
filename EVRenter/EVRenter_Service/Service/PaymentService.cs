@@ -4,6 +4,7 @@ using EVRenter_Repository.UnitOfWork;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace EVRenter_Service.Service
 {
@@ -12,31 +13,15 @@ namespace EVRenter_Service.Service
     /// </summary>
     public interface IPaymentService
     {
-        /// <summary>
-        /// Tạo giao dịch thanh toán cho một booking.
-        /// - Nếu phương thức là "Cash" → lưu DB và đánh dấu thành công.
-        /// - Nếu phương thức là "VnPay" → tạo giao dịch Pending và sinh URL thanh toán.
-        /// </summary>
-        /// <param name="request">Thông tin yêu cầu thanh toán.</param>
-        /// <param name="ipAddr">Địa chỉ IP của client (dùng để gửi cho VNPAY).</param>
-        /// <returns>Thông tin PaymentResponseModel bao gồm URL thanh toán (nếu VNPAY).</returns>
+        Task<IEnumerable<PaymentResponseModel>> GetAllPaymentsAsync();
+
+
         Task<PaymentResponseModel> CreatePaymentAsync(PaymentCreateRequest request, string ipAddr);
 
-        /// <summary>
-        /// Xử lý callback (IPN) từ VNPAY Sandbox.
-        /// - Kiểm tra chữ ký (HMAC SHA512).
-        /// - Cập nhật trạng thái thanh toán (Success / Failed).
-        /// - (Tuỳ chọn) Cập nhật trạng thái Booking nếu thành công.
-        /// </summary>
-        /// <param name="callback">Thông tin callback từ VNPAY.</param>
-        /// <returns>True nếu xử lý hợp lệ.</returns>
+       
         Task<bool> HandleVnPayCallbackAsync(PaymentCallbackRequest callback);
 
-        /// <summary>
-        /// Lấy danh sách các giao dịch thanh toán của một người dùng.
-        /// </summary>
-        /// <param name="userId">ID người dùng cần xem lịch sử thanh toán.</param>
-        /// <returns>Danh sách các PaymentResponseModel.</returns>
+        
         Task<IEnumerable<PaymentResponseModel>> GetPaymentsByUserAsync(int userId);
     }
 
@@ -46,11 +31,15 @@ namespace EVRenter_Service.Service
         private readonly IMapper _mapper;
         private readonly VnPayService _vnPayService;
 
-        public PaymentService(IUnitOfWork unitOfWork, IMapper mapper, VnPayService vnPayService)
+        private readonly ILogger<PaymentService> _logger;
+
+        public PaymentService(IUnitOfWork unitOfWork, IMapper mapper, VnPayService vnPayService, ILogger<PaymentService> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _vnPayService = vnPayService;
+
+            _logger = logger;
         }
 
         
@@ -72,7 +61,7 @@ namespace EVRenter_Service.Service
             payment.ReferenceCode = Guid.NewGuid().ToString("N");
             payment.UserID = request.UserId;
             payment.BookingID = request.BookingId;
-            payment.Amount = request.Amount;
+            payment.Amount = booking.BaseCost;
 
             if (payment.PaymentType == PaymentType.Cash)
             {
@@ -112,9 +101,15 @@ namespace EVRenter_Service.Service
         
         public async Task<bool> HandleVnPayCallbackAsync(PaymentCallbackRequest callback)
         {
+
+
+            var refCode = callback.vnp_TxnRef.Trim();
+
+            _logger.LogInformation($"[IPN RECEIVED] TxnRef={refCode}");
+
             var payment = await _unitOfWork.Repository<Payment>()
                 .AsQueryable()
-                .FirstOrDefaultAsync(p => p.ReferenceCode == callback.vnp_TxnRef);
+                .FirstOrDefaultAsync(p => p.ReferenceCode == refCode);
 
             if (payment == null)
                 throw new KeyNotFoundException("Payment not found for this transaction.");
@@ -163,5 +158,39 @@ namespace EVRenter_Service.Service
 
             return _mapper.Map<IEnumerable<PaymentResponseModel>>(payments);
         }
+
+        public async Task<IEnumerable<PaymentResponseModel>> GetAllPaymentsAsync()
+        {
+            var payments = await _unitOfWork.Repository<Payment>()
+                .AsQueryable()
+                .Include(p => p.User)
+                .Include(p => p.Booking)
+                .Where(p => !p.IsDelete)
+                .OrderByDescending(p => p.PaymentTime)        // Sắp theo thời gian thanh toán
+                .ThenByDescending(p => p.Id)                  // Nếu null, sắp theo Id giảm dần
+                .Select(p => new PaymentResponseModel
+                {
+                    Id = p.Id,
+                    BookingId = p.BookingID,
+                    UserEmail = p.User != null ? p.User.Email : "(Unknown)",
+                    PaymentMethod = p.PaymentType == PaymentType.VnPay ? "VNPAY" :
+                                    p.PaymentType == PaymentType.Cash ? "Cash" : "Other",
+                    Amount = p.Amount,
+                    Status = p.Status == PaymentStatus.Pending ? "Pending" :
+                             p.Status == PaymentStatus.Success ? "Success" :
+                             p.Status == PaymentStatus.Failed ? "Failed" : "Unknown",
+                    PaymentTime = p.PaymentTime,
+                    PaymentUrl = p.PaymentUrl,
+                    TransactionId = p.TransactionId,
+                    ReferenceCode = p.ReferenceCode,
+                    Note = p.Note
+                })
+                .ToListAsync();
+
+            return payments;
+        }
+
+
+
     }
 }
