@@ -107,7 +107,7 @@ namespace EVRenter_Service.Service
                             VehicleID = vehicle.Id,
                             CategoryID = category.Id,
                             Name = name,
-                            Status = 1 // 0 = "good"
+                            Status = 1 // 0 = "miss"
                         });
                     }
                 }
