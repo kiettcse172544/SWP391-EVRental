@@ -59,15 +59,21 @@ namespace EVRenter_API.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "Manager")]
-        public async Task<IActionResult> CreateVehicle([FromForm] BookingRequestModel request)
-        {
-            if (!ModelState.IsValid)
+        public async Task<IActionResult> CreateBooking([FromForm] BookingRequestModel request)
+        { try
             {
-                return BadRequest(ModelState);
-            }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            var booking = await _bookingService.CreateBookingAsync(request);
-            return CreatedAtAction(nameof(GetBookingById), new { id = booking.Id }, booking);
+                var booking = await _bookingService.CreateBookingAsync(request);
+                return CreatedAtAction(nameof(GetBookingById), new { id = booking.Id }, booking);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message, detail = ex.StackTrace });
+            }
         }
 
         [HttpPut("{id}")]
