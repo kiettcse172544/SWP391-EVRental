@@ -17,14 +17,22 @@ namespace EVRenter_Data.Entities
         [Precision(18, 2)]
         public decimal Deposit { get; set; }
         [Precision(18, 2)]
-        public decimal RetalCost { get; set; }
+        public decimal RetalCost { get; set; } // base rate
         public int? VoucherID { get; set; }
         [Precision(18, 2)]
         public decimal BaseCost { get; set; }
         [Precision(18, 2)]
         public decimal? FinalCost { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int Status { get; set; }
+
+        /// <summary>
+        /// 0. Vừa tạo - chờ staff xác nhận
+        /// 1. Chờ renter ký 
+        /// 2. Đã ký 
+        /// 3. Đã hoàn thành
+        ///
+        /// </summary>
+        public int Status { get; set; } 
         public virtual Vehicle Vehicle { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<HandoverAndReturn> HandoverAndReturns { get; set; }

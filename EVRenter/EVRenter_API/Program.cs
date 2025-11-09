@@ -10,15 +10,15 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ======================================================
-// 🧱 1️⃣ Database Context
-// ======================================================
+
+// Database Context
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ======================================================
-// 🧩 2️⃣ Dependency Injection (DI Container)
-// ======================================================
+
+// Dependency Injection (DI Container)
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<IUserService, UserService>();
@@ -30,13 +30,13 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAmenitiesService, AmenitiesService>();
 
-// 💳 Payment-related
+// Payment-related
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<VnPayService>();
 
-// ======================================================
-// 🧭 3️⃣ AutoMapper Configuration
-// ======================================================
+
+// AutoMapper Configuration
+
 builder.Services.AddAutoMapper(typeof(UserMapping));
 builder.Services.AddAutoMapper(typeof(StationMapping));
 builder.Services.AddAutoMapper(typeof(ModelMapping));
@@ -46,9 +46,9 @@ builder.Services.AddAutoMapper(typeof(BookingMapping));
 builder.Services.AddAutoMapper(typeof(PaymentMapping));
 builder.Services.AddAutoMapper(typeof(AmenitiesMapping));
 
-// ======================================================
-// 🔐 4️⃣ JWT Authentication
-// ======================================================
+
+// JWT Authentication
+
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
@@ -75,21 +75,19 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// ======================================================
-// 💳 5️⃣ VNPAY CONFIGURATION (Payment Gateway)
-// ======================================================
+// VNPAY CONFIGURATION (Payment Gateway)
+
 
 // Bind section "VnPay" từ appsettings.json vào class VnPayOptions
 builder.Services.Configure<VnPayOptions>(
     builder.Configuration.GetSection("VnPay"));
 
-// Vì giờ VnPayService không dùng HttpContextAccessor nữa,
-// nên dòng này có thể giữ hoặc bỏ đều được — KHÔNG lỗi
+
 builder.Services.AddHttpContextAccessor();
 
-// ======================================================
-// 📘 6️⃣ Swagger Documentation
-// ======================================================
+
+// Swagger Documentation
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -127,16 +125,17 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// ======================================================
-// ⚙️ 7️⃣ Controllers
-// ======================================================
+
+// Controllers
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// ======================================================
-// 🚀 8️⃣ Middleware Pipeline
-// ======================================================
+app.UseDeveloperExceptionPage();
+
+// Middleware Pipeline
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -146,5 +145,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseDeveloperExceptionPage();
+
 
 app.Run();

@@ -12,8 +12,10 @@ namespace EVRenter_Service.RequestModel
         public int ModelID { get; set; }
         public int RenterID { get; set; }
         public int StationID { get; set; }
+        public int RentalType { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int? RentTime { get; set; }
     }
 
     public class BookingStatusUpdateRequest

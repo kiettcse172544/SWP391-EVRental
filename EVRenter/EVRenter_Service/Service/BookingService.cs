@@ -109,8 +109,8 @@ namespace EVRenter_Service.Service
             {
                 throw new Exception("Car is full");
             }
-
             vehicle.Status = 1;
+
             var user = await _unitOfWork.Repository<User>().AsQueryable()
                .Where(u => !u.IsDelete && u.Id == request.RenterID)
                .FirstOrDefaultAsync();
@@ -128,26 +128,40 @@ namespace EVRenter_Service.Service
             {
                 throw new Exception("price not found");
             }
-            var totalDays = (int)Math.Ceiling((booking.EndDate - booking.StartDate).TotalDays);
+
+            var totalDays = new int();
+
+            if (request.RentalType == 1)
+            {
+                totalDays = (int)Math.Ceiling((booking.EndDate - booking.StartDate).TotalDays);
+            }
+            else if (request.RentalType == 2)
+            {
+                if (request.RentTime.HasValue)
+                {
+                    totalDays = request.RentTime.Value * 7;
+                }
+                else
+                {
+                    throw new Exception("RentTime is require!");
+                }
+            }
+            else if (request.RentalType == 3)
+            {
+                if (request.RentTime.HasValue)
+                {
+                    totalDays = request.RentTime.Value * 30;
+                }
+                else
+                {
+                    throw new Exception("RentTime is require!");
+                }
+            } else
+            {
+                throw new Exception("RentType is only 1...3!");
+            }
+
             booking.RetalCost = price.Price * totalDays;
-            booking.Deposit = price.Deposit;
-
-            //if (booking.StartDate.AddDays(7) > booking.EndDate)
-            //{
-            //    booking.RentalType = 1; //Daily
-            //}
-            //else if (booking.StartDate.AddMonths(1) > booking.EndDate)
-            //{
-            //    booking.RentalType = 2; //Weekly 
-            //    booking.RetalCost = booking.RetalCost * 0.9m;
-
-            //}
-            //else if (booking.StartDate.AddYears(1) > booking.EndDate)
-            //{
-            //    booking.RentalType = 3; // Monthly
-            //    booking.RetalCost = booking.RetalCost * 0.9m;
-            //}
-            booking.RentalType = 1;
 
             booking.BaseCost = booking.RetalCost + booking.Deposit;
 
@@ -223,6 +237,12 @@ namespace EVRenter_Service.Service
             {
                 if (request.EndDate.Value < existingBooking.StartDate) throw new Exception("EndDate is lower StartDate");
                 existingBooking.EndDate = request.EndDate.Value;
+                hasUpdates = true;
+            }
+
+            if (request.StartDate.HasValue)
+            {
+                existingBooking.Status = request.Status.Value;
                 hasUpdates = true;
             }
 

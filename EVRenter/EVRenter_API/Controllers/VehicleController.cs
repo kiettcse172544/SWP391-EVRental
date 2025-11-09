@@ -68,6 +68,23 @@ namespace EVRenter_API.Controllers
             return Ok(updatedVehicle);
         }
 
+        [HttpPut("AutpUpdateStatus/{vehicleId}")]
+        public async Task<IActionResult> UpdateVehicleStatus(int vehicleId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedVehicle = await _vehicleService.UpdateVehicleStatusAsync(vehicleId);
+            if (updatedVehicle == null)
+            {
+                return NotFound("Vehicle not found.");
+            }
+
+            return Ok(updatedVehicle);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModel(int id)
         {
