@@ -124,6 +124,10 @@
                     "type": "integer",
                     "format": "int32"
                   },
+                  "RentalType": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
                   "StartDate": {
                     "type": "string",
                     "format": "date-time"
@@ -132,7 +136,7 @@
                     "type": "string",
                     "format": "date-time"
                   },
-                  "Status": {
+                  "RentTime": {
                     "type": "integer",
                     "format": "int32"
                   }
@@ -148,13 +152,16 @@
                 "StationID": {
                   "style": "form"
                 },
+                "RentalType": {
+                  "style": "form"
+                },
                 "StartDate": {
                   "style": "form"
                 },
                 "EndDate": {
                   "style": "form"
                 },
-                "Status": {
+                "RentTime": {
                   "style": "form"
                 }
               }
@@ -168,7 +175,7 @@
         }
       }
     },
-    "/api/Booking/Unapproval Booking": {
+    "/api/Booking/Uncomplete Booking": {
       "get": {
         "tags": [
           "Booking"
@@ -294,6 +301,29 @@
         "parameters": [
           {
             "name": "vehicleID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Booking/GetBookingsByRenter/{renterID}": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "parameters": [
+          {
+            "name": "renterID",
             "in": "path",
             "required": true,
             "schema": {
@@ -639,6 +669,18 @@
               "format": "int32"
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Payment/all": {
+      "get": {
+        "tags": [
+          "Payment"
         ],
         "responses": {
           "200": {

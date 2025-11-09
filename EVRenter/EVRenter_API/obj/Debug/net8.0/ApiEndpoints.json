@@ -59,7 +59,7 @@
   },
   {
     "ContainingType": "EVRenter_API.Controllers.BookingController",
-    "Method": "CreateVehicle",
+    "Method": "CreateBooking",
     "RelativePath": "api/Booking",
     "HttpMethod": "POST",
     "IsController": true,
@@ -81,18 +81,23 @@
         "IsRequired": false
       },
       {
+        "Name": "RentalType",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "StartDate",
         "Type": "System.DateTime",
         "IsRequired": false
       },
       {
         "Name": "EndDate",
-        "Type": "System.DateTime",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
-        "Name": "Status",
-        "Type": "System.Int32",
+        "Name": "RentTime",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }
     ],
@@ -168,6 +173,22 @@
   },
   {
     "ContainingType": "EVRenter_API.Controllers.BookingController",
+    "Method": "GetBookingsByRenter",
+    "RelativePath": "api/Booking/GetBookingsByRenter/{renterID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "renterID",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.BookingController",
     "Method": "GetBookingByCar",
     "RelativePath": "api/Booking/GetByCar/{vehicleID}",
     "HttpMethod": "GET",
@@ -185,7 +206,7 @@
   {
     "ContainingType": "EVRenter_API.Controllers.BookingController",
     "Method": "GetUnapprovalBookings",
-    "RelativePath": "api/Booking/Unapproval Booking",
+    "RelativePath": "api/Booking/Uncomplete Booking",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -371,6 +392,16 @@
     "ContainingType": "EVRenter_API.Controllers.ModelController",
     "Method": "SyncQuantity",
     "RelativePath": "api/Model/SyncQuantity",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.PaymentController",
+    "Method": "GetAllPayments",
+    "RelativePath": "api/Payment/all",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
