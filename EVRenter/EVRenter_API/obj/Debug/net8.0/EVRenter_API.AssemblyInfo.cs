@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EVRenter_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d2ed0d8cb8563833223b40fa2109c8d30e31111")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6aabf0a53a0c670623a974839be5a40475d15b02")]
 [assembly: System.Reflection.AssemblyProductAttribute("EVRenter_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EVRenter_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
