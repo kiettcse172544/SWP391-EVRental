@@ -14,6 +14,7 @@ namespace EVRenter_Service.ResponseModel
         public int RentalType { get; set; }
         public int VehicleID { get; set; }
         public int RenterID { get; set; }
+        public DateTime CreatedAt { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         [Precision(18, 0)]
@@ -54,7 +55,19 @@ namespace EVRenter_Service.ResponseModel
         public int RentalType { get; set; }
         public int Status { get; set; }
         public int VehicleID { get; set; }
+        public int RenterID { get; set; }
         public DateTime RequestTime { get; set; }
         public CustomerResponseModel Customer { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        [Precision(18, 0)]
+        public decimal Deposit { get; set; }
+        [Precision(18, 0)]
+        public decimal RetalCost { get; set; }
+        public int? VoucherID { get; set; }
+        [Precision(18, 0)]
+        public decimal BaseCost { get; set; }
+        [Precision(18, 0)]
+        public decimal? FinalCost { get; set; }
     }
 }
