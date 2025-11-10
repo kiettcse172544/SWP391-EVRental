@@ -71,6 +71,7 @@ namespace EVRenter_Service.Service
 
                 await _unitOfWork.Repository<Payment>().InsertAsync(payment);
                 await _unitOfWork.SaveChangesAsync();
+                
                 return _mapper.Map<PaymentResponseModel>(payment);
             }
 
@@ -90,6 +91,7 @@ namespace EVRenter_Service.Service
 
                 var response = _mapper.Map<PaymentResponseModel>(payment);
                 response.PaymentUrl = paymentUrl;
+                
                 return response;
             }
 
@@ -130,7 +132,7 @@ namespace EVRenter_Service.Service
                     .FirstOrDefaultAsync(b => b.Id == payment.BookingID);
                 if (booking != null)
                 {
-                    booking.Status = 2;
+                    booking.Status = 0;
                     await _unitOfWork.Repository<Booking>().Update(booking, booking.Id);
                 }
             }

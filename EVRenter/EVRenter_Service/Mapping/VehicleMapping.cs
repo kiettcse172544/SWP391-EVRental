@@ -25,9 +25,9 @@ namespace EVRenter_Service.Mapping
                 .ForMember(dest => dest.Specifications,
                 opt => opt.MapFrom(src => src.Model))
 
-                .ForMember(dest => dest.Customer, 
+                .ForMember(dest => dest.Customer,
                 otp => otp.MapFrom(src => src.Bookings
-                .Where(x => x.VehicleID == src.Id && x.Status == 0)
+                .Where(x => x.VehicleID == src.Id && x.Status < 3 && !x.IsDelete)
                 .Select(x => x.User)
                 .FirstOrDefault()))
 

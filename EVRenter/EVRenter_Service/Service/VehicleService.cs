@@ -47,7 +47,7 @@ namespace EVRenter_Service.Service
         {
             // Get the user with basic information
             var vehicle = await _unitOfWork.Repository<Vehicle>().AsQueryable()
-                .Where(u => u.Id == id)
+                .Where(u => u.Id == id && !u.IsDelete)
                 .ProjectTo<VehicleResponseModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 

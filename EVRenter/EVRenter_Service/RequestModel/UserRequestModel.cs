@@ -36,16 +36,17 @@ namespace EVRenter_Service.RequestModel
 
     public class UserUpdateRequest
     {
-        [Required(ErrorMessage = "Username is required.")]
         [StringLength(50, ErrorMessage = "Username cannot exceed 50 characters.")]
-        public string FullName { get; set; } = string.Empty;
+        public string? FullName { get; set; } = string.Empty;
 
         [EmailAddress(ErrorMessage = "Invalid email format.")]
         public string? Email { get; set; }
 
         [RegularExpression(@"^\+?[0-9]{10,15}$", ErrorMessage = "Phone number must be between 10 and 15 digits and may start with a '+' sign.")]
-        public string Phone { get; set; } = string.Empty;
+        public string? Phone { get; set; } = string.Empty;
         public string? Address { get; set; } = string.Empty;
+        public bool? IsEmailVerified { get; set; } = false;
         public int? RoleID { get; set; }
     }
+
 }

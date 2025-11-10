@@ -134,6 +134,12 @@ namespace EVRenter_Service.Service
                 hasUpdates = true;
             }
 
+            if (request.IsEmailVerified.HasValue)
+            {
+                existingUser.IsEmailVerified = request.IsEmailVerified.Value;
+                hasUpdates = true;
+            }
+
             if (request.RoleID.HasValue)
             {
                 existingUser.RoleID = (RoleType)request.RoleID.Value;
@@ -149,6 +155,7 @@ namespace EVRenter_Service.Service
             return _mapper.Map<UserResponseModel>(existingUser);
 
         }
+
 
         // Xóa người dùng
         public async Task<bool> DeleteUserAsync(int id)

@@ -60,7 +60,7 @@ namespace EVRenter_Service.Service
         {
             // Get the user with basic information
             var booking = await _unitOfWork.Repository<Booking>().AsQueryable()
-                .Where(u => u.Id == id)
+                .Where(u => u.Id == id && u.IsDelete == false)
                 .ProjectTo<BookingResponseModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
@@ -119,9 +119,10 @@ namespace EVRenter_Service.Service
                 throw new Exception("price not found");
             }
 
-            if (request.RentalType == 1 && !request.EndDate.HasValue) throw new Exception("EndDate is require!");
-
-            if (request.RentalType == 2)
+            if (request.RentalType == 1)
+            {
+                if (!request.EndDate.HasValue) throw new Exception("EndDate is require!");
+            } else if (request.RentalType == 2)
             {
                 if (request.RentTime.HasValue)
                 {
@@ -131,8 +132,7 @@ namespace EVRenter_Service.Service
                 {
                     throw new Exception("RentTime is require!");
                 }
-            }
-            else if (request.RentalType == 3)
+            } else if (request.RentalType == 3)
             {
                 if (request.RentTime.HasValue)
                 {
@@ -149,6 +149,7 @@ namespace EVRenter_Service.Service
             }
             var totalDays = (int)Math.Ceiling((booking.EndDate - booking.StartDate).TotalDays);
             booking.RetalCost = price.Price * totalDays;
+            booking.Deposit = price.Deposit * request.RentalType;
 
             booking.BaseCost = booking.RetalCost + booking.Deposit;
 
