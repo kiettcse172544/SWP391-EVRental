@@ -32,7 +32,13 @@ namespace EVRenter_Data.Entities
         /// 3. Đã hoàn thành
         ///
         /// </summary>
-        public int Status { get; set; } 
+        public int Status { get; set; }
+
+        public string? SignatureToken { get; set; } 
+        public DateTime? SignatureTokenExpiresAt { get; set; } 
+        public DateTime? SignedAt { get; set; } 
+
+
         public virtual Vehicle Vehicle { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<HandoverAndReturn> HandoverAndReturns { get; set; }
@@ -41,3 +47,5 @@ namespace EVRenter_Data.Entities
         public virtual Voucher Voucher { get; set; }
     }
 }
+
+// ywse ejze bxrq tqrv

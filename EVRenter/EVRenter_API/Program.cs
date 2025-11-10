@@ -30,6 +30,10 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAmenitiesService, AmenitiesService>();
 
+// Email
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IBookingEmailService, BookingEmailService>();
+
 // Payment-related
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<VnPayService>();
