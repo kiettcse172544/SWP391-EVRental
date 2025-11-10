@@ -22,6 +22,7 @@ namespace EVRenter_Service.Service
         Task<BookingResponseModel?> GetBookingByIdAsync(int id);
         Task<BookingResponseModel?> GetBookingByVehicleAsync(int vehicleId);
         Task<IEnumerable<StaffBookingResponseModel>> GetUnapprovalBooking();
+        Task<IEnumerable<BookingResponseModel>> GetBookingByRenter(int renterID);
         Task<BookingResponseModel> CreateBookingAsync(BookingRequestModel request);
         Task<StaffBookingResponseModel?> UpdateBookingStatsusAsync(int id, BookingUpdateRequest request);
         Task<bool> DeleteUnpaidBookingAsync(int id);
@@ -50,7 +51,7 @@ namespace EVRenter_Service.Service
         {
             return await _unitOfWork.Repository<Booking>()
                 .GetQueryable()
-                .Where(x => !x.IsDelete && x.Status == 0)
+                .Where(x => !x.IsDelete && x.Status < 3)
                 .ProjectTo<StaffBookingResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -75,6 +76,15 @@ namespace EVRenter_Service.Service
                 .FirstOrDefaultAsync();
 
             return booking;
+        }
+
+        public async Task<IEnumerable<BookingResponseModel>> GetBookingByRenter(int renterID)
+        {
+            return await _unitOfWork.Repository<Booking>()
+                .GetQueryable()
+                .Where(x => !x.IsDelete && x.RenterID == renterID)
+                .ProjectTo<BookingResponseModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         public async Task<BookingResponseModel> CreateBookingAsync(BookingRequestModel request)
@@ -109,17 +119,13 @@ namespace EVRenter_Service.Service
                 throw new Exception("price not found");
             }
 
-            var totalDays = new int();
+            if (request.RentalType == 1 && !request.EndDate.HasValue) throw new Exception("EndDate is require!");
 
-            if (request.RentalType == 1)
-            {
-                totalDays = (int)Math.Ceiling((booking.EndDate - booking.StartDate).TotalDays);
-            }
-            else if (request.RentalType == 2)
+            if (request.RentalType == 2)
             {
                 if (request.RentTime.HasValue)
                 {
-                    totalDays = request.RentTime.Value * 7;
+                    booking.EndDate = booking.StartDate.AddDays(7 * request.RentTime.Value);
                 }
                 else
                 {
@@ -130,17 +136,18 @@ namespace EVRenter_Service.Service
             {
                 if (request.RentTime.HasValue)
                 {
-                    totalDays = request.RentTime.Value * 30;
+                    booking.EndDate = booking.StartDate.AddDays(30 * request.RentTime.Value);
                 }
                 else
                 {
                     throw new Exception("RentTime is require!");
                 }
-            } else
+            }
+            else
             {
                 throw new Exception("RentType is only 1...3!");
             }
-
+            var totalDays = (int)Math.Ceiling((booking.EndDate - booking.StartDate).TotalDays);
             booking.RetalCost = price.Price * totalDays;
 
             booking.BaseCost = booking.RetalCost + booking.Deposit;

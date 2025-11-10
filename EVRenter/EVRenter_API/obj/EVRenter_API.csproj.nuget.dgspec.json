@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_API\\EVRenter_API.csproj": {}
+    "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_API\\EVRenter_API.csproj": {}
   },
   "projects": {
-    "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_API\\EVRenter_API.csproj": {
+    "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_API\\EVRenter_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_API\\EVRenter_API.csproj",
+        "projectUniqueName": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_API\\EVRenter_API.csproj",
         "projectName": "EVRenter_API",
-        "projectPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_API\\EVRenter_API.csproj",
-        "packagesPath": "C:\\Users\\kiett\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_API\\obj\\",
+        "projectPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_API\\EVRenter_API.csproj",
+        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+        "outputPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\kiett\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\EVRenter_Service.csproj": {
-                "projectPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\EVRenter_Service.csproj"
+              "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\EVRenter_Service.csproj": {
+                "projectPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\EVRenter_Service.csproj"
               }
             }
           }
@@ -48,7 +48,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -162,24 +162,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\EVRenter_CM.csproj": {
+    "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\EVRenter_CM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\EVRenter_CM.csproj",
+        "projectUniqueName": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\EVRenter_CM.csproj",
         "projectName": "EVRenter_CM",
-        "projectPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\EVRenter_CM.csproj",
-        "packagesPath": "C:\\Users\\kiett\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\obj\\",
+        "projectPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\EVRenter_CM.csproj",
+        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+        "outputPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\kiett\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -206,7 +206,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -249,24 +249,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\EVRenter_Data.csproj": {
+    "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\EVRenter_Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\EVRenter_Data.csproj",
+        "projectUniqueName": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\EVRenter_Data.csproj",
         "projectName": "EVRenter_Data",
-        "projectPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\EVRenter_Data.csproj",
-        "packagesPath": "C:\\Users\\kiett\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\obj\\",
+        "projectPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\EVRenter_Data.csproj",
+        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+        "outputPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\kiett\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -281,8 +281,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\EVRenter_CM.csproj": {
-                "projectPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\EVRenter_CM.csproj"
+              "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\EVRenter_CM.csproj": {
+                "projectPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_CM\\EVRenter_CM.csproj"
               }
             }
           }
@@ -297,7 +297,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -356,24 +356,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\EVRenter_Repository.csproj": {
+    "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\EVRenter_Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\EVRenter_Repository.csproj",
+        "projectUniqueName": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\EVRenter_Repository.csproj",
         "projectName": "EVRenter_Repository",
-        "projectPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\EVRenter_Repository.csproj",
-        "packagesPath": "C:\\Users\\kiett\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\obj\\",
+        "projectPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\EVRenter_Repository.csproj",
+        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+        "outputPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\kiett\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -388,8 +388,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\EVRenter_Data.csproj": {
-                "projectPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\EVRenter_Data.csproj"
+              "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\EVRenter_Data.csproj": {
+                "projectPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\EVRenter_Data.csproj"
               }
             }
           }
@@ -404,7 +404,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -447,24 +447,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\EVRenter_Service.csproj": {
+    "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\EVRenter_Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\EVRenter_Service.csproj",
+        "projectUniqueName": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\EVRenter_Service.csproj",
         "projectName": "EVRenter_Service",
-        "projectPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\EVRenter_Service.csproj",
-        "packagesPath": "C:\\Users\\kiett\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\obj\\",
+        "projectPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\EVRenter_Service.csproj",
+        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+        "outputPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\kiett\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -479,8 +479,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\EVRenter_Repository.csproj": {
-                "projectPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\EVRenter_Repository.csproj"
+              "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\EVRenter_Repository.csproj": {
+                "projectPath": "D:\\FPT\\9th_2\\SWP391\\GitCode\\SWP391-EVRental\\EVRenter\\EVRenter_Repository\\EVRenter_Repository.csproj"
               }
             }
           }
@@ -495,7 +495,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -516,7 +516,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
