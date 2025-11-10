@@ -119,17 +119,13 @@ namespace EVRenter_Service.Service
                 throw new Exception("price not found");
             }
 
-            var totalDays = new int();
+            if (request.RentalType == 1 && !request.EndDate.HasValue) throw new Exception("EndDate is require!");
 
-            if (request.RentalType == 1)
-            {
-                totalDays = (int)Math.Ceiling((booking.EndDate - booking.StartDate).TotalDays);
-            }
-            else if (request.RentalType == 2)
+            if (request.RentalType == 2)
             {
                 if (request.RentTime.HasValue)
                 {
-                    totalDays = request.RentTime.Value * 7;
+                    booking.EndDate = booking.StartDate.AddDays(7 * request.RentTime.Value);
                 }
                 else
                 {
@@ -140,7 +136,7 @@ namespace EVRenter_Service.Service
             {
                 if (request.RentTime.HasValue)
                 {
-                    totalDays = request.RentTime.Value * 30;
+                    booking.EndDate = booking.StartDate.AddDays(30 * request.RentTime.Value);
                 }
                 else
                 {
@@ -151,7 +147,7 @@ namespace EVRenter_Service.Service
             {
                 throw new Exception("RentType is only 1...3!");
             }
-
+            var totalDays = (int)Math.Ceiling((booking.EndDate - booking.StartDate).TotalDays);
             booking.RetalCost = price.Price * totalDays;
 
             booking.BaseCost = booking.RetalCost + booking.Deposit;

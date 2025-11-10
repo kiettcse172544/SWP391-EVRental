@@ -20,8 +20,8 @@ namespace EVRenter_Service.Mapping
                 opt => opt.MapFrom(src => new PriceResponseModel
                 {
                     Daily = src.RentalPrice != null ? src.RentalPrice.Price : 0,
-                    Weekly = src.RentalPrice != null ? src.RentalPrice.Price * 7 * 0.9m : 0,
-                    Monthly = src.RentalPrice != null ? src.RentalPrice.Price * 30 * 0.9m : 0
+                    Weekly = src.RentalPrice != null ? src.RentalPrice.Price * 7 : 0,
+                    Monthly = src.RentalPrice != null ? src.RentalPrice.Price * 30 : 0
                 }))
                 .ForMember(dest => dest.Deposit,
                 opt => opt.MapFrom(src => new DepositResponseModel
