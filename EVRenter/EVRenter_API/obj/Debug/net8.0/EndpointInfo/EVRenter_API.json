@@ -1194,9 +1194,6 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "required": [
-                  "FullName"
-                ],
                 "type": "object",
                 "properties": {
                   "FullName": {
@@ -1215,6 +1212,9 @@
                   "Address": {
                     "type": "string"
                   },
+                  "IsEmailVerified": {
+                    "type": "boolean"
+                  },
                   "RoleID": {
                     "type": "integer",
                     "format": "int32"
@@ -1232,6 +1232,9 @@
                   "style": "form"
                 },
                 "Address": {
+                  "style": "form"
+                },
+                "IsEmailVerified": {
                   "style": "form"
                 },
                 "RoleID": {
