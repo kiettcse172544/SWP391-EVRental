@@ -991,6 +991,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "EVRenter_API.Controllers.VehicleController",
+    "Method": "ResetBookingOfVehicle",
+    "RelativePath": "api/Vehicle/ResetBookingOfVehicle",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EVRenter_API.Controllers.WeatherForecastController",
     "Method": "Get",
     "RelativePath": "WeatherForecast",

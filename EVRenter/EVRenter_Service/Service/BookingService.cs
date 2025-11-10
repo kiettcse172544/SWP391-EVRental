@@ -148,6 +148,7 @@ namespace EVRenter_Service.Service
             }
             var totalDays = (int)Math.Ceiling((booking.EndDate - booking.StartDate).TotalDays);
             booking.RetalCost = price.Price * totalDays;
+            booking.Deposit = price.Deposit * request.RentalType;
 
             booking.BaseCost = booking.RetalCost + booking.Deposit;
 
