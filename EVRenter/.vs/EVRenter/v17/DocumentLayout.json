@@ -120,7 +120,7 @@
               "RelativeDocumentMoniker": "EVRenter_API\\Program.cs",
               "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_API\\Program.cs",
               "RelativeToolTip": "EVRenter_API\\Program.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAACYAAABIAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACYAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-10T04:40:56.681Z",
               "EditorCaption": ""
@@ -135,8 +135,7 @@
               "RelativeToolTip": "EVRenter_API\\Controllers\\EmailController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-10T04:17:42.062Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-10T04:17:42.062Z"
             },
             {
               "$type": "Document",
@@ -148,8 +147,7 @@
               "RelativeToolTip": "EVRenter_Service\\Service\\BookingEmailService.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-10T04:16:35.041Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-10T04:16:35.041Z"
             },
             {
               "$type": "Document",
@@ -161,8 +159,7 @@
               "RelativeToolTip": "EVRenter_Service\\Service\\PaymentService.cs",
               "ViewState": "AgIAAEgAAAAAAAAAAAAmwMQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-09T15:11:00.425Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-09T15:11:00.425Z"
             },
             {
               "$type": "Document",
@@ -174,8 +171,7 @@
               "RelativeToolTip": "EVRenter_API\\appsettings.json",
               "ViewState": "AgIAAA8AAAAAAAAAAAAAAB0AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-11-09T15:22:06.375Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-09T15:22:06.375Z"
             },
             {
               "$type": "Document",
@@ -187,8 +183,7 @@
               "RelativeToolTip": "EVRenter_Data\\Entities\\Booking.cs",
               "ViewState": "AgIAAB8AAAAAAAAAAAAIwCYAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-10T04:06:00.076Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-10T04:06:00.076Z"
             },
             {
               "$type": "Document",
@@ -200,8 +195,7 @@
               "RelativeToolTip": "EVRenter_Service\\Service\\EmailService.cs",
               "ViewState": "AgIAABIAAAAAAAAAAAAqwBwAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-10T04:15:12.218Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-10T04:15:12.218Z"
             },
             {
               "$type": "Document",
@@ -213,8 +207,7 @@
               "RelativeToolTip": "EVRenter_Service\\Mapping\\BookingMapping.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-10T04:15:26.531Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-10T04:15:26.531Z"
             },
             {
               "$type": "Document",
@@ -226,8 +219,7 @@
               "RelativeToolTip": "EVRenter_API\\Controllers\\BookingController.cs",
               "ViewState": "AgIAADgAAAAAAAAAAAAAwEEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-09T21:51:15.61Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-09T21:51:15.61Z"
             },
             {
               "$type": "Document",
@@ -239,8 +231,7 @@
               "RelativeToolTip": "EVRenter_Service\\Mapping\\ModelMapping.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAuwBcAAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-09T23:55:07.043Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-09T23:55:07.043Z"
             },
             {
               "$type": "Document",
