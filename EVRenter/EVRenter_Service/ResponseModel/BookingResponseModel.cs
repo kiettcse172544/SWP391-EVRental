@@ -13,6 +13,8 @@ namespace EVRenter_Service.ResponseModel
         public int Id { get; set; }
         public int RentalType { get; set; }
         public int VehicleID { get; set; }
+        public int StationID { get; set; }
+        public string StationName { get; set; }
         public int RenterID { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime StartDate { get; set; }
@@ -56,6 +58,8 @@ namespace EVRenter_Service.ResponseModel
         public int Status { get; set; }
         public int VehicleID { get; set; }
         public int RenterID { get; set; }
+        public int StationID { get; set; }
+        public string StationName { get; set; }
         public DateTime RequestTime { get; set; }
         public CustomerResponseModel Customer { get; set; }
         public DateTime StartDate { get; set; }
