@@ -31,7 +31,7 @@ namespace EVRenter_Service.Service
 
         public async Task<LoginResponseModel> LoginAsync(LoginRequestModel request)
         {
-            // 1️⃣ Tìm user theo email
+            
             var user = await _unitOfWork.Repository<User>()
                 .AsQueryable()
                 .FirstOrDefaultAsync(u => u.Email == request.Email && !u.IsDelete);
@@ -39,19 +39,19 @@ namespace EVRenter_Service.Service
             if (user == null)
                 throw new KeyNotFoundException("User not found.");
 
-            // 2️⃣ Kiểm tra xác thực email
+            
             if (!user.IsEmailVerified)
                 throw new UnauthorizedAccessException("Email not verified.");
 
-            // 3️⃣ Kiểm tra trạng thái hoạt động
+            
             if (!user.IsActive)
                 throw new UnauthorizedAccessException("Account is inactive.");
 
-            // 4️⃣ Kiểm tra mật khẩu
+            
             if (!PasswordTools.VerifyPassword(request.Password, user.Password))
                 throw new UnauthorizedAccessException("Invalid password.");
 
-            // 5️⃣ Tạo token JWT
+            
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
             var isStaff = ((RoleType)user.RoleID) == RoleType.Staff;
