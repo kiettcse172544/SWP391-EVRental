@@ -214,6 +214,38 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "EVRenter_API.Controllers.EmailController",
+    "Method": "SendSignatureEmail",
+    "RelativePath": "api/Email/{bookingId}/send-signature-email",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookingId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.EmailController",
+    "Method": "ConfirmSignature",
+    "RelativePath": "api/Email/confirm-signature",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EVRenter_API.Controllers.ModelController",
     "Method": "CreateModel",
     "RelativePath": "api/Model",

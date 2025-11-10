@@ -120,8 +120,7 @@ namespace EVRenter_Service.Service
             }
 
             if (request.RentalType == 1 && !request.EndDate.HasValue) throw new Exception("EndDate is require!");
-
-            if (request.RentalType == 2)
+            else if (request.RentalType == 2)
             {
                 if (request.RentTime.HasValue)
                 {
