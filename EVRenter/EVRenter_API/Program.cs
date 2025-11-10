@@ -38,6 +38,10 @@ builder.Services.AddScoped<IBookingEmailService, BookingEmailService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<VnPayService>();
 
+// Email
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IBookingEmailService, BookingEmailService>();
+
 
 // AutoMapper Configuration
 
