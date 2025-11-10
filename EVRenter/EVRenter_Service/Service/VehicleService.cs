@@ -21,6 +21,7 @@ namespace EVRenter_Service.Service
         Task<VehicleResponseModel> CreateVehicleAsync(VehicleRequestModel request);
         Task<VehicleResponseModel?> UpdateVehicleAsync(int id, VehicleUpdateRequest request);
         Task<VehicleResponseModel?> UpdateVehicleStatusAsync(int vehicleId);
+        Task<bool> ResetBookingOfVehicle();
         Task<bool> DeleteVehicleAsync(int id);
     }
     public class VehicleService : IVehicleService
@@ -265,20 +266,22 @@ namespace EVRenter_Service.Service
             var bookings = await _unitOfWork.Repository<Booking>()
                 .GetQueryable()
                 .Where(x => !x.IsDelete)
-                .ProjectTo<BookingResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
             if (!bookings.Any()) return false;
 
             foreach (var vehicle in vehicles)
             {
                 vehicle.Status = 0;
-                await _unitOfWork.Repository<Vehicle>().InsertAsync(vehicle);
+                await _unitOfWork.Repository<Vehicle>().UpdateAsync(vehicle);
             }
 
+            foreach (var booking in bookings)
+            {
+                booking.Status = 3;
+                await _unitOfWork.Repository<Booking>().UpdateAsync(booking);
+            }
 
-            //await _unitOfWork.Repository<Vehicle>().Update(existingVehicle, vehicleId);
-            //await _unitOfWork.Repository<Booking>().Update(existingBooking, existingBooking.Id);
-            //await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
             return true;
         }

@@ -1504,6 +1504,18 @@
         }
       }
     },
+    "/api/Vehicle/ResetBookingOfVehicle": {
+      "put": {
+        "tags": [
+          "Vehicle"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/WeatherForecast": {
       "get": {
         "tags": [
