@@ -26,11 +26,6 @@ namespace EVRenter_Service.Service
             _config = config;
         }
 
-<<<<<<< Updated upstream
-        
-=======
-
->>>>>>> Stashed changes
         public async Task<bool> SendSignatureEmailAsync(int bookingId)
         {
             var booking = await _unitOfWork.Repository<Booking>()
@@ -84,11 +79,6 @@ namespace EVRenter_Service.Service
             if (booking.SignatureTokenExpiresAt < DateTime.UtcNow)
                 throw new Exception("This signature link has expired.");
 
-<<<<<<< Updated upstream
-            
-=======
-
->>>>>>> Stashed changes
             booking.Status = 2;
             booking.SignedAt = DateTime.UtcNow;
             booking.SignatureToken = null;
