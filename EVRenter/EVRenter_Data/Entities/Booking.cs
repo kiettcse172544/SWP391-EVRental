@@ -33,17 +33,9 @@ namespace EVRenter_Data.Entities
         ///
         /// </summary>
         public int Status { get; set; }
-
-<<<<<<< Updated upstream
         public string? SignatureToken { get; set; } 
         public DateTime? SignatureTokenExpiresAt { get; set; } 
         public DateTime? SignedAt { get; set; } 
-
-=======
-        public string? SignatureToken { get; set; }
-        public DateTime? SignatureTokenExpiresAt { get; set; }
-        public DateTime? SignedAt { get; set; }
->>>>>>> Stashed changes
 
         public virtual Vehicle Vehicle { get; set; }
         public virtual User User { get; set; }
