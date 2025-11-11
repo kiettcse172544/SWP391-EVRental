@@ -29,6 +29,8 @@ builder.Services.AddScoped<IRentalPriceService, RentalPriceService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAmenitiesService, AmenitiesService>();
+builder.Services.AddScoped<IHandoverService, HandoverService>();
+
 
 // Email
 builder.Services.AddScoped<IEmailService, EmailService>();

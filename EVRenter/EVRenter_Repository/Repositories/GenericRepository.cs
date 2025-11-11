@@ -241,5 +241,19 @@ namespace EVRenter_Repository.Repositories
             return Context.Set<T>();
         }
 
+        public async Task AddAsync(T entity)
+        {
+            await Table.AddAsync(entity);
+        }
+
+        public async Task<T?> GetByIdAsync(int id)
+        {
+            return await Table.FindAsync(id);
+        }
+
+        public void Update(T entity)
+        {
+            Table.Update(entity);
+        }
     }
 }

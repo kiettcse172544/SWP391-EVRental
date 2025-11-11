@@ -132,7 +132,7 @@ namespace EVRenter_Service.Service
                     .FirstOrDefaultAsync(b => b.Id == payment.BookingID);
                 if (booking != null)
                 {
-                    booking.Status = 0;
+                    booking.Status = 1;
                     await _unitOfWork.Repository<Booking>().Update(booking, booking.Id);
                 }
             }

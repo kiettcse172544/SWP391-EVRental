@@ -80,5 +80,8 @@ namespace EVRenter_Repository.Repositories
 
         IQueryable<TEntity> GetQueryable();
 
+        Task AddAsync(TEntity entity);
+        Task<TEntity?> GetByIdAsync(int id);
+        void Update(TEntity entity);
     }
 }

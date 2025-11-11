@@ -11,10 +11,10 @@ namespace EVRenter_Data.Entities
         public int BookingID { get; set; }
         public int StaffID { get; set; }
         public int VehicleID { get; set; }
-        public int StationID { get; set; }
-        public int Type { get; set; }
-        public DateTime CheckDate { get; set; }
-        public string Exterior { get; set; }
+        public int StationID { get; set; } 
+        public int Type { get; set; } // 1: Nhận - 2: Trả
+        public DateTime CheckDate { get; set; } // Ngày tạo biên bản
+        public string Exterior { get; set; } // 
         public string Interior { get; set; }
         public string Technical { get; set; }
         public string Accessories { get; set; }

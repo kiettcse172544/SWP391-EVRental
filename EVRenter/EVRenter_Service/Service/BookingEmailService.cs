@@ -79,7 +79,7 @@ namespace EVRenter_Service.Service
             if (booking.SignatureTokenExpiresAt < DateTime.UtcNow)
                 throw new Exception("This signature link has expired.");
 
-            booking.Status = 2;
+            booking.Status = 3;
             booking.SignedAt = DateTime.UtcNow;
             booking.SignatureToken = null;
             booking.SignatureTokenExpiresAt = null;
