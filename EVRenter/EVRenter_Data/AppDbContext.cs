@@ -220,6 +220,20 @@ namespace EVRenter_Data
                 new ItemCategory { Id = 3, Name = "Pin & Kỹ thuật" },
                 new ItemCategory { Id = 4, Name = "Phụ kiện" }
                 );
+
+            modelBuilder.Entity<VehicleImage>()
+                .HasKey(vi => new { vi.VehicleID, vi.ImageID });
+
+            modelBuilder.Entity<VehicleImage>()
+                .HasOne(vi => vi.Vehicle)
+                .WithMany(v => v.VehicleImages)
+                .HasForeignKey(vi => vi.VehicleID);
+
+            modelBuilder.Entity<VehicleImage>()
+                .HasOne(vi => vi.Image)
+                .WithMany(i => i.VehicleImages)
+                .HasForeignKey(vi => vi.ImageID);
+
         }
     }
 }

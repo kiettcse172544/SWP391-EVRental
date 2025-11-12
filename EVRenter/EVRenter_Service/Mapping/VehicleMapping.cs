@@ -27,12 +27,12 @@ namespace EVRenter_Service.Mapping
 
                 .ForMember(dest => dest.Customer,
                 otp => otp.MapFrom(src => src.Bookings
-                .Where(x => x.VehicleID == src.Id && x.Status < 3 && !x.IsDelete)
+                .Where(x => x.VehicleID == src.Id && x.Status < 5 && !x.IsDelete)
                 .Select(x => x.User)
                 .FirstOrDefault()))
 
-                .ForMember(dest => dest.Booking, otp => otp.MapFrom(src => 
-                src.Bookings.Where(x => x.VehicleID == src.Id && !x.IsDelete && x.Status < 3).FirstOrDefault()))
+                .ForMember(dest => dest.Booking, otp => otp.MapFrom(src =>
+                src.Bookings.Where(x => x.VehicleID == src.Id && !x.IsDelete && x.Status < 5).FirstOrDefault()))
 
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.CarItems
                 .GroupBy(i => new { i.CategoryID, i.Category.Name })

@@ -20,6 +20,9 @@ namespace EVRenter_Data.Entities
         public virtual Model Model { get; set; }
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<CarItem> CarItems { get; set; }
+
+        public virtual ICollection<VehicleImage> VehicleImages { get; set; }
+
     }
 }
 

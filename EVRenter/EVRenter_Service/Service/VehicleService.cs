@@ -22,6 +22,7 @@ namespace EVRenter_Service.Service
         Task<VehicleResponseModel?> UpdateVehicleAsync(int id, VehicleUpdateRequest request);
         Task<VehicleResponseModel?> UpdateVehicleStatusAsync(int vehicleId);
         Task<bool> DeleteVehicleAsync(int id);
+        Task<VehicleResponseModel?> StaffRefusingAsync(int vehicleId);
     }
     public class VehicleService : IVehicleService
     {
@@ -220,30 +221,26 @@ namespace EVRenter_Service.Service
         {
             var existingVehicle = await _unitOfWork.Repository<Vehicle>()
                 .AsQueryable()
-                .Where(s => s.Id == vehicleId && !s.IsDelete && s.Status < 5)
+                .Where(s => s.Id == vehicleId && !s.IsDelete && s.Status < 5 && s.Status > 0)
                 .FirstOrDefaultAsync();
             if (existingVehicle == null || existingVehicle.Status == 0) return null;
 
             var existingBooking = await _unitOfWork.Repository<Booking>()
                 .AsQueryable()
-                .Where(s => s.VehicleID == vehicleId && !s.IsDelete && s.Status < 3)
+                .Where(s => s.VehicleID == vehicleId && !s.IsDelete && s.Status < 5 && s.Status > 0)
                 .FirstOrDefaultAsync();
             if (existingBooking == null) return null;
 
-            if (existingVehicle.Status > 0 && existingVehicle.Status < 3)
+            if (existingVehicle.Status > 0 && existingVehicle.Status < 4)
             {
 
                 existingVehicle.Status++;
                 existingBooking.Status++;
             }
-            else if (existingVehicle.Status == 3)
-            {
-                existingVehicle.Status++;
-            }
             else if (existingVehicle.Status == 4)
             {
                 existingVehicle.Status = 0;
-                existingBooking.Status = 3;
+                existingBooking.Status = 5;
             }
 
 
@@ -274,6 +271,30 @@ namespace EVRenter_Service.Service
 
             return true;
         }
+
+        public async Task<VehicleResponseModel?> StaffRefusingAsync(int vehicleId)
+        {
+            var existingVehicle = await _unitOfWork.Repository<Vehicle>()
+                .AsQueryable()
+                .Where(s => s.Id == vehicleId && !s.IsDelete && s.Status == 1)
+                .FirstOrDefaultAsync();
+            if (existingVehicle == null || existingVehicle.Status == 0) return null;
+
+            var existingBooking = await _unitOfWork.Repository<Booking>()
+                .AsQueryable()
+                .Where(s => s.VehicleID == vehicleId && !s.IsDelete && s.Status == 1)
+                .FirstOrDefaultAsync();
+            if (existingBooking == null) return null;
+
+            existingVehicle.Status = 0;
+            existingBooking.Status = 6;
+
+            await _unitOfWork.Repository<Vehicle>().Update(existingVehicle, vehicleId);
+            await _unitOfWork.Repository<Booking>().Update(existingBooking, existingBooking.Id);
+            await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<VehicleResponseModel>(existingVehicle);
+        }
     }
 
     public static class DefaultCarChecklist
@@ -301,5 +322,6 @@ namespace EVRenter_Service.Service
         }
         };
     }
+
 
 }

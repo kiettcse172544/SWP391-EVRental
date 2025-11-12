@@ -96,5 +96,22 @@ namespace EVRenter_API.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("StaffRefusedStatus/{vehicleId}")]
+        public async Task<IActionResult> StaffRefusedStatus(int vehicleId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedVehicle = await _vehicleService.StaffRefusingAsync(vehicleId);
+            if (updatedVehicle == null)
+            {
+                return NotFound("Vehicle not found.");
+            }
+
+            return Ok(updatedVehicle);
+        }
     }
 }

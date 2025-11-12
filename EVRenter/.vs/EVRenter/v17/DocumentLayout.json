@@ -3,16 +3,36 @@
   "WorkspaceRootPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0E5961D5-246F-4CD2-9323-650DD70163DF}|EVRenter_API\\EVRenter_API.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_api\\controllers\\handovercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E5961D5-246F-4CD2-9323-650DD70163DF}|EVRenter_API\\EVRenter_API.csproj|solutionrelative:evrenter_api\\controllers\\handovercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_data\\entities\\driverlicenseimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|solutionrelative:evrenter_data\\entities\\driverlicenseimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_service\\service\\handoverservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|solutionrelative:evrenter_service\\service\\handoverservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_data\\entities\\vehicleimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|solutionrelative:evrenter_data\\entities\\vehicleimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_service\\responsemodel\\handoverresponsemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|solutionrelative:evrenter_service\\responsemodel\\handoverresponsemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_data\\entities\\vehicle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|solutionrelative:evrenter_data\\entities\\vehicle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_service\\service\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|solutionrelative:evrenter_service\\service\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_service\\service\\vehicleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|solutionrelative:evrenter_service\\service\\vehicleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_data\\entities\\idimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|solutionrelative:evrenter_data\\entities\\idimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_data\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|solutionrelative:evrenter_data\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_data\\entities\\caritem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|solutionrelative:evrenter_data\\entities\\caritem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,21 +42,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 157,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 8,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "HandoverController.cs",
-              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_API\\Controllers\\HandoverController.cs",
-              "RelativeDocumentMoniker": "EVRenter_API\\Controllers\\HandoverController.cs",
-              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_API\\Controllers\\HandoverController.cs",
-              "RelativeToolTip": "EVRenter_API\\Controllers\\HandoverController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAABMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T17:24:19.073Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
@@ -67,28 +74,106 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HandoverService.cs",
-              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\HandoverService.cs",
-              "RelativeDocumentMoniker": "EVRenter_Service\\Service\\HandoverService.cs",
-              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\HandoverService.cs",
-              "RelativeToolTip": "EVRenter_Service\\Service\\HandoverService.cs",
-              "ViewState": "AgIAAIQAAAAAAAAAAAAmwI4AAAAfAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "BaseEntity.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\BaseEntity.cs",
+              "RelativeDocumentMoniker": "EVRenter_Data\\Entities\\BaseEntity.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\BaseEntity.cs",
+              "RelativeToolTip": "EVRenter_Data\\Entities\\BaseEntity.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T17:01:54.729Z",
+              "WhenOpened": "2025-11-12T15:20:22.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DriverLicenseImage.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\DriverLicenseImage.cs",
+              "RelativeDocumentMoniker": "EVRenter_Data\\Entities\\DriverLicenseImage.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\DriverLicenseImage.cs",
+              "RelativeToolTip": "EVRenter_Data\\Entities\\DriverLicenseImage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T15:17:19.88Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "HandoverResponseModel.cs",
-              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\ResponseModel\\HandoverResponseModel.cs",
-              "RelativeDocumentMoniker": "EVRenter_Service\\ResponseModel\\HandoverResponseModel.cs",
-              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\ResponseModel\\HandoverResponseModel.cs",
-              "RelativeToolTip": "EVRenter_Service\\ResponseModel\\HandoverResponseModel.cs",
+              "Title": "Vehicle.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\Vehicle.cs",
+              "RelativeDocumentMoniker": "EVRenter_Data\\Entities\\Vehicle.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\Vehicle.cs",
+              "RelativeToolTip": "EVRenter_Data\\Entities\\Vehicle.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAgAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T15:16:38.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CarItem.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\CarItem.cs",
+              "RelativeDocumentMoniker": "EVRenter_Data\\Entities\\CarItem.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\CarItem.cs",
+              "RelativeToolTip": "EVRenter_Data\\Entities\\CarItem.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T17:01:48.963Z",
+              "WhenOpened": "2025-11-12T15:12:36.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IDImage.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\IDImage.cs",
+              "RelativeDocumentMoniker": "EVRenter_Data\\Entities\\IDImage.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\IDImage.cs",
+              "RelativeToolTip": "EVRenter_Data\\Entities\\IDImage.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAgAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T15:10:30.734Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "VehicleImage.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\VehicleImage.cs",
+              "RelativeDocumentMoniker": "EVRenter_Data\\Entities\\VehicleImage.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\VehicleImage.cs",
+              "RelativeToolTip": "EVRenter_Data\\Entities\\VehicleImage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T15:05:18.263Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\UserService.cs",
+              "RelativeDocumentMoniker": "EVRenter_Service\\Service\\UserService.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\UserService.cs",
+              "RelativeToolTip": "EVRenter_Service\\Service\\UserService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:41:03.274Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "VehicleService.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\VehicleService.cs",
+              "RelativeDocumentMoniker": "EVRenter_Service\\Service\\VehicleService.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\VehicleService.cs",
+              "RelativeToolTip": "EVRenter_Service\\Service\\VehicleService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:41:02.24Z",
               "EditorCaption": ""
             }
           ]

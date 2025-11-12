@@ -69,6 +69,9 @@ namespace EVRenter_Service.Service
                 payment.PaymentTime = DateTime.UtcNow;
                 payment.Note = "Thanh toán tiền mặt tại quầy";
 
+                booking.Status = 1;
+
+                await _unitOfWork.Repository<Booking>().UpdateAsync(booking);
                 await _unitOfWork.Repository<Payment>().InsertAsync(payment);
                 await _unitOfWork.SaveChangesAsync();
                 

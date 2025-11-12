@@ -62,7 +62,7 @@ namespace EVRenter_Service.Service
                 StationID = booking.Vehicle.StationID,
                 CheckDate = DateTime.UtcNow,
                 Type = 1,
-                Status = 0,
+                Status = 1,
                 Decription = request.Description,
                 IsDelete = false,
                 Exterior = "",
@@ -71,6 +71,15 @@ namespace EVRenter_Service.Service
                 Accessories = ""
             };
 
+            var vehicle = booking.Vehicle;
+
+            if (vehicle == null)
+            {
+                throw new KeyNotFoundException("Vehicle not found.");
+            }
+
+            vehicle.Status = 4;
+            booking.Status = 4;
             await _unitOfWork.Repository<HandoverAndReturn>().AddAsync(handover);
             await _unitOfWork.SaveChangesAsync();
 
@@ -91,7 +100,6 @@ namespace EVRenter_Service.Service
                 Condition = c.Status,
                 Note = null
             }).ToList();
-
             
             return new HandoverResponseModel
             {

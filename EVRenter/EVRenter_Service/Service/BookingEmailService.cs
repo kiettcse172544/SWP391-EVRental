@@ -36,7 +36,7 @@ namespace EVRenter_Service.Service
             if (booking == null)
                 throw new Exception("Booking not found.");
 
-            if (booking.Status != 1)
+            if (booking.Status != 2)
                 throw new Exception("Booking is not in 'waiting for signature' status.");
 
             // Tạo token và hạn sử dụng
@@ -73,12 +73,22 @@ namespace EVRenter_Service.Service
                 .AsQueryable()
                 .FirstOrDefaultAsync(b => b.SignatureToken == token && !b.IsDelete);
 
+            
+
             if (booking == null)
                 throw new Exception("Invalid or used token.");
+
+            var vehicle = await _unitOfWork.Repository<Vehicle>()
+                            .AsQueryable()
+                            .FirstOrDefaultAsync(v => v.Id == booking.VehicleID);
+
+            if (vehicle == null)
+                throw new Exception("Vehicle not found.");
 
             if (booking.SignatureTokenExpiresAt < DateTime.UtcNow)
                 throw new Exception("This signature link has expired.");
 
+            vehicle.Status = 3;
             booking.Status = 3;
             booking.SignedAt = DateTime.UtcNow;
             booking.SignatureToken = null;

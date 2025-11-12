@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0E5961D5-246F-4CD2-9323-650DD70163DF}|EVRenter_API\\EVRenter_API.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_api\\controllers\\handovercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E5961D5-246F-4CD2-9323-650DD70163DF}|EVRenter_API\\EVRenter_API.csproj|solutionrelative:evrenter_api\\controllers\\handovercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_service\\service\\handoverservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|solutionrelative:evrenter_service\\service\\handoverservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_service\\responsemodel\\handoverresponsemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|solutionrelative:evrenter_service\\responsemodel\\handoverresponsemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_data\\entities\\modelimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|solutionrelative:evrenter_data\\entities\\modelimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_data\\entities\\image.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DC6B82F-F615-47B3-B105-D00A55EA5797}|EVRenter_Data\\EVRenter_Data.csproj|solutionrelative:evrenter_data\\entities\\image.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_service\\service\\bookingemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|solutionrelative:evrenter_service\\service\\bookingemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|d:\\swp391-git\\swp391-evrental\\evrenter\\evrenter_service\\service\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43F0B4AE-A5A3-4104-B6FC-3457EA6D17BF}|EVRenter_Service\\EVRenter_Service.csproj|solutionrelative:evrenter_service\\service\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,21 +30,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 157,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 7,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "HandoverController.cs",
-              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_API\\Controllers\\HandoverController.cs",
-              "RelativeDocumentMoniker": "EVRenter_API\\Controllers\\HandoverController.cs",
-              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_API\\Controllers\\HandoverController.cs",
-              "RelativeToolTip": "EVRenter_API\\Controllers\\HandoverController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAABMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T17:24:19.073Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
@@ -67,28 +62,67 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "HandoverService.cs",
               "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\HandoverService.cs",
               "RelativeDocumentMoniker": "EVRenter_Service\\Service\\HandoverService.cs",
               "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\HandoverService.cs",
               "RelativeToolTip": "EVRenter_Service\\Service\\HandoverService.cs",
-              "ViewState": "AgIAAIQAAAAAAAAAAAAmwI4AAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAwwF4AAABTAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T17:01:54.729Z",
+              "WhenOpened": "2025-11-12T14:30:37.611Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "HandoverResponseModel.cs",
-              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\ResponseModel\\HandoverResponseModel.cs",
-              "RelativeDocumentMoniker": "EVRenter_Service\\ResponseModel\\HandoverResponseModel.cs",
-              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\ResponseModel\\HandoverResponseModel.cs",
-              "RelativeToolTip": "EVRenter_Service\\ResponseModel\\HandoverResponseModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "Image.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\Image.cs",
+              "RelativeDocumentMoniker": "EVRenter_Data\\Entities\\Image.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\Image.cs",
+              "RelativeToolTip": "EVRenter_Data\\Entities\\Image.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T17:01:48.963Z",
+              "WhenOpened": "2025-11-12T14:07:22.208Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ModelImage.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\ModelImage.cs",
+              "RelativeDocumentMoniker": "EVRenter_Data\\Entities\\ModelImage.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Data\\Entities\\ModelImage.cs",
+              "RelativeToolTip": "EVRenter_Data\\Entities\\ModelImage.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA0AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:04:26.258Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\EmailService.cs",
+              "RelativeDocumentMoniker": "EVRenter_Service\\Service\\EmailService.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\EmailService.cs",
+              "RelativeToolTip": "EVRenter_Service\\Service\\EmailService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T13:58:05.395Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BookingEmailService.cs",
+              "DocumentMoniker": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\BookingEmailService.cs",
+              "RelativeDocumentMoniker": "EVRenter_Service\\Service\\BookingEmailService.cs",
+              "ToolTip": "D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_Service\\Service\\BookingEmailService.cs",
+              "RelativeToolTip": "EVRenter_Service\\Service\\BookingEmailService.cs",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAswFIAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T13:49:16.501Z",
               "EditorCaption": ""
             }
           ]
