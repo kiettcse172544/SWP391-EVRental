@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 
 namespace EVRenter_Service.RequestModel
 {
-    internal class UserRequestModel
-    {
-    }
 
     public class UserCreateRequest
     {
@@ -34,6 +31,16 @@ namespace EVRenter_Service.RequestModel
         public bool IsActive { get; set; } = true;
     }
 
+    public class RenterProfileRequest
+    {
+        [Required(ErrorMessage = "Renter ID is required.")]
+        public int UserID { get; set; }
+        [Required(ErrorMessage = "ID Card Number is required.")]
+        public string IDNumber { get; set; }
+        [Required(ErrorMessage = "Driver License No is required.")]
+        public string DriverLicenseNo { get; set; }
+    }
+
     public class UserUpdateRequest
     {
         [StringLength(50, ErrorMessage = "Username cannot exceed 50 characters.")]
@@ -45,6 +52,23 @@ namespace EVRenter_Service.RequestModel
         [RegularExpression(@"^\+?[0-9]{10,15}$", ErrorMessage = "Phone number must be between 10 and 15 digits and may start with a '+' sign.")]
         public string? Phone { get; set; } = string.Empty;
         public string? Address { get; set; } = string.Empty;
+        public bool? IsEmailVerified { get; set; } = false;
+        public int? RoleID { get; set; }
+    }
+
+    public class RenterUpdateRequest
+    {
+        [StringLength(50, ErrorMessage = "Username cannot exceed 50 characters.")]
+        public string? FullName { get; set; } = string.Empty;
+
+        [EmailAddress(ErrorMessage = "Invalid email format.")]
+        public string? Email { get; set; }
+
+        [RegularExpression(@"^\+?[0-9]{10,15}$", ErrorMessage = "Phone number must be between 10 and 15 digits and may start with a '+' sign.")]
+        public string? Phone { get; set; } = string.Empty;
+        public string? Address { get; set; } = string.Empty;
+        public string? IDNumber { get; set; }
+        public string? DriverLicenseNo { get; set; }
         public bool? IsEmailVerified { get; set; } = false;
         public int? RoleID { get; set; }
     }

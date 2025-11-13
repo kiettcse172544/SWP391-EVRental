@@ -272,6 +272,37 @@ namespace EVRenter_Service.Service
             return true;
         }
 
+        public async Task<bool> ResetBookingOfVehicle()
+        {
+            var vehicles = await _unitOfWork.Repository<Vehicle>()
+                .GetQueryable()
+                .Where(x => !x.IsDelete && x.Status != 0)
+                .ToListAsync();
+            if (!vehicles.Any()) return false;
+
+            var bookings = await _unitOfWork.Repository<Booking>()
+                .GetQueryable()
+                .Where(x => !x.IsDelete)
+                .ToListAsync();
+            if (!bookings.Any()) return false;
+
+            foreach (var vehicle in vehicles)
+            {
+                vehicle.Status = 0;
+                await _unitOfWork.Repository<Vehicle>().UpdateAsync(vehicle);
+            }
+
+            foreach (var booking in bookings)
+            {
+                booking.Status = 5;
+                await _unitOfWork.Repository<Booking>().UpdateAsync(booking);
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<VehicleResponseModel?> StaffRefusingAsync(int vehicleId)
         {
             var existingVehicle = await _unitOfWork.Repository<Vehicle>()

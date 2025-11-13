@@ -19,8 +19,14 @@ namespace EVRenter_Service.Mapping
                 .ForMember(dest => dest.IdCard, otp => otp.MapFrom(src => src.RenterProfile.IDNumber))
                 .ForMember(dest => dest.DriverLicense, otp => otp.MapFrom(src => src.RenterProfile.DriverLicenseNo));
 
+            CreateMap<User, RenterResponseModel>()
+                .ForMember(dest => dest.IdCard, otp => otp.MapFrom(src => src.RenterProfile.IDNumber))
+                .ForMember(dest => dest.DriverLicense, otp => otp.MapFrom(src => src.RenterProfile.DriverLicenseNo));
+
             CreateMap<UserCreateRequest, User>();
             CreateMap<UserUpdateRequest, User>();
+            CreateMap<RenterProfileRequest, User>();
+            CreateMap<RenterUpdateRequest, User>();
         }
 
 
