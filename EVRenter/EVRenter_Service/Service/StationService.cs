@@ -19,6 +19,7 @@ namespace EVRenter_Service.Service
         Task<StationResponseModel?> GetStationByIdAsync(int id);
         Task<StationResponseModel> CreateStationAsync(StationRequestModel request);
         Task<StationResponseModel?> UpdateStationAsync(int id, StationUpdateRequest request);
+        Task RebootStationQuantitiesAsync();
         Task<bool> DeleteStationAsync(int id);
     }
     public class StationService : IStationService
@@ -39,6 +40,34 @@ namespace EVRenter_Service.Service
                 .Where(x => !x.IsDelete)
                 .ProjectTo<StationResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+        }
+
+        public async Task RebootStationQuantitiesAsync()
+        {
+            // Lấy danh sách Model + số lượng Vehicle thực tế
+            var stationCounts = await _unitOfWork.Repository<Vehicle>()
+                .AsQueryable()
+                .Where(x => !x.IsDelete)
+                .GroupBy(v => v.StationID)
+                .Select(g => new
+                {
+                    StationID = g.Key,
+                    VehicleCount = g.Count()
+                })
+                .ToListAsync();
+
+            // Lấy toàn bộ station
+            var stations = await _unitOfWork.Repository<Station>().AsQueryable()
+                .Where(x => !x.IsDelete).ToListAsync();
+
+            foreach (var station in stations)
+            {
+                var count = stationCounts.FirstOrDefault(c => c.StationID == station.Id)?.VehicleCount ?? 0;
+                station.Quantity = count;
+                await _unitOfWork.Repository<Station>().UpdateAsync(station);
+            }
+
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<StationResponseModel?> GetStationByIdAsync(int id)

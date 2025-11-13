@@ -23,6 +23,13 @@ namespace EVRenter_API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("GetAllVehiclesByStation/{stationId}")]
+        public async Task<IActionResult> GetAllVehiclesByStationID(int stationID)
+        {
+            var response = await _vehicleService.GetAllVehicleByStation(stationID);
+            return Ok(response);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVehicleById(int id)
         {

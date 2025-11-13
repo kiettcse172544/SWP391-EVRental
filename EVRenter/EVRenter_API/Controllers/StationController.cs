@@ -25,6 +25,13 @@ namespace EVRenter_API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("RebootVehicleQuantitiesByStation")]
+        public async Task<IActionResult> RebootQuantities()
+        {
+            await _stationService.RebootStationQuantitiesAsync();
+            return Ok();
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStationById(int id)
         {
