@@ -47,7 +47,9 @@ namespace EVRenter_Service.Mapping
                     }).ToList()
                 }).ToList()
                 ));
-
+            CreateMap<Vehicle, VehicleForBookingResponseModel>()
+               .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.Model.ModelName))
+               .ForMember(dest => dest.StationName, opt => opt.MapFrom(src => src.Station.Name));
 
             CreateMap<Vehicle, VehicleDetailResponseModel>()
                .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.Model.ModelName))

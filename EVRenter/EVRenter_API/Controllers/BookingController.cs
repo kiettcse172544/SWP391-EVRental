@@ -23,10 +23,10 @@ namespace EVRenter_API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("Uncomplete Booking")]
-        public async Task<IActionResult> GetUnapprovalBookings()
+        [HttpGet("GetAllBookingsForStaff")]
+        public async Task<IActionResult> GetAllBookingsForStaff()
         {
-            var response = await _bookingService.GetUnapprovalBooking();
+            var response = await _bookingService.GetAllBookingsForStaff();
             return Ok(response);
         }
 
@@ -43,6 +43,22 @@ namespace EVRenter_API.Controllers
 
             return Ok(vehicle);
         }
+
+        [HttpGet("GetBookingByIdForStaff/{id}")]
+        public async Task<IActionResult> GetBookingByIdForStaff(int id)
+        {
+
+
+            var vehicle = await _bookingService.GetBookingByIdForStaffAsync(id);
+            if (vehicle == null)
+            {
+                return NotFound("Booking not found.");
+            }
+
+            return Ok(vehicle);
+        }
+
+
         [HttpGet("GetByCar/{vehicleID}")]
         public async Task<IActionResult> GetBookingByCar(int vehicleID)
         {

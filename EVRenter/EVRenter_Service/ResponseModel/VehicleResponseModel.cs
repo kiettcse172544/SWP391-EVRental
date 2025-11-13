@@ -41,6 +41,21 @@ namespace EVRenter_Service.ResponseModel
         public List<CategoryChecklistResponse> Categories { get; set; }
     }
 
+    public class VehicleForBookingResponseModel
+    {
+        public int Id { get; set; }
+        public int ModelID { get; set; }
+        public string ModelName { get; set; }
+        public string PlateNumber { get; set; }
+        public int BatteryLevel { get; set; }
+        public int Odometer { get; set; }
+        public int StationID { get; set; }
+        public string StationName { get; set; }
+        public string Location { get; set; }
+        public int Status { get; set; }
+        public List<CategoryChecklistResponse> Categories { get; set; }
+    }
+
     public class CategoryChecklistResponse
     {
         //public int CategoryID { get; set; }

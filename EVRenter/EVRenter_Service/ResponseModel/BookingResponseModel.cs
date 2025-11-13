@@ -61,7 +61,6 @@ namespace EVRenter_Service.ResponseModel
         public int StationID { get; set; }
         public string StationName { get; set; }
         public DateTime RequestTime { get; set; }
-        public CustomerResponseModel Customer { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         [Precision(18, 0)]
@@ -73,5 +72,9 @@ namespace EVRenter_Service.ResponseModel
         public decimal BaseCost { get; set; }
         [Precision(18, 0)]
         public decimal? FinalCost { get; set; }
+        public ModelResponseModel Model { get; set; }
+        public CustomerResponseModel Customer { get; set; }
+        public VehicleForBookingResponseModel Vehicle {  get; set; }
+
     }
 }

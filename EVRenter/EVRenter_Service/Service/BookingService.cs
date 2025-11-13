@@ -21,7 +21,8 @@ namespace EVRenter_Service.Service
         Task<IEnumerable<BookingResponseModel>> GetAllBooking();
         Task<BookingResponseModel?> GetBookingByIdAsync(int id);
         Task<BookingResponseModel?> GetBookingByVehicleAsync(int vehicleId);
-        Task<IEnumerable<StaffBookingResponseModel>> GetUnapprovalBooking();
+        Task<StaffBookingResponseModel?> GetBookingByIdForStaffAsync(int id);
+        Task<IEnumerable<StaffBookingResponseModel>> GetAllBookingsForStaff();
         Task<IEnumerable<BookingResponseModel>> GetBookingByRenter(int renterID);
         Task<BookingResponseModel> CreateBookingAsync(BookingRequestModel request);
         Task<StaffBookingResponseModel?> UpdateBookingStatsusAsync(int id, BookingUpdateRequest request);
@@ -47,11 +48,11 @@ namespace EVRenter_Service.Service
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<StaffBookingResponseModel>> GetUnapprovalBooking()
+        public async Task<IEnumerable<StaffBookingResponseModel>> GetAllBookingsForStaff()
         {
             return await _unitOfWork.Repository<Booking>()
                 .GetQueryable()
-                .Where(x => !x.IsDelete && x.Status < 3)
+                .Where(x => !x.IsDelete)
                 .ProjectTo<StaffBookingResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -62,6 +63,17 @@ namespace EVRenter_Service.Service
             var booking = await _unitOfWork.Repository<Booking>().AsQueryable()
                 .Where(u => u.Id == id && u.IsDelete == false)
                 .ProjectTo<BookingResponseModel>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
+
+            return booking;
+        }
+
+        public async Task<StaffBookingResponseModel?> GetBookingByIdForStaffAsync(int id)
+        {
+            // Get the user with basic information
+            var booking = await _unitOfWork.Repository<Booking>().AsQueryable()
+                .Where(u => u.Id == id && u.IsDelete == false)
+                .ProjectTo<StaffBookingResponseModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
             return booking;

@@ -22,7 +22,9 @@ namespace EVRenter_Service.Mapping
                 .ForMember(dest => dest.Customer, otp => otp.MapFrom(src => src.User))
                 .ForMember(dest => dest.RequestTime, otp => otp.MapFrom(src => src.CreatedAt))
                 .ForMember(dest => dest.StationID, opt => opt.MapFrom(src => src.Vehicle.StationID))
-                .ForMember(dest => dest.StationName, opt => opt.MapFrom(src => src.Vehicle.Station.Name));
+                .ForMember(dest => dest.StationName, opt => opt.MapFrom(src => src.Vehicle.Station.Name))
+                .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.Vehicle.Model))
+                .ForMember(dest => dest.Vehicle, opt => opt.MapFrom(src => src.Vehicle));
             CreateMap<Booking, CarBookingResponseModel>()
                 .ForMember(dest => dest.RequestTime, otp => otp.MapFrom(src => src.CreatedAt))
                 .ForMember(dest => dest.RentalTime, opt => opt.MapFrom(src => (int)(src.EndDate - src.StartDate).TotalDays));

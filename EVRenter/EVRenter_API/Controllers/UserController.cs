@@ -28,6 +28,13 @@ namespace EVRenter_API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("GetAllRentersForStaff")]
+        public async Task<IActionResult> GetAllRentersForStaff()
+        {
+            var response = await _userService.GetAllRentersAsync();
+            return Ok(response);
+        }
+
         // Lấy người dùng theo ID
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
@@ -61,6 +68,19 @@ namespace EVRenter_API.Controllers
             return Ok(user);
         }
 
+        // Lấy người dùng theo ID
+        [HttpGet("GetRenterByIdForStaff/{id}")]
+        public async Task<IActionResult> GetRenterById(int id)
+        {
+            var user = await _userService.GetRentalByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok(user);
+        }
+
         // Tạo người dùng mới
         [HttpPost]
         //[Authorize(Roles = "Manager")]
@@ -75,6 +95,20 @@ namespace EVRenter_API.Controllers
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
         }
 
+        // Tạo hồ sơ của renter mới
+        [HttpPost("CreateRenterProfile")]
+        //[Authorize(Roles = "Manager")]
+        public async Task<IActionResult> CreateRenterProfile([FromForm] RenterProfileRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userService.InitializeRenterProfileAsync(request);
+            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
+        }
+
         // Cập nhật người dùng
         [HttpPut("{id}")]
         //[Authorize]
@@ -86,6 +120,25 @@ namespace EVRenter_API.Controllers
             }
 
             var updatedUser = await _userService.UpdateUserAsync(id, request);
+            if (updatedUser == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok(updatedUser);
+        }
+
+        // Cập nhật người thue
+        [HttpPut("UpdateRenter/{id}")]
+        //[Authorize]
+        public async Task<IActionResult> UpdateRenter(int id, [FromForm] RenterUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedUser = await _userService.UpdateRenterAsync(id, request);
             if (updatedUser == null)
             {
                 return NotFound("User not found.");
