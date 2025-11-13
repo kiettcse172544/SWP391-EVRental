@@ -8,6 +8,7 @@
         public string Role { get; set; } = null!;
         public int? StationId { get; set; } = null!;
         public string Verified { get; set; } = null!;
+        public int? VerifiedStatus { get; set; } = null!;
         public string Phone {  get; set; } = null!;
         public string Token { get; set; } = null!;
 

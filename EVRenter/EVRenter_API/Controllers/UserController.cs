@@ -168,18 +168,10 @@ namespace EVRenter_API.Controllers
             try
             {
                 bool check = await _userService.UpdateVerifiedStatus(id, status);
-                if (check)
-                {
-                    return Ok(new { Message = "Successful" });
-                }
-                else
-                {
-                    return BadRequest(new { Message = "Failed" });
-                }
+                return Ok(new { Message = "Succsessfull"} );
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex.Message);
                 return NotFound(new { message = ex.Message });
             }
         }

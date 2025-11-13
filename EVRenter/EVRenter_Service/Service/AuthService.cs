@@ -66,7 +66,8 @@ namespace EVRenter_Service.Service
                     new Claim("phone", user.Phone ?? string.Empty),
                     new Claim("stationId", isStaff && user.StationId.HasValue
             ? user.StationId.Value.ToString()
-            : string.Empty)
+            : string.Empty),
+                    new Claim("verifiedStatus", user.IsVerified.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(6),
                 SigningCredentials = new SigningCredentials(
@@ -85,7 +86,8 @@ namespace EVRenter_Service.Service
                 Token = tokenHandler.WriteToken(token),
                 Phone = user.Phone,
                 StationId = isStaff ? user.StationId : null,
-                Verified = user.IsEmailVerified ? "Verified" : "Pending"
+                Verified = user.IsEmailVerified ? "Verified" : "Pending",
+                VerifiedStatus = user.IsVerified
             };
         }
     }
