@@ -33,13 +33,21 @@ namespace EVRenter_Service.RequestModel
     public class UpdateCarItemsRequest
     {
         public int VehicleID { get; set; }
+        public List<CarItemCategoryUpdateModel> Categories { get; set; }
+    }
+
+    public class CarItemCategoryUpdateModel
+    {
+        public string CategoryName { get; set; }
         public List<CarItemUpdateModel> Items { get; set; }
     }
 
     public class CarItemUpdateModel
     {
-        public string Name { get; set; }     // Tên CarItem (vd: "Đèn pha trước")
-        public int Status { get; set; }      // Trạng thái mới
+        public int Id { get; set; }      // ID của CarItem
+        public string Name { get; set; } // để debug / hiển thị
+        public int Status { get; set; }  // trạng thái mới
     }
+
 
 }

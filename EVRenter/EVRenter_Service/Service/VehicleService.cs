@@ -22,6 +22,7 @@ namespace EVRenter_Service.Service
         Task<VehicleResponseModel> CreateVehicleAsync(VehicleRequestModel request);
         Task<VehicleResponseModel?> UpdateVehicleAsync(int id, VehicleUpdateRequest request);
         Task<VehicleResponseModel?> UpdateVehicleStatusAsync(int vehicleId);
+        Task<bool> UpdateCarItemsByVehicleAsync(UpdateCarItemsRequest request);
         Task<bool> DeleteVehicleAsync(int id);
         Task<VehicleResponseModel?> StaffRefusingAsync(int vehicleId);
     }
@@ -281,6 +282,39 @@ namespace EVRenter_Service.Service
 
             return true;
         }
+
+        public async Task<bool> UpdateCarItemsByVehicleAsync(UpdateCarItemsRequest request)
+        {
+            if (request == null || request.Categories == null || !request.Categories.Any())
+                throw new ArgumentException("Invalid request data.");
+
+            // Lấy tất cả CarItem của Vehicle
+            var carItems = await _unitOfWork.Repository<CarItem>()
+                .GetQueryable()
+                .Where(ci => ci.VehicleID == request.VehicleID && !ci.IsDelete)
+                .ToListAsync();
+
+            if (carItems.Count == 0)
+                throw new Exception("No CarItems found for this vehicle.");
+
+            // Duyệt qua từng category -> item -> update status
+            foreach (var category in request.Categories)
+            {
+                foreach (var item in category.Items)
+                {
+                    var existingItem = carItems.FirstOrDefault(ci => ci.Id == item.Id);
+                    if (existingItem != null)
+                    {
+                        existingItem.Status = item.Status;
+                    }
+                }
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
+
+
 
         public async Task<bool> ResetBookingOfVehicle()
         {

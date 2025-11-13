@@ -1,4 +1,5 @@
-﻿using EVRenter_Service.RequestModel;
+﻿using EVRenter_Data.Entities;
+using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -74,6 +75,29 @@ namespace EVRenter_API.Controllers
 
             return Ok(updatedVehicle);
         }
+
+        [HttpPut("UpdateCarItems/{vehicleId}")]
+        public async Task<IActionResult> UpdateCarItemsByVehicle(int vehicleId,[FromBody] UpdateCarItemsRequest request)
+        {
+            if (vehicleId != request.VehicleID)
+                return BadRequest("Vehicle ID mismatch.");
+
+            try
+            {
+                var result = await _vehicleService.UpdateCarItemsByVehicleAsync(request);
+                if (!result)
+                    return BadRequest("Update failed.");
+
+                return Ok("Car items updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
 
         [HttpPut("AutpUpdateStatus/{vehicleId}")]
         public async Task<IActionResult> UpdateVehicleStatus(int vehicleId)
