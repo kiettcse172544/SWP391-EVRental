@@ -25,7 +25,7 @@ namespace EVRenter_Service.Mapping
 
             CreateMap<UserCreateRequest, User>();
             CreateMap<UserUpdateRequest, User>();
-            CreateMap<RenterProfileRequest, User>();
+            CreateMap<RenterProfileRequest, RenterProfile>();
             CreateMap<RenterUpdateRequest, User>();
         }
 
