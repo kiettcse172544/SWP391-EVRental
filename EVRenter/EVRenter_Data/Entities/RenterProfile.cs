@@ -12,6 +12,7 @@ namespace EVRenter_Data.Entities
         public int UserID { get; set; }
         public string IDNumber { get; set; }
         public string DriverLicenseNo { get; set; }
+        public int Type { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<IDImage> IDImages { get; set; }
         public virtual ICollection<DriverLicenseImage> DriverLicenseImages { get; set; }
