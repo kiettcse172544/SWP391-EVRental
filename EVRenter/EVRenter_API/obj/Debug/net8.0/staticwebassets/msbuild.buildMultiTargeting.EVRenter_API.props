@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\EVRenter_API.props" />
-</Project>

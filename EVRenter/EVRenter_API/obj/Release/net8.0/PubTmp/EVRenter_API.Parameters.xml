@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="IIS Web Application Name" description="" value="swp391-evrental-api" tags="IisApp">
-    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\SWP391-git\\SWP391-EVRental\\EVRenter\\EVRenter_API\\obj\\Release\\net8\.0\\PubTmp\\Out\\$" />
-  </parameter>
-</parameters>
