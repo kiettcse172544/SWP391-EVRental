@@ -58,6 +58,14 @@ namespace EVRenter_API.Controllers
             return Ok(model);
         }
 
+
+        [HttpGet("GetAvailableQuantityOfAll")]
+        public async Task<IActionResult> GetAvailableQuantityOfAll()
+        {
+            var response = await _modelService.GetAllModelQuantityAsync();
+            return Ok(response);
+        }
+
         [HttpGet("GetAvailableQuantityByStationId/{stationId}")]
         public async Task<IActionResult> GetAvailableQuantityByStationId(int stationId)
         {
