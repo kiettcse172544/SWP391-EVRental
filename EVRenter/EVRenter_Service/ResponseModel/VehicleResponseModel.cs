@@ -52,8 +52,9 @@ namespace EVRenter_Service.ResponseModel
         public int StationID { get; set; }
         public string StationName { get; set; }
         public string Location { get; set; }
+        public string Color { get; set; }
         public int Status { get; set; }
-        public List<CategoryChecklistResponse> Categories { get; set; }
+        //public List<CategoryChecklistResponse> Categories { get; set; }
     }
 
     public class CategoryChecklistResponse
