@@ -1,4 +1,5 @@
-﻿using EVRenter_Service.RequestModel;
+﻿using EVRenter_Data.Entities;
+using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ namespace EVRenter_API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ILogger<UserController> _logger;
 
         public UserController(IUserService userService)
         {
@@ -158,6 +160,28 @@ namespace EVRenter_API.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPut("UpdateVerifiedStatus/{id}/{status}")]
+        public async Task<IActionResult> UpdateVerifiedStatus(int id, int status)
+        {
+            try
+            {
+                bool check = await _userService.UpdateVerifiedStatus(id, status);
+                if (check)
+                {
+                    return Ok(new { Message = "Successful" });
+                }
+                else
+                {
+                    return BadRequest(new { Message = "Failed" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return NotFound(new { message = ex.Message });
+            }
         }
     }
 }

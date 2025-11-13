@@ -7,6 +7,7 @@ using EVRenter_Repository.Utils;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,11 +30,14 @@ namespace EVRenter_Service.Service
         Task<RenterResponseModel?> UpdateRenterAsync(int id, RenterUpdateRequest request);
 
         Task<bool> DeleteUserAsync(int id);
+
+        Task<bool> UpdateVerifiedStatus(int id, int newStatus);
     }
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        
 
         public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -324,6 +328,25 @@ namespace EVRenter_Service.Service
 
             return true;
         }
+        
+        public async Task<bool> UpdateVerifiedStatus(int id, int newStatus)
+        {
+            var user = await _unitOfWork.Repository<User>()
+                            .AsQueryable()
+                            .FirstOrDefaultAsync(u => u.Id == id && !u.IsDelete);
 
+            if(user == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            user.IsVerified = newStatus;
+
+            await _unitOfWork.Repository<User>().UpdateAsync(user);
+
+            int check = await _unitOfWork.SaveChangesAsync();
+
+            return check > 0;
+        }
     }
 }
