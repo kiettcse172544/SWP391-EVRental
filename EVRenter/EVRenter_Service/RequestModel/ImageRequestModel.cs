@@ -10,6 +10,19 @@ namespace EVRenter_Service.RequestModel
     {
     }
 
+    public class UploadRPRequestModel
+    {
+        public string IDNumber {  get; set; }
+        public string DriverLicenseNo { get; set; }
+
+        public byte[] IDNumberImage1 { get; set; }
+        public byte[] IDNumberImage2 { get; set; }
+
+        public byte[] DriverLicenseImage1 { get; set; }
+        public byte[] DriverLicenseImage2 { get;set; }
+    }
+
+
     public class UploadModelImageRequest
     {
         public int ModelID { get; set; }

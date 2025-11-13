@@ -48,4 +48,6 @@ namespace EVRenter_Service.ResponseModel
         public string ImageContentType { get; set; }
         
     }
+
+
 }
