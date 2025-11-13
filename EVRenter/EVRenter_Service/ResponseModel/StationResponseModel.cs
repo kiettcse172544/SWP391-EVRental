@@ -14,5 +14,6 @@ namespace EVRenter_Service.ResponseModel
         public string Location { get; set; }
         public int Capacity { get; set; }
         public int Quantity { get; set; }
+        public List<VehicleForBookingResponseModel> Vehicles { get; set; }
     }
 }

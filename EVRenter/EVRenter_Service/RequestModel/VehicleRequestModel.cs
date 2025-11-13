@@ -29,4 +29,17 @@ namespace EVRenter_Service.RequestModel
         public string? Color { get; set; }
         public int? Status { get; set; }
     }
+
+    public class UpdateCarItemsRequest
+    {
+        public int VehicleID { get; set; }
+        public List<CarItemUpdateModel> Items { get; set; }
+    }
+
+    public class CarItemUpdateModel
+    {
+        public string Name { get; set; }     // Tên CarItem (vd: "Đèn pha trước")
+        public int Status { get; set; }      // Trạng thái mới
+    }
+
 }
