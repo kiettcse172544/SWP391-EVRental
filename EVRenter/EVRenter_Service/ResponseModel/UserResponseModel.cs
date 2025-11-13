@@ -13,6 +13,8 @@ namespace EVRenter_Service.ResponseModel
         public string Email { get; set; }
         public string? Phone { get; set; }
         public string? Address { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsEmailVerified { get; set; }
         public int? RoleID { get; set; }
     }
 
@@ -25,6 +27,11 @@ namespace EVRenter_Service.ResponseModel
         public string IdCard { get; set; }
         public string DriverLicense { get; set; }
         public string Address { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsEmailVerified { get; set; }
+        public int BookingCount { get; set; }
+        public int CusType {  get; set; }
+
     }
 
     public class CustomerResponseModel
