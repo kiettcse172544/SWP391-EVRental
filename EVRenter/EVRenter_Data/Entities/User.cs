@@ -24,6 +24,8 @@ namespace EVRenter_Data.Entities
         // Xác thực email
         public bool IsEmailVerified { get; set; } = false;
 
+        public int? IsVerified { get; set; } = 1;
+
         // Token gửi qua email để xác thực tài khoản
         public string? EmailVerificationToken { get; set; }
 
