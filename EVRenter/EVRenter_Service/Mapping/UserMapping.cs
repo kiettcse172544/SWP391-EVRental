@@ -2,6 +2,7 @@
 using EVRenter_Data.Entities;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,8 @@ namespace EVRenter_Service.Mapping
 
             CreateMap<User, RenterResponseModel>()
                 .ForMember(dest => dest.IdCard, otp => otp.MapFrom(src => src.RenterProfile.IDNumber))
-                .ForMember(dest => dest.DriverLicense, otp => otp.MapFrom(src => src.RenterProfile.DriverLicenseNo));
+                .ForMember(dest => dest.DriverLicense, otp => otp.MapFrom(src => src.RenterProfile.DriverLicenseNo))
+                .ForMember(dest => dest.BookingCount, otp => otp.MapFrom(src => src.Bookings.Select(x => x.RenterID == src.Id).Count()));
 
             CreateMap<UserCreateRequest, User>();
             CreateMap<UserUpdateRequest, User>();
