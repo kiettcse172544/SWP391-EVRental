@@ -44,6 +44,15 @@ namespace EVRenter_Service.Service
                 .ToListAsync();
         }
 
+        // Lấy tất cả người thuê
+        public async Task<IEnumerable<UserResponseModel>> GetAllRentersAsync()
+        {
+            return await _unitOfWork.Repository<User>().AsQueryable()
+                .Where(u => !u.IsDelete && u.RoleID == RoleType.Renter) // error
+                .ProjectTo<UserResponseModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
         // Lấy người dùng theo ID
         public async Task<UserResponseModel?> GetUserByIdAsync(int id)
         {

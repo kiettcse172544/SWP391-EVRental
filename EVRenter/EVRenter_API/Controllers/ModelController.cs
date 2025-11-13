@@ -58,6 +58,20 @@ namespace EVRenter_API.Controllers
             return Ok(model);
         }
 
+        [HttpGet("GetQuantityByStationId/{stationId}")]
+        public async Task<IActionResult> GetQuantityByStationId(int stationId)
+        {
+
+
+            var model = await _modelService.GetModelQuantityByStationIdAsync(stationId);
+            if (model == null)
+            {
+                return NotFound("Model not found.");
+            }
+
+            return Ok(model);
+        }
+
         [HttpPost]
         //[Authorize(Roles = "Manager")]
         public async Task<IActionResult> CreateModel([FromForm] ModelRequestModel request)

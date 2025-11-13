@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace EVRenter_Service.RequestModel
 {
+    public class ModelQuantityRequestModel
+    {
+        public int ModelID { get; set; }
+        public int StationID { get; set; }
+    }
     public class ModelRequestModel
     {
         public string ModelName { get; set; }

@@ -85,6 +85,40 @@ namespace EVRenter_API.Controllers
             return Ok(updatedVehicle);
         }
 
+        [HttpPut("StaffRefusedStatus/{vehicleId}")]
+        public async Task<IActionResult> StaffRefusedStatus(int vehicleId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedVehicle = await _vehicleService.StaffRefusingAsync(vehicleId);
+            if (updatedVehicle == null)
+            {
+                return NotFound("Vehicle not found.");
+            }
+
+            return Ok(updatedVehicle);
+        }
+
+        [HttpPut("ResetBookingOfVehicle")]
+        public async Task<IActionResult> ResetBookingOfVehicle()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _vehicleService.ResetBookingOfVehicle();
+            if (!result)
+            {
+                return NotFound("Vehicle not booking.");
+            }
+
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModel(int id)
         {

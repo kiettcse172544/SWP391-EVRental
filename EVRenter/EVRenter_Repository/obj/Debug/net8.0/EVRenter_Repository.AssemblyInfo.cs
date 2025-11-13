@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EVRenter_Repository")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aa2a7687176a7e90c449afad5c935ccb7c778e37")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+82155c63fc15ed2dbafb8a9bdc467da11e35bd8b")]
 [assembly: System.Reflection.AssemblyProductAttribute("EVRenter_Repository")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EVRenter_Repository")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

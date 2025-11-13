@@ -214,6 +214,138 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "EVRenter_API.Controllers.EmailController",
+    "Method": "SendSignatureEmail",
+    "RelativePath": "api/Email/{bookingId}/send-signature-email",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookingId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.EmailController",
+    "Method": "ConfirmSignature",
+    "RelativePath": "api/Email/confirm-signature",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.ExtraFeeController",
+    "Method": "GetAllExtraFees",
+    "RelativePath": "api/ExtraFee/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.ExtraFeeController",
+    "Method": "GetExtraFeesByBooking",
+    "RelativePath": "api/ExtraFee/booking/{bookingId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookingId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.ExtraFeeController",
+    "Method": "CreateExtraFee",
+    "RelativePath": "api/ExtraFee/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "EVRenter_Service.RequestModel.ExtraFeeCreateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.HandoverController",
+    "Method": "GetAllHandovers",
+    "RelativePath": "api/Handover",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.HandoverController",
+    "Method": "GetHandoverById",
+    "RelativePath": "api/Handover/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.HandoverController",
+    "Method": "ConfirmHandover",
+    "RelativePath": "api/Handover/{id}/confirm-handover",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.HandoverController",
+    "Method": "CreateHandover",
+    "RelativePath": "api/Handover/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "EVRenter_Service.RequestModel.HandoverCreateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EVRenter_API.Controllers.ModelController",
     "Method": "CreateModel",
     "RelativePath": "api/Model",
@@ -376,6 +508,22 @@
     "ContainingType": "EVRenter_API.Controllers.ModelController",
     "Method": "GetModelsByStation",
     "RelativePath": "api/Model/GetByStationId/{stationId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stationId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.ModelController",
+    "Method": "GetQuantityByStationId",
+    "RelativePath": "api/Model/GetQuantityByStationId/{stationId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -775,6 +923,11 @@
         "IsRequired": false
       },
       {
+        "Name": "IsEmailVerified",
+        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
         "Name": "RoleID",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
@@ -946,6 +1099,32 @@
     "ContainingType": "EVRenter_API.Controllers.VehicleController",
     "Method": "UpdateVehicleStatus",
     "RelativePath": "api/Vehicle/AutpUpdateStatus/{vehicleId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "vehicleId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.VehicleController",
+    "Method": "ResetBookingOfVehicle",
+    "RelativePath": "api/Vehicle/ResetBookingOfVehicle",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EVRenter_API.Controllers.VehicleController",
+    "Method": "StaffRefusedStatus",
+    "RelativePath": "api/Vehicle/StaffRefusedStatus/{vehicleId}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,

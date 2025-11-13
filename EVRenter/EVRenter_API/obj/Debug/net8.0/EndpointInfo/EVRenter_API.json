@@ -339,6 +339,205 @@
         }
       }
     },
+    "/api/Email/{bookingId}/send-signature-email": {
+      "post": {
+        "tags": [
+          "Email"
+        ],
+        "parameters": [
+          {
+            "name": "bookingId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Email/confirm-signature": {
+      "get": {
+        "tags": [
+          "Email"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ExtraFee/create": {
+      "post": {
+        "tags": [
+          "ExtraFee"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtraFeeCreateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtraFeeCreateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtraFeeCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ExtraFee/all": {
+      "get": {
+        "tags": [
+          "ExtraFee"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ExtraFee/booking/{bookingId}": {
+      "get": {
+        "tags": [
+          "ExtraFee"
+        ],
+        "parameters": [
+          {
+            "name": "bookingId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Handover/create": {
+      "post": {
+        "tags": [
+          "Handover"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HandoverCreateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HandoverCreateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HandoverCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Handover/{id}/confirm-handover": {
+      "put": {
+        "tags": [
+          "Handover"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Handover": {
+      "get": {
+        "tags": [
+          "Handover"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Handover/{id}": {
+      "get": {
+        "tags": [
+          "Handover"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Model/GetAll": {
       "get": {
         "tags": [
@@ -503,6 +702,29 @@
       }
     },
     "/api/Model/GetByStationId/{stationId}": {
+      "get": {
+        "tags": [
+          "Model"
+        ],
+        "parameters": [
+          {
+            "name": "stationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Model/GetQuantityByStationId/{stationId}": {
       "get": {
         "tags": [
           "Model"
@@ -1150,9 +1372,6 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "required": [
-                  "FullName"
-                ],
                 "type": "object",
                 "properties": {
                   "FullName": {
@@ -1171,6 +1390,9 @@
                   "Address": {
                     "type": "string"
                   },
+                  "IsEmailVerified": {
+                    "type": "boolean"
+                  },
                   "RoleID": {
                     "type": "integer",
                     "format": "int32"
@@ -1188,6 +1410,9 @@
                   "style": "form"
                 },
                 "Address": {
+                  "style": "form"
+                },
+                "IsEmailVerified": {
                   "style": "form"
                 },
                 "RoleID": {
@@ -1460,6 +1685,41 @@
         }
       }
     },
+    "/api/Vehicle/StaffRefusedStatus/{vehicleId}": {
+      "put": {
+        "tags": [
+          "Vehicle"
+        ],
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Vehicle/ResetBookingOfVehicle": {
+      "put": {
+        "tags": [
+          "Vehicle"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/WeatherForecast": {
       "get": {
         "tags": [
@@ -1523,6 +1783,67 @@
         "type": "object",
         "properties": {
           "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExtraFeeCreateRequest": {
+        "type": "object",
+        "properties": {
+          "bookingId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "handoverAndReturnId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "feeTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeeTypeCreateRequest"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FeeTypeCreateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "HandoverCreateRequest": {
+        "type": "object",
+        "properties": {
+          "bookingID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "staffID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
             "type": "string",
             "nullable": true
           }

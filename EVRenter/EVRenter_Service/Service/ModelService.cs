@@ -18,6 +18,7 @@ namespace EVRenter_Service.Service
     {
         Task<IEnumerable<ModelResponseModel>> GetAllModel();
         Task<ModelResponseModel?> GetModelByIdAsync(int id);
+        Task<IEnumerable<ModelResponseModel>> GetModelQuantityByStationIdAsync(int stationID);
         Task<ModelResponseModel> CreateModelAsync(ModelRequestModel request);
         Task<ModelResponseModel?> UpdateModelAsync(int id, ModelUpdateRequest request);
         Task<bool> DeleteModelAsync(int id);
@@ -64,6 +65,36 @@ namespace EVRenter_Service.Service
                 .ToListAsync();
 
             return model;
+        }
+
+        public async Task<IEnumerable<ModelResponseModel>> GetModelQuantityByStationIdAsync(int stationID)
+        {
+            // Lấy số lượng Vehicle theo ModelID trong trạm
+            var modelCounts = await _unitOfWork.Repository<Vehicle>()
+                .GetQueryable()
+                .Where(v => !v.IsDelete && v.StationID == stationID && v.Status == 0)
+                .GroupBy(v => v.ModelID)
+                .Select(g => new
+                {
+                    ModelID = g.Key,
+                    VehicleCount = g.Count()
+                })
+                .ToListAsync();
+
+            // Lấy danh sách Model và map sang ModelResponseModel
+            var models = await _unitOfWork.Repository<Model>()
+                .GetQueryable()
+                .Where(m => !m.IsDelete)
+                .ProjectTo<ModelResponseModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            // Gán số lượng thực tế vào từng model
+            foreach (var model in models)
+            {
+                model.Quantity = modelCounts.FirstOrDefault(c => c.ModelID == model.Id)?.VehicleCount ?? 0;
+            }
+
+            return models;
         }
 
         public async Task RebootModelQuantitiesAsync()
