@@ -30,6 +30,7 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAmenitiesService, AmenitiesService>();
 builder.Services.AddScoped<IHandoverService, HandoverService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 
 
 // Email
