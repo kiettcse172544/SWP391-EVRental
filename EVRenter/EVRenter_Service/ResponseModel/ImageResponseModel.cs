@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace EVRenter_Service.ResponseModel
 {
-    public class ImageResponse
+    public class ImageResponseModel
     {
-        public int Id { get; set; }
+        public int ImageID { get; set; }
         public string ContentType { get; set; }
-        public byte[] Base64Image { get; set; }
+        public byte[] ImageData { get; set; }
     }
 
     public class ModelImageResponse

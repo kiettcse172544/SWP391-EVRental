@@ -17,6 +17,13 @@ namespace EVRenter_Service.Service
         Task<VehicleImageResponse> UploadVehicleImageAsync(UploadVehicleImageRequest request);
         Task<IDImageResponse> UploadIDImageAsync(UploadIDImageRequest request);
         Task<DriverLicenseImageResponse> UploadDriverLicenseImageAsync(UploadDriverLicenseImageRequest request);
+
+        Task<List<ImageResponseModel>> GetImagesByModelIdAsync(int modelId);
+        Task<List<ImageResponseModel>> GetImagesByVehicleIdAsync(int vehicleId);
+        Task<List<ImageResponseModel>> GetIDImagesByRenterIdAsync(int renterId);
+        Task<List<ImageResponseModel>> GetDriverLicenseImagesByRenterIdAsync(int renterId);
+        Task<ImageResponseModel?> GetImageByIdAsync(int imageId);
+
     }
 
     public class ImageService : IImageService
@@ -174,5 +181,90 @@ namespace EVRenter_Service.Service
                 ImageContentType = image.ContentType
             };
         }
+
+        public async Task<List<ImageResponseModel>> GetImagesByModelIdAsync(int modelId)
+        {
+            var images = await _unitOfWork.Repository<ModelImage>()
+                .AsQueryable()
+                .Where(mi => mi.ModelID == modelId)
+                .Include(mi => mi.Image)
+                .Select(mi => new ImageResponseModel
+                {
+                    ImageID = mi.Image.Id,
+                    ContentType = mi.Image.ContentType,
+                    ImageData = mi.Image.Base64Image
+                })
+                .ToListAsync();
+
+            return images;
+        }
+
+        public async Task<List<ImageResponseModel>> GetImagesByVehicleIdAsync(int vehicleId)
+        {
+            var images = await _unitOfWork.Repository<VehicleImage>()
+                .AsQueryable()
+                .Where(vi => vi.VehicleID == vehicleId)
+                .Include(vi => vi.Image)
+                .Select(vi => new ImageResponseModel
+                {
+                    ImageID = vi.Image.Id,
+                    ContentType = vi.Image.ContentType,
+                    ImageData = vi.Image.Base64Image
+                })
+                .ToListAsync();
+
+            return images;
+        }
+
+        public async Task<List<ImageResponseModel>> GetIDImagesByRenterIdAsync(int renterId)
+        {
+            var images = await _unitOfWork.Repository<IDImage>()
+                .AsQueryable()
+                .Where(i => i.RenterID == renterId)
+                .Include(i => i.Image)
+                .Select(i => new ImageResponseModel
+                {
+                    ImageID = i.Image.Id,
+                    ContentType = i.Image.ContentType,
+                    ImageData = i.Image.Base64Image
+                })
+                .ToListAsync();
+
+            return images;
+        }
+
+        public async Task<List<ImageResponseModel>> GetDriverLicenseImagesByRenterIdAsync(int renterId)
+        {
+            var images = await _unitOfWork.Repository<DriverLicenseImage>()
+                .AsQueryable()
+                .Where(d => d.RenterID == renterId)
+                .Include(d => d.Image)
+                .Select(d => new ImageResponseModel
+                {
+                    ImageID = d.Image.Id,
+                    ContentType = d.Image.ContentType,
+                    ImageData = d.Image.Base64Image
+                })
+                .ToListAsync();
+
+            return images;
+        }
+
+        public async Task<ImageResponseModel?> GetImageByIdAsync(int imageId)
+        {
+            var image = await _unitOfWork.Repository<Image>()
+                .AsQueryable()
+                .FirstOrDefaultAsync(i => i.Id == imageId);
+
+            if (image == null) return null;
+
+            return new ImageResponseModel
+            {
+                ImageID = image.Id,
+                ContentType = image.ContentType,
+                ImageData = image.Base64Image
+            };
+        }
+
     }
 }

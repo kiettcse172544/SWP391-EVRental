@@ -222,6 +222,10 @@ namespace EVRenter_Data
                 );
 
             modelBuilder.Entity<VehicleImage>()
+                .ToTable("VehicleImages");
+
+
+            modelBuilder.Entity<VehicleImage>()
                 .HasKey(vi => new { vi.VehicleID, vi.ImageID });
 
             modelBuilder.Entity<VehicleImage>()
