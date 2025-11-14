@@ -8,6 +8,7 @@ namespace EVRenter_Data.Entities
 {
     public class DriverLicenseImage
     {
+        public int Type { get; set; }
         public int RenterID { get; set; }
         public int ImageID { get; set; }
         public virtual Image Image { get; set; }

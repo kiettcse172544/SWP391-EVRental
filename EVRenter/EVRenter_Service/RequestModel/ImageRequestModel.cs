@@ -12,6 +12,7 @@ namespace EVRenter_Service.RequestModel
 
     public class UploadRPRequestModel
     {
+        public int RenterId { get; set; }
         public string IDNumber {  get; set; }
         public string DriverLicenseNo { get; set; }
 

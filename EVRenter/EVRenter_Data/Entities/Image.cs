@@ -19,6 +19,8 @@ namespace EVRenter_Data.Entities
         public virtual ICollection<VehicleImage> VehicleImages { get; set; }
 
         public virtual ICollection<DriverLicenseImage> DriverLicenseImages { get; set; }
+
+        
     }
 
 }

@@ -23,13 +23,18 @@ namespace EVRenter_Service.Service
         Task<List<ImageResponseModel>> GetIDImagesByRenterIdAsync(int renterId);
         Task<List<ImageResponseModel>> GetDriverLicenseImagesByRenterIdAsync(int renterId);
         Task<ImageResponseModel?> GetImageByIdAsync(int imageId);
-
+        
+        Task<UploadRPResponseModel> CreateRenterProfileAsync(UploadRPRequestModel request);
+        Task<UploadRPResponseModel> GetRenterProfileAsync(int userId);
     }
 
     public class ImageService : IImageService
     {
         private readonly IUnitOfWork _unitOfWork;
-
+        private const string  CONTENT_1 = "Căn cước công dân mặt trước";
+        private const string CONTENT_2 = "Căn cước công dân mặt sau";
+        private const string CONTENT_3 = "Bằng lái xe mặt trước";
+        private const string CONTENT_4 = "Bằng lái xe mặt sau";
         public ImageService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -264,6 +269,175 @@ namespace EVRenter_Service.Service
                 ImageID = image.Id,
                 ContentType = image.ContentType,
                 ImageData = image.Base64Image
+            };
+        }
+
+        public async Task<UploadRPResponseModel> CreateRenterProfileAsync(UploadRPRequestModel request)
+        {
+            var user = await _unitOfWork.Repository<User>()
+                .AsQueryable()
+                .FirstOrDefaultAsync(u => u.Id == request.RenterId && !u.IsDelete);
+
+            if (user == null)
+                throw new KeyNotFoundException("User not found.");
+
+
+            var existProfile = await _unitOfWork.Repository<RenterProfile>()
+                .AsQueryable()
+                .FirstOrDefaultAsync(p => p.UserID == request.RenterId && !p.IsDelete);
+
+            if (existProfile != null)
+                throw new InvalidOperationException("This user already has a renter profile.");
+
+
+            var profile = new RenterProfile
+            {
+                UserID = request.RenterId,
+                IDNumber = request.IDNumber,
+                DriverLicenseNo = request.DriverLicenseNo,
+                Type = 1,
+                IsDelete = false
+            };
+                
+            
+
+            await _unitOfWork.Repository<RenterProfile>().InsertAsync(profile);
+            await _unitOfWork.SaveChangesAsync();
+
+
+
+
+            var idFrontImage = new Image
+            {
+                ContentType = "CCCD mặt trước",
+                Base64Image = request.IDNumberImage1
+            };
+            await _unitOfWork.Repository<Image>().InsertAsync(idFrontImage);
+
+
+            var idBackImage = new Image
+            {
+                ContentType = "CCD mặt sau",
+                Base64Image = request.IDNumberImage2
+            };
+            await _unitOfWork.Repository<Image>().InsertAsync(idBackImage);
+
+            
+            var dlFrontImage = new Image
+            {
+                ContentType = "GPLX mặt trước",
+                Base64Image = request.DriverLicenseImage1
+            };
+            await _unitOfWork.Repository<Image>().InsertAsync(dlFrontImage);
+
+            
+            var dlBackImage = new Image
+            {
+                ContentType = "GPLX mặt sau",
+                Base64Image = request.DriverLicenseImage2
+            };
+            await _unitOfWork.Repository<Image>().InsertAsync(dlBackImage);
+
+            
+            await _unitOfWork.SaveChangesAsync();
+
+
+            
+
+            // CCCD mặt trước
+            await _unitOfWork.Repository<IDImage>().InsertAsync(new IDImage
+            {
+                RenterID = request.RenterId,  
+                ImageID = idFrontImage.Id,
+                Type = 1, 
+            });
+
+            // CCCD mặt sau
+            await _unitOfWork.Repository<IDImage>().InsertAsync(new IDImage
+            {
+                RenterID = request.RenterId,
+                ImageID = idBackImage.Id,
+                Type = 2, 
+            });
+
+
+            
+
+            // GPLX mặt trước
+            await _unitOfWork.Repository<DriverLicenseImage>().InsertAsync(new DriverLicenseImage
+            {
+                RenterID = request.RenterId,
+                ImageID = dlFrontImage.Id,
+                Type = 1, 
+            });
+
+            // GPLX mặt sau
+            await _unitOfWork.Repository<DriverLicenseImage>().InsertAsync(new DriverLicenseImage
+            {
+                RenterID = request.RenterId,
+                ImageID = dlBackImage.Id,
+                Type = 2, 
+            });
+
+            user.IsVerified = 2;
+            await _unitOfWork.Repository<User>().UpdateAsync(user);
+            
+            await _unitOfWork.SaveChangesAsync();
+
+
+
+            return new UploadRPResponseModel
+            {
+                IDNumber = profile.IDNumber,
+                DriverLicenseNo = profile.DriverLicenseNo,
+
+                IDFrontImageId = idFrontImage.Id,
+                IDBackImageId = idBackImage.Id,
+
+                DriverLicenseFrontImageId = dlFrontImage.Id,
+                DriverLicenseBackImageId = dlBackImage.Id
+            };
+        }
+
+        public async Task<UploadRPResponseModel> GetRenterProfileAsync(int userId)
+        {
+            
+            var profile = await _unitOfWork.Repository<RenterProfile>()
+                .AsQueryable()
+                .FirstOrDefaultAsync(p => p.UserID == userId && !p.IsDelete);
+
+            if (profile == null)
+                throw new KeyNotFoundException("Renter profile not found.");
+
+            
+            var idImages = await _unitOfWork.Repository<IDImage>()
+                .AsQueryable()
+                .Where(x => x.RenterID == userId)
+                .ToListAsync();
+
+            var idFront = idImages.FirstOrDefault(x => x.Type == 1); 
+            var idBack = idImages.FirstOrDefault(x => x.Type == 2); 
+
+            
+            var dlImages = await _unitOfWork.Repository<DriverLicenseImage>()
+                .AsQueryable()
+                .Where(x => x.RenterID == userId)
+                .ToListAsync();
+
+            var dlFront = dlImages.FirstOrDefault(x => x.Type == 1);
+            var dlBack = dlImages.FirstOrDefault(x => x.Type == 2);
+
+            
+            return new UploadRPResponseModel
+            {
+                IDNumber = profile.IDNumber,
+                DriverLicenseNo = profile.DriverLicenseNo,
+
+                IDFrontImageId = idFront?.ImageID ?? 0,
+                IDBackImageId = idBack?.ImageID ?? 0,
+
+                DriverLicenseFrontImageId = dlFront?.ImageID ?? 0,
+                DriverLicenseBackImageId = dlBack?.ImageID ?? 0
             };
         }
 

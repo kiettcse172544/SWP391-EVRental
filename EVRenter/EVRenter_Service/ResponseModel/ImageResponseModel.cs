@@ -6,6 +6,19 @@ using System.Threading.Tasks;
 
 namespace EVRenter_Service.ResponseModel
 {
+    public class UploadRPResponseModel
+    {
+        public string IDNumber { get; set; }
+        public string DriverLicenseNo { get; set; }
+
+        public int IDFrontImageId { get; set; }
+        public int IDBackImageId { get; set; }
+
+        public int DriverLicenseFrontImageId { get; set; }
+        public int DriverLicenseBackImageId { get; set; }
+    }
+
+
     public class ImageResponseModel
     {
         public int ImageID { get; set; }
