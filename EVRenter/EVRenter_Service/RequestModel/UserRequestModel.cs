@@ -67,10 +67,10 @@ namespace EVRenter_Service.RequestModel
         [RegularExpression(@"^\+?[0-9]{10,15}$", ErrorMessage = "Phone number must be between 10 and 15 digits and may start with a '+' sign.")]
         public string? Phone { get; set; } = string.Empty;
         public string? Address { get; set; } = string.Empty;
-        public string? IDNumber { get; set; }
-        public string? DriverLicenseNo { get; set; }
+        //public string? IDNumber { get; set; }
+        //public string? DriverLicenseNo { get; set; }
+        public int? Type { get; set; }
         public bool? IsEmailVerified { get; set; } = false;
-        public int? RoleID { get; set; }
     }
 
 }
