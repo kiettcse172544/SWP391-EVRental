@@ -272,27 +272,27 @@ namespace EVRenter_Service.Service
                 hasUpdates = true;
             }
 
-            if (!string.IsNullOrEmpty(request.IDNumber))
-            {
-                existingRenter.IDNumber = request.IDNumber;
-                hasUpdates = true;
-            }
+            //if (!string.IsNullOrEmpty(request.IDNumber))
+            //{
+            //    existingRenter.IDNumber = request.IDNumber;
+            //    hasUpdates = true;
+            //}
 
-            if (!string.IsNullOrEmpty(request.DriverLicenseNo))
+            //if (!string.IsNullOrEmpty(request.DriverLicenseNo))
+            //{
+            //    existingRenter.DriverLicenseNo = request.DriverLicenseNo;
+            //    hasUpdates = true;
+            //}
+
+            if (request.Type.HasValue)
             {
-                existingRenter.DriverLicenseNo = request.DriverLicenseNo;
+                existingRenter.Type = request.Type.Value;
                 hasUpdates = true;
             }
 
             if (request.IsEmailVerified.HasValue)
             {
                 existingUser.IsEmailVerified = request.IsEmailVerified.Value;
-                hasUpdates = true;
-            }
-
-            if (request.RoleID.HasValue)
-            {
-                existingUser.RoleID = (RoleType)request.RoleID.Value;
                 hasUpdates = true;
             }
 
