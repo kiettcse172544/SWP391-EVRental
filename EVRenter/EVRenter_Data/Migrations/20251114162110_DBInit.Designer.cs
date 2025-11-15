@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVRenter_Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251105154626_UpdateBookingUser")]
-    partial class UpdateBookingUser
+    [Migration("20251114162110_DBInit")]
+    partial class DBInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,6 +92,15 @@ namespace EVRenter_Data.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("SignatureToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("SignatureTokenExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("SignedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -156,11 +165,14 @@ namespace EVRenter_Data.Migrations
                     b.Property<int>("ImageID")
                         .HasColumnType("int");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("RenterID", "ImageID");
 
                     b.HasIndex("ImageID");
 
-                    b.ToTable("DriverLicenseImages");
+                    b.ToTable("DriverLicenseImages", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.ExtraFee", b =>
@@ -344,11 +356,14 @@ namespace EVRenter_Data.Migrations
                     b.Property<int>("ImageID")
                         .HasColumnType("int");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("RenterID", "ImageID");
 
                     b.HasIndex("ImageID");
 
-                    b.ToTable("IDImages");
+                    b.ToTable("IDImages", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Image", b =>
@@ -359,9 +374,9 @@ namespace EVRenter_Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Base64Image")
+                    b.Property<byte[]>("Base64Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("ContentType")
                         .IsRequired()
@@ -481,7 +496,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasIndex("ImageID");
 
-                    b.ToTable("ModelImages");
+                    b.ToTable("ModelImages", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Payment", b =>
@@ -587,6 +602,9 @@ namespace EVRenter_Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("Type")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
@@ -691,6 +709,9 @@ namespace EVRenter_Data.Migrations
                     b.Property<bool>("IsEmailVerified")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("IsVerified")
+                        .HasColumnType("int");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -760,6 +781,21 @@ namespace EVRenter_Data.Migrations
                     b.HasIndex("StationID");
 
                     b.ToTable("Vehicles");
+                });
+
+            modelBuilder.Entity("EVRenter_Data.Entities.VehicleImage", b =>
+                {
+                    b.Property<int>("VehicleID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ImageID")
+                        .HasColumnType("int");
+
+                    b.HasKey("VehicleID", "ImageID");
+
+                    b.HasIndex("ImageID");
+
+                    b.ToTable("VehicleImages", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Voucher", b =>
@@ -1070,6 +1106,25 @@ namespace EVRenter_Data.Migrations
                     b.Navigation("Station");
                 });
 
+            modelBuilder.Entity("EVRenter_Data.Entities.VehicleImage", b =>
+                {
+                    b.HasOne("EVRenter_Data.Entities.Image", "Image")
+                        .WithMany("VehicleImages")
+                        .HasForeignKey("ImageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EVRenter_Data.Entities.Vehicle", "Vehicle")
+                        .WithMany("VehicleImages")
+                        .HasForeignKey("VehicleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Image");
+
+                    b.Navigation("Vehicle");
+                });
+
             modelBuilder.Entity("EVRenter_Data.Entities.Booking", b =>
                 {
                     b.Navigation("ExtraFees");
@@ -1091,6 +1146,8 @@ namespace EVRenter_Data.Migrations
                     b.Navigation("IDImages");
 
                     b.Navigation("ModelImages");
+
+                    b.Navigation("VehicleImages");
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.ItemCategory", b =>
@@ -1152,6 +1209,8 @@ namespace EVRenter_Data.Migrations
                     b.Navigation("Bookings");
 
                     b.Navigation("CarItems");
+
+                    b.Navigation("VehicleImages");
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Voucher", b =>

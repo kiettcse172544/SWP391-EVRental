@@ -50,8 +50,11 @@ namespace EVRenter_API.Controllers
             };
 
             var result = await _imageService.UploadVehicleImageAsync(request);
-            return Ok(result);
+
+            
+            return File(result.ImageData, result.ImageContentType);
         }
+
 
 
 
@@ -121,14 +124,13 @@ namespace EVRenter_API.Controllers
         {
             var images = await _imageService.GetImagesByVehicleIdAsync(vehicleId);
 
-            var result = images.Select(i => new
-            {
-                imageId = i.ImageID,
-                contentType = i.ContentType
-            });
+            var firstImage = images.FirstOrDefault();
+            if (firstImage == null)
+                return NotFound("No images found for this vehicle.");
 
-            return Ok(result);
+            return File(firstImage.ImageData, firstImage.ContentType);
         }
+
 
         [HttpGet("id/{renterId}")]
         public async Task<IActionResult> GetIDImages(int renterId)

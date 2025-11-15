@@ -78,9 +78,10 @@ namespace EVRenter_Service.Service
         }
 
 
-        
+
         public async Task<VehicleImageResponse> UploadVehicleImageAsync(UploadVehicleImageRequest request)
         {
+            
             bool vehicleExists = await _unitOfWork.Repository<Vehicle>()
                 .AsQueryable()
                 .AnyAsync(v => v.Id == request.VehicleID && !v.IsDelete);
@@ -88,6 +89,7 @@ namespace EVRenter_Service.Service
             if (!vehicleExists)
                 throw new KeyNotFoundException("Vehicle not found.");
 
+            
             var image = new Image
             {
                 ContentType = request.ContentType,
@@ -97,6 +99,7 @@ namespace EVRenter_Service.Service
             await _unitOfWork.Repository<Image>().AddAsync(image);
             await _unitOfWork.SaveChangesAsync();
 
+            
             var relation = new VehicleImage
             {
                 VehicleID = request.VehicleID,
@@ -106,16 +109,18 @@ namespace EVRenter_Service.Service
             await _unitOfWork.Repository<VehicleImage>().AddAsync(relation);
             await _unitOfWork.SaveChangesAsync();
 
+            
             return new VehicleImageResponse
             {
                 VehicleID = request.VehicleID,
-                ImageID = image.Id,
-                ImageContentType = image.ContentType
+                ImageContentType = image.ContentType,
+                ImageData = image.Base64Image
             };
         }
 
 
-        
+
+
         public async Task<IDImageResponse> UploadIDImageAsync(UploadIDImageRequest request)
         {
             bool renterExists = await _unitOfWork.Repository<RenterProfile>()

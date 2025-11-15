@@ -38,11 +38,12 @@ namespace EVRenter_Service.ResponseModel
     public class VehicleImageResponse
     {
         public int VehicleID { get; set; }
-        public int ImageID { get; set; }
 
         public string ImageContentType { get; set; }
-        
+
+        public byte[] ImageData { get; set; }
     }
+
 
     public class IDImageResponse
     {
