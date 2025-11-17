@@ -23,16 +23,14 @@ namespace EVRenter_Service.Mapping
 
             
             CreateMap<User, RenterResponseModel>()
-<<<<<<< Updated upstream
-                .ForMember(dest => dest.IdCard, otp => otp.MapFrom(src => src.RenterProfile.IDNumber))
-                .ForMember(dest => dest.DriverLicense, otp => otp.MapFrom(src => src.RenterProfile.DriverLicenseNo))
-                .ForMember(dest => dest.BookingCount, otp => otp.MapFrom(src => src.Bookings.Select(x => x.RenterID == src.Id).Count()));
-=======
+
+               
+
                 .ForMember(dest => dest.IdCard,
                     opt => opt.MapFrom(src => src.RenterProfile.IDNumber))
                 .ForMember(dest => dest.DriverLicense,
                     opt => opt.MapFrom(src => src.RenterProfile.DriverLicenseNo))
->>>>>>> Stashed changes
+
 
                 
                 .ForMember(dest => dest.BookingCount,
