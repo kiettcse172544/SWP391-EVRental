@@ -52,47 +52,47 @@ namespace EVRenter_API.Controllers
             var result = await _imageService.UploadVehicleImageAsync(request);
 
             
-            return File(result.ImageData, result.ImageContentType);
-        }
-
-
-
-
-        [HttpPost("upload-id")]
-        public async Task<IActionResult> UploadIDImage([FromForm] IDImageUploadForm form)
-        {
-            using var ms = new MemoryStream();
-            await form.File.CopyToAsync(ms);
-
-            var request = new UploadIDImageRequest
-            {
-                RenterID = form.RenterId,
-                ImageData = ms.ToArray(),
-                ContentType = form.File.ContentType
-            };
-
-            var result = await _imageService.UploadIDImageAsync(request);
             return Ok(result);
         }
 
 
 
-        [HttpPost("upload-driver-license")]
-        public async Task<IActionResult> UploadDriverLicenseImage([FromForm] DriverLicenseImageUploadForm form)
-        {
-            using var ms = new MemoryStream();
-            await form.File.CopyToAsync(ms);
 
-            var request = new UploadDriverLicenseImageRequest
-            {
-                RenterID = form.RenterId,
-                ImageData = ms.ToArray(),
-                ContentType = form.File.ContentType
-            };
+        //[HttpPost("upload-id")]
+        //public async Task<IActionResult> UploadIDImage([FromForm] IDImageUploadForm form)
+        //{
+        //    using var ms = new MemoryStream();
+        //    await form.File.CopyToAsync(ms);
 
-            var result = await _imageService.UploadDriverLicenseImageAsync(request);
-            return Ok(result);
-        }
+        //    var request = new UploadIDImageRequest
+        //    {
+        //        RenterID = form.RenterId,
+        //        ImageData = ms.ToArray(),
+        //        ContentType = form.File.ContentType
+        //    };
+
+        //    var result = await _imageService.UploadIDImageAsync(request);
+        //    return Ok(result);
+        //}
+
+
+
+        //[HttpPost("upload-driver-license")]
+        //public async Task<IActionResult> UploadDriverLicenseImage([FromForm] DriverLicenseImageUploadForm form)
+        //{
+        //    using var ms = new MemoryStream();
+        //    await form.File.CopyToAsync(ms);
+
+        //    var request = new UploadDriverLicenseImageRequest
+        //    {
+        //        RenterID = form.RenterId,
+        //        ImageData = ms.ToArray(),
+        //        ContentType = form.File.ContentType
+        //    };
+
+        //    var result = await _imageService.UploadDriverLicenseImageAsync(request);
+        //    return Ok(result);
+        //}
 
         [HttpGet("file/{imageId}")]
         public async Task<IActionResult> GetImageFile(int imageId)
@@ -122,14 +122,14 @@ namespace EVRenter_API.Controllers
         [HttpGet("vehicle/{vehicleId}")]
         public async Task<IActionResult> GetVehicleImages(int vehicleId)
         {
-            var images = await _imageService.GetImagesByVehicleIdAsync(vehicleId);
+            var base64Images = await _imageService.GetImagesByVehicleIdAsync(vehicleId);
 
-            var firstImage = images.FirstOrDefault();
-            if (firstImage == null)
+            if (!base64Images.Any())
                 return NotFound("No images found for this vehicle.");
 
-            return File(firstImage.ImageData, firstImage.ContentType);
+            return Ok(base64Images);  
         }
+
 
 
         [HttpGet("id/{renterId}")]

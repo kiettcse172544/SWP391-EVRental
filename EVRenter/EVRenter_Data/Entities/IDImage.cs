@@ -8,13 +8,22 @@ namespace EVRenter_Data.Entities
 {
     public class IDImage
     {
-        // 1. Mặt trước 
-        // 2. Mặt sau
-        public int Type { get; set; }
+        public int Type { get; set; }   
 
+        
         public int RenterID { get; set; }
+
         public int ImageID { get; set; }
+
+        public int ProfileID { get; set; }
+
         public virtual Image Image { get; set; }
+
+        
+        public virtual User Renter { get; set; }
+
+        
         public virtual RenterProfile Profile { get; set; }
     }
+
 }

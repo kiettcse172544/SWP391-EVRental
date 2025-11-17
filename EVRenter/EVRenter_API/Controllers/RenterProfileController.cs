@@ -9,40 +9,53 @@ namespace EVRenter_API.Controllers
     [ApiController]
     public class RenterProfileController : ControllerBase
     {
-        private readonly IImageService _profileService;
+        private readonly IRenterProfileService _profileService;
         private readonly ILogger<RenterProfileController> _logger;
 
         public RenterProfileController(
-            IImageService profileService,
+            IRenterProfileService profileService,
             ILogger<RenterProfileController> logger)
         {
             _profileService = profileService;
             _logger = logger;
         }
 
-
+        
         [HttpPost("upload-profile")]
         public async Task<IActionResult> UploadRenterProfile([FromForm] UploadRenterProfileForm form)
         {
-            byte[] idFrontBytes = await FileToBytes(form.IDFront);
-            byte[] idBackBytes = await FileToBytes(form.IDBack);
-            byte[] dlFrontBytes = await FileToBytes(form.DLFront);
-            byte[] dlBackBytes = await FileToBytes(form.DLBack);
-
-            var request = new UploadRPRequestModel
+            try
             {
-                RenterId = form.RenterId,
-                IDNumber = form.IDNumber,
-                DriverLicenseNo = form.DriverLicenseNo,
-                IDNumberImage1 = idFrontBytes,
-                IDNumberImage2 = idBackBytes,
-                DriverLicenseImage1 = dlFrontBytes,
-                DriverLicenseImage2 = dlBackBytes
-            };
+                
+                byte[] idFrontBytes = await FileToBytes(form.IDFront);
+                byte[] idBackBytes = await FileToBytes(form.IDBack);
+                byte[] dlFrontBytes = await FileToBytes(form.DLFront);
+                byte[] dlBackBytes = await FileToBytes(form.DLBack);
 
-            var result = await _profileService.CreateRenterProfileAsync(request);
+                var request = new UploadRPRequestModel
+                {
+                    RenterId = form.RenterId,
+                    IDNumber = form.IDNumber,
+                    DriverLicenseNo = form.DriverLicenseNo,
+                    IDCardFrontImage = idFrontBytes,
+                    IDCardBackImage = idBackBytes,
+                    DriverLicenseFrontImage = dlFrontBytes,
+                    DriverLicenseBackImage = dlBackBytes
+                };
 
-            return Ok(result);
+                var result = await _profileService.CreateOrUpdateProfileAsync(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error uploading renter profile");
+                return StatusCode(500, new
+                {
+                    message = ex.Message,
+                    inner = ex.InnerException?.Message,
+                    stack = ex.StackTrace
+                });
+            }
         }
 
         private async Task<byte[]> FileToBytes(IFormFile file)
@@ -52,22 +65,64 @@ namespace EVRenter_API.Controllers
             return ms.ToArray();
         }
 
+        
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetRenterProfile(int userId)
         {
             try
             {
-                var result = await _profileService.GetRenterProfileAsync(userId);
+                var result = await _profileService.GetProfileByUserIdAsync(userId);
                 return Ok(result);
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex, "Profile not found");
                 return NotFound(new { message = ex.Message });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting renter profile");
+                _logger.LogError(ex, "Error retrieving profile");
+                return StatusCode(500, new { message = "Internal server error" });
+            }
+        }
+
+
+        
+        [HttpPut("approve/{renterId}")]
+        public async Task<IActionResult> ApproveProfile(int renterId)
+        {
+            try
+            {
+                await _profileService.ApproveProfileAsync(renterId);
+
+                return Ok(new
+                {
+                    message = "Profile approved successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error approving profile");
+                return StatusCode(500, new { message = "Internal server error" });
+            }
+        }
+
+
+        
+        [HttpPut("reject/{renterId}")]
+        public async Task<IActionResult> RejectProfile(int renterId)
+        {
+            try
+            {
+                await _profileService.RejectProfileAsync(renterId);
+
+                return Ok(new
+                {
+                    message = "Profile rejected successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error rejecting profile");
                 return StatusCode(500, new { message = "Internal server error" });
             }
         }

@@ -221,6 +221,52 @@ namespace EVRenter_Data
                 new ItemCategory { Id = 4, Name = "Phụ kiện" }
                 );
 
+            modelBuilder.Entity<IDImage>(entity =>
+            {
+                entity.HasKey(e => new { e.ImageID, e.ProfileID, e.Type });
+                entity.HasOne(e => e.Image)
+                      .WithMany(i => i.IDImages)   
+                      .HasForeignKey(e => e.ImageID)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                
+                entity.HasOne(e => e.Renter)
+                      .WithMany(u => u.IDImages)   
+                      .HasForeignKey(e => e.RenterID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+               
+                entity.HasOne(e => e.Profile)
+                      .WithMany(p => p.IDImages)   
+                      .HasForeignKey(e => e.ProfileID)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<DriverLicenseImage>(entity =>
+            {
+                
+                entity.HasKey(e => new { e.ImageID, e.ProfileID, e.Type });
+
+                
+                entity.HasOne(e => e.Image)
+                      .WithMany(i => i.DriverLicenseImages) 
+                      .HasForeignKey(e => e.ImageID)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                
+                entity.HasOne(e => e.Renter)
+                      .WithMany(u => u.DriverLicenseImages)  
+                      .HasForeignKey(e => e.RenterID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                
+                entity.HasOne(e => e.Profile)
+                      .WithMany(p => p.DriverLicenseImages)   
+                      .HasForeignKey(e => e.ProfileID)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+
             modelBuilder.Entity<VehicleImage>()
                 .ToTable("VehicleImages");
 

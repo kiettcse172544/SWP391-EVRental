@@ -13,15 +13,19 @@ namespace EVRenter_Service.RequestModel
     public class UploadRPRequestModel
     {
         public int RenterId { get; set; }
-        public string IDNumber {  get; set; }
+
+        public string IDNumber { get; set; }
         public string DriverLicenseNo { get; set; }
 
-        public byte[] IDNumberImage1 { get; set; }
-        public byte[] IDNumberImage2 { get; set; }
+        
+        public byte[] IDCardFrontImage { get; set; }
+        public byte[] IDCardBackImage { get; set; }
 
-        public byte[] DriverLicenseImage1 { get; set; }
-        public byte[] DriverLicenseImage2 { get;set; }
+        
+        public byte[] DriverLicenseFrontImage { get; set; }
+        public byte[] DriverLicenseBackImage { get; set; }
     }
+
 
 
     public class UploadModelImageRequest

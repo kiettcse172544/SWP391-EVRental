@@ -24,6 +24,8 @@ namespace EVRenter_Service.ResponseModel
         public CustomerResponseModel Customer {  get; set; }
         public CarBookingResponseModel Booking { get; set; }
         public List<CategoryChecklistResponse> Categories { get; set; }
+
+        public List<string> Images { get; set; }
     }
 
     public class VehicleDetailResponseModel
@@ -39,6 +41,9 @@ namespace EVRenter_Service.ResponseModel
         public string StationLocation { get; set; }
         public int Status { get; set; }
         public List<CategoryChecklistResponse> Categories { get; set; }
+
+        public List<string> Images { get; set; }
+
     }
 
     public class VehicleForBookingResponseModel
@@ -55,6 +60,9 @@ namespace EVRenter_Service.ResponseModel
         public string Color { get; set; }
         public int Status { get; set; }
         //public List<CategoryChecklistResponse> Categories { get; set; }
+
+        public List<string> Images { get; set; }
+
     }
 
     public class CategoryChecklistResponse

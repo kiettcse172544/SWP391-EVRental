@@ -24,7 +24,7 @@ namespace EVRenter_Data.Entities
         // Xác thực email
         public bool IsEmailVerified { get; set; } = false;
 
-        public int? IsVerified { get; set; } = 1;
+        public int IsVerified { get; set; } = 1;
 
         // Token gửi qua email để xác thực tài khoản
         public string? EmailVerificationToken { get; set; }
@@ -44,5 +44,8 @@ namespace EVRenter_Data.Entities
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual StaffProfile StaffProfile { get; set; }
         public virtual RenterProfile RenterProfile { get; set; }
+        public virtual ICollection<IDImage> IDImages { get; set; }
+        public virtual ICollection<DriverLicenseImage> DriverLicenseImages { get; set; }
+
     }
 }

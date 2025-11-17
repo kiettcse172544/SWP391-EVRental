@@ -57,11 +57,20 @@ namespace EVRenter_Service.Service
         // Lấy tất cả người thuê
         public async Task<IEnumerable<RenterResponseModel>> GetAllRentersAsync()
         {
-            return await _unitOfWork.Repository<User>().AsQueryable()
-                .Where(u => !u.IsDelete && u.RoleID == RoleType.Renter) // error
-                .ProjectTo<RenterResponseModel>(_mapper.ConfigurationProvider)
+            var renters = await _unitOfWork.Repository<User>().AsQueryable()
+                .Where(u => !u.IsDelete && u.RoleID == RoleType.Renter)
+                .Include(u => u.RenterProfile)
+                    .ThenInclude(p => p.IDImages)
+                        .ThenInclude(i => i.Image)
+                .Include(u => u.RenterProfile)
+                    .ThenInclude(p => p.DriverLicenseImages)
+                        .ThenInclude(i => i.Image)
+                .Include(u => u.Bookings)
                 .ToListAsync();
+
+            return _mapper.Map<IEnumerable<RenterResponseModel>>(renters);
         }
+
 
         // Lấy người dùng theo ID
         public async Task<UserResponseModel?> GetUserByIdAsync(int id)
@@ -78,14 +87,20 @@ namespace EVRenter_Service.Service
         // Lấy người thuê theo ID
         public async Task<RenterResponseModel?> GetRentalByIdAsync(int id)
         {
-            // Get the user with basic information
-            var user = await _unitOfWork.Repository<User>().AsQueryable()
+            var renter = await _unitOfWork.Repository<User>().AsQueryable()
                 .Where(u => !u.IsDelete && u.Id == id && u.RoleID == RoleType.Renter)
-                .ProjectTo<RenterResponseModel>(_mapper.ConfigurationProvider)
+                .Include(u => u.RenterProfile)
+                    .ThenInclude(p => p.IDImages)
+                        .ThenInclude(i => i.Image)
+                .Include(u => u.RenterProfile)
+                    .ThenInclude(p => p.DriverLicenseImages)
+                        .ThenInclude(i => i.Image)
+                .Include(u => u.Bookings)
                 .FirstOrDefaultAsync();
 
-            return user;
+            return _mapper.Map<RenterResponseModel>(renter);
         }
+
 
         // Tạo người dùng mới
         public async Task<UserResponseModel> CreateUserAsync(UserCreateRequest request)

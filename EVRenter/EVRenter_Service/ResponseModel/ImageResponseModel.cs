@@ -8,15 +8,23 @@ namespace EVRenter_Service.ResponseModel
 {
     public class UploadRPResponseModel
     {
+        public int RenterId { get; set; }
+
         public string IDNumber { get; set; }
         public string DriverLicenseNo { get; set; }
 
-        public int IDFrontImageId { get; set; }
-        public int IDBackImageId { get; set; }
+        
+        public byte[] IDCardFrontImage { get; set; }
+        public byte[] IDCardBackImage { get; set; }
 
-        public int DriverLicenseFrontImageId { get; set; }
-        public int DriverLicenseBackImageId { get; set; }
+        public byte[] DriverLicenseFrontImage { get; set; }
+        public byte[] DriverLicenseBackImage { get; set; }
+
+       
+        public int VerificationStatus { get; set; }
+        public string Message { get; set; }
     }
+
 
 
     public class ImageResponseModel
@@ -37,12 +45,9 @@ namespace EVRenter_Service.ResponseModel
 
     public class VehicleImageResponse
     {
-        public int VehicleID { get; set; }
-
-        public string ImageContentType { get; set; }
-
         public byte[] ImageData { get; set; }
     }
+
 
 
     public class IDImageResponse
