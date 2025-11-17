@@ -42,29 +42,38 @@ namespace EVRenter_Service.Service
             return await _unitOfWork.Repository<Vehicle>()
                 .GetQueryable()
                 .Where(x => !x.IsDelete)
+                .Include(v => v.VehicleImages)
+                    .ThenInclude(vi => vi.Image)
                 .ProjectTo<VehicleResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
+
 
         public async Task<IEnumerable<VehicleResponseModel>> GetAllVehicleByStation(int stationID)
         {
             return await _unitOfWork.Repository<Vehicle>()
                 .GetQueryable()
                 .Where(x => !x.IsDelete && x.StationID == stationID)
+                .Include(v => v.VehicleImages)
+                    .ThenInclude(vi => vi.Image)
                 .ProjectTo<VehicleResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
 
+
         public async Task<VehicleResponseModel?> GetVehicleByIdAsync(int id)
         {
-            // Get the user with basic information
-            var vehicle = await _unitOfWork.Repository<Vehicle>().AsQueryable()
+            var vehicle = await _unitOfWork.Repository<Vehicle>()
+                .AsQueryable()
                 .Where(u => u.Id == id && !u.IsDelete)
+                .Include(v => v.VehicleImages)
+                    .ThenInclude(vi => vi.Image)
                 .ProjectTo<VehicleResponseModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
             return vehicle;
         }
+
 
         public async Task<VehicleResponseModel> CreateVehicleAsync(VehicleRequestModel request)
         {

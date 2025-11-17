@@ -31,6 +31,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAmenitiesService, AmenitiesService>();
 builder.Services.AddScoped<IHandoverService, HandoverService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IRenterProfileService, RenterProfileService>();
 
 
 // Email
