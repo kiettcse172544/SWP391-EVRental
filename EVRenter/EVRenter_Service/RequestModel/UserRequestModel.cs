@@ -89,4 +89,13 @@ namespace EVRenter_Service.RequestModel
         public bool? IsEmailVerified { get; set; } = null;
     }
 
+    public class ChangePasswordRequestModel
+    {
+        public int UserId { get; set; }
+
+        public string CurrentPassword { get; set; }
+        public string NewPassword { get; set; }
+        public string ConfirmNewPassword { get; set; }
+    }
+
 }

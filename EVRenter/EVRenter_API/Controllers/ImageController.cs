@@ -160,13 +160,17 @@ namespace EVRenter_API.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{vehicleId}/image/{imageId}")]
-        public async Task<IActionResult> DeleteVehicleImage(int vehicleId, int imageId)
+        [HttpPost("vehicle/delete-by-base64")]
+        public async Task<IActionResult> DeleteByBase64([FromBody] DeleteVehicleImageRequest request)
         {
             try
             {
-                var result = await _imageService.DeleteVehicleImageAsync(vehicleId, imageId);
-                return Ok(new { message = "Vehicle image deleted successfully." });
+                var result = await _imageService.DeleteVehicleImageByBase64Async(
+                    request.VehicleId,
+                    request.Base64Image
+                );
+
+                return Ok(new { message = "Xóa ảnh thành công." });
             }
             catch (KeyNotFoundException ex)
             {
@@ -174,9 +178,10 @@ namespace EVRenter_API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Internal server error.", detail = ex.Message });
+                return BadRequest(new { message = ex.Message });
             }
         }
+
 
     }
 }

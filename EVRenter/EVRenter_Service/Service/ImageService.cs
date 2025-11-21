@@ -24,7 +24,7 @@ namespace EVRenter_Service.Service
         Task<List<ImageResponseModel>> GetDriverLicenseImagesByRenterIdAsync(int renterId);
         Task<ImageResponseModel?> GetImageByIdAsync(int imageId);
 
-        Task<bool> DeleteVehicleImageAsync(int vehicleId, int imageId);
+        Task<bool> DeleteVehicleImageByBase64Async(int vehicleId, string base64Image);
 
 
     }
@@ -270,42 +270,73 @@ namespace EVRenter_Service.Service
             };
         }
 
-        public async Task<bool> DeleteVehicleImageAsync(int vehicleId, int imageId)
+        public async Task<bool> DeleteVehicleImageByBase64Async(int vehicleId, string base64Image)
         {
-            
             var vehicleImageRepo = _unitOfWork.Repository<VehicleImage>();
             var imageRepo = _unitOfWork.Repository<Image>();
 
-            var vehicleImage = await vehicleImageRepo
-                .AsQueryable()
-                .FirstOrDefaultAsync(v => v.VehicleID == vehicleId && v.ImageID == imageId);
-
-            if (vehicleImage == null)
-                throw new KeyNotFoundException("Vehicle image not found.");
-
             
-            vehicleImageRepo.Delete(vehicleImage);
-
-            
-            bool isImageUsedElsewhere =
-                await vehicleImageRepo.AsQueryable().AnyAsync(v => v.ImageID == imageId)
-                || await _unitOfWork.Repository<ModelImage>().AsQueryable().AnyAsync(m => m.ImageID == imageId)
-                || await _unitOfWork.Repository<IDImage>().AsQueryable().AnyAsync(i => i.ImageID == imageId)
-                || await _unitOfWork.Repository<DriverLicenseImage>().AsQueryable().AnyAsync(d => d.ImageID == imageId);
-
-            
-            if (!isImageUsedElsewhere)
+            byte[] incomingBytes;
+            try
             {
-                var image = await imageRepo.GetByIdAsync(imageId);
-                if (image != null)
+                incomingBytes = Convert.FromBase64String(base64Image);
+            }
+            catch
+            {
+                throw new Exception("Ảnh không hợp lệ (base64 decode failed).");
+            }
+
+            
+            var vehicleImages = await vehicleImageRepo
+                .AsQueryable()
+                .Where(v => v.VehicleID == vehicleId)
+                .Include(v => v.Image)
+                .ToListAsync();
+
+            if (!vehicleImages.Any())
+                throw new KeyNotFoundException("Xe này không có ảnh nào.");
+
+            
+            VehicleImage? matchedVehicleImage = null;
+
+            foreach (var vi in vehicleImages)
+            {
+                if (vi.Image.Base64Image.SequenceEqual(incomingBytes))
                 {
-                    imageRepo.Delete(image);
+                    matchedVehicleImage = vi;
+                    break;
+                }
+            }
+
+            if (matchedVehicleImage == null)
+                throw new KeyNotFoundException("Không tìm thấy ảnh cần xóa.");
+
+            int imageId = matchedVehicleImage.ImageID;
+
+            
+            await vehicleImageRepo.DeleteAsync(matchedVehicleImage);
+
+            
+            bool isUsedElsewhere =
+                await vehicleImageRepo.AsQueryable().AnyAsync(v => v.ImageID == imageId) ||
+                await _unitOfWork.Repository<ModelImage>().AsQueryable().AnyAsync(m => m.ImageID == imageId) ||
+                await _unitOfWork.Repository<IDImage>().AsQueryable().AnyAsync(i => i.ImageID == imageId) ||
+                await _unitOfWork.Repository<DriverLicenseImage>().AsQueryable().AnyAsync(d => d.ImageID == imageId);
+
+            
+            if (!isUsedElsewhere)
+            {
+                var img = await imageRepo.GetByIdAsync(imageId);
+                if (img != null)
+                {
+                    await imageRepo.DeleteAsync(img);
                 }
             }
 
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
+
 
 
 
