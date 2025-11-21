@@ -160,5 +160,23 @@ namespace EVRenter_API.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("{vehicleId}/image/{imageId}")]
+        public async Task<IActionResult> DeleteVehicleImage(int vehicleId, int imageId)
+        {
+            try
+            {
+                var result = await _imageService.DeleteVehicleImageAsync(vehicleId, imageId);
+                return Ok(new { message = "Vehicle image deleted successfully." });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error.", detail = ex.Message });
+            }
+        }
+
     }
 }

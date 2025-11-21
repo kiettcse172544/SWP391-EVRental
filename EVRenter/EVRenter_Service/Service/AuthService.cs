@@ -3,30 +3,38 @@ using EVRenter_Data.Entities;
 using EVRenter_Repository.UnitOfWork;
 using EVRenter_Repository.Utils;
 using EVRenter_Service.RequestModel;
+using EVRenter_Service.RequestModel.register;
 using EVRenter_Service.ResponseModel;
+using EVRenter_Service.ResponseModel.register;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace EVRenter_Service.Service
 {
     public interface IAuthService
     {
         Task<LoginResponseModel> LoginAsync(LoginRequestModel request);
+        Task<SignupResponseModel> RegisterAsync(SignupRequestModel request);
+        Task<VerifyEmailResponseModel> VerifyEmailAsync(string token);
+
     }
 
     public class AuthService : IAuthService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
-        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration)
+        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration, IEmailService emailService )
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
+            _emailService = emailService;
         }
 
         public async Task<LoginResponseModel> LoginAsync(LoginRequestModel request)
@@ -88,6 +96,123 @@ namespace EVRenter_Service.Service
                 StationId = isStaff ? user.StationId : null,
                 Verified = user.IsEmailVerified ? "Verified" : "Pending",
                 VerifiedStatus = user.IsVerified
+            };
+        }
+
+    
+
+        public async Task<SignupResponseModel> RegisterAsync(SignupRequestModel request)
+        {
+            var userRepo = _unitOfWork.Repository<User>();
+
+            
+            bool emailExists = await userRepo.AsQueryable()
+                .AnyAsync(u => u.Email == request.Email && !u.IsDelete);
+
+            if (emailExists)
+                throw new Exception("Email đã được đăng ký.");
+
+            
+            bool phoneExists = await userRepo.AsQueryable()
+                .AnyAsync(u => u.Phone == request.Phone && !u.IsDelete);
+
+            if (phoneExists)
+                throw new Exception("Số điện thoại đã được đăng ký.");
+
+            
+            string hashedPassword = PasswordTools.HashPassword(request.Password);
+
+            
+            string token = Guid.NewGuid().ToString();
+
+           
+            var user = new User
+            {
+                FullName = request.FullName,
+                Email = request.Email,
+                Phone = request.Phone,
+                Password = hashedPassword,
+                Address = "",
+
+                StationId = null,
+                RoleID = RoleType.Renter,
+
+                IsActive = false,
+                IsEmailVerified = false,
+                IsDelete = false,
+
+                IsVerified = 1,
+
+                EmailVerificationToken = token,
+                EmailVerificationTokenExpiresAt = DateTime.UtcNow.AddHours(1)
+            };
+
+            await userRepo.AddAsync(user);
+            await _unitOfWork.SaveChangesAsync();
+
+            string verifyUrl = $"https://swp-391-fawn.vercel.app/verify?token={token}";
+            string body = $@"
+        <h2>Chào {user.FullName},</h2>
+        <p>Cảm ơn bạn đã đăng ký tài khoản EVRenter.</p>
+        <p>Vui lòng nhấn vào liên kết dưới đây để xác thực email:</p>
+        <a href='{verifyUrl}'>{verifyUrl}</a>
+        <p>Link hết hạn sau 1 giờ.</p>
+    ";
+
+            await _emailService.SendEmailAsync(user.Email, "Xác thực tài khoản EVRenter", body);
+
+            return new SignupResponseModel
+            {
+                UserId = user.Id,
+                Email = user.Email,
+                IsEmailSent = true,
+                Message = "Đăng ký thành công. Vui lòng kiểm tra email để xác thực."
+            };
+        }
+
+
+
+        public async Task<VerifyEmailResponseModel> VerifyEmailAsync(string token)
+        {
+            var userRepo = _unitOfWork.Repository<User>();
+
+            var user = await userRepo.AsQueryable()
+                .FirstOrDefaultAsync(u =>
+                    u.EmailVerificationToken == token &&
+                    !u.IsDelete);
+
+            if (user == null)
+            {
+                return new VerifyEmailResponseModel
+                {
+                    Success = false,
+                    Message = "Token không hợp lệ."
+                };
+            }
+
+            if (user.EmailVerificationTokenExpiresAt < DateTime.UtcNow)
+            {
+                return new VerifyEmailResponseModel
+                {
+                    Success = false,
+                    Message = "Token đã hết hạn."
+                };
+            }
+
+            
+            user.IsEmailVerified = true;
+            user.IsActive = true;
+
+            user.EmailVerificationToken = null;
+            user.EmailVerificationTokenExpiresAt = null;
+
+            userRepo.Update(user);
+            await _unitOfWork.SaveChangesAsync();
+
+            return new VerifyEmailResponseModel
+            {
+                Success = true,
+                Message = "Xác thực tài khoản thành công."
             };
         }
     }
