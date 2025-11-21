@@ -312,7 +312,7 @@ namespace EVRenter_Service.Service
         {
             var existingUser = await _unitOfWork.Repository<User>()
                 .AsQueryable()
-                .Where(u => u.Id == id && !u.IsDelete && u.IsVerified == 1)
+                .Where(u => u.Id == id && !u.IsDelete && u.IsVerified == 3)
                 .FirstOrDefaultAsync();
             if (existingUser == null) return null;
 
