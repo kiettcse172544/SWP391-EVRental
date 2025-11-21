@@ -66,7 +66,7 @@ namespace EVRenter_API.Controllers
         }
 
         // Tạo người dùng mới
-        [HttpPost]
+        [HttpPost("CreatedStaff")]
         public async Task<IActionResult> CreateUser([FromForm] UserCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -140,14 +140,14 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut("UpdateStaff/{id}")]
-        public async Task<IActionResult> UpdateStaff([FromForm] StaffUpdateRequest request)
+        public async Task<IActionResult> UpdateStaff(int id, [FromForm] StaffUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var updatedUser = await _userService.UpdateStaffAsync(request);
+            var updatedUser = await _userService.UpdateStaffAsync(id, request);
             if (updatedUser == null)
             {
                 return NotFound("User not found.");

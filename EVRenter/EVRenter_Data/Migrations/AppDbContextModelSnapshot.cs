@@ -47,7 +47,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasIndex("ModelID");
 
-                    b.ToTable("Amenities");
+                    b.ToTable("Amenities", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Booking", b =>
@@ -118,7 +118,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasIndex("VoucherID");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.CarItem", b =>
@@ -151,7 +151,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasIndex("VehicleID");
 
-                    b.ToTable("CarItems");
+                    b.ToTable("CarItems", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.DriverLicenseImage", b =>
@@ -213,7 +213,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("ExtraFee");
+                    b.ToTable("ExtraFee", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.FeeType", b =>
@@ -245,7 +245,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasIndex("ExtraFeeID");
 
-                    b.ToTable("FeeType");
+                    b.ToTable("FeeType", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Feedback", b =>
@@ -278,7 +278,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Feedbacks");
+                    b.ToTable("Feedbacks", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.HandoverAndReturn", b =>
@@ -342,7 +342,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasIndex("VehicleID");
 
-                    b.ToTable("HandoverAndReturn");
+                    b.ToTable("HandoverAndReturn", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.IDImage", b =>
@@ -384,7 +384,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.ItemCategory", b =>
@@ -404,7 +404,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ItemCategories");
+                    b.ToTable("ItemCategories", (string)null);
 
                     b.HasData(
                         new
@@ -478,7 +478,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Models");
+                    b.ToTable("Models", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.ModelImage", b =>
@@ -547,7 +547,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Payment");
+                    b.ToTable("Payment", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.RentalPrice", b =>
@@ -577,7 +577,7 @@ namespace EVRenter_Data.Migrations
                     b.HasIndex("ModelID")
                         .IsUnique();
 
-                    b.ToTable("RentalPrices");
+                    b.ToTable("RentalPrices", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.RenterProfile", b =>
@@ -610,7 +610,7 @@ namespace EVRenter_Data.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("RenterProfiles");
+                    b.ToTable("RenterProfiles", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.StaffProfile", b =>
@@ -635,7 +635,7 @@ namespace EVRenter_Data.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("StaffProfiles");
+                    b.ToTable("StaffProfiles", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Station", b =>
@@ -669,7 +669,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stations");
+                    b.ToTable("Stations", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.User", b =>
@@ -730,7 +730,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Vehicle", b =>
@@ -777,7 +777,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasIndex("StationID");
 
-                    b.ToTable("Vehicles");
+                    b.ToTable("Vehicles", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.VehicleImage", b =>
@@ -824,7 +824,7 @@ namespace EVRenter_Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vouchers");
+                    b.ToTable("Vouchers", (string)null);
                 });
 
             modelBuilder.Entity("EVRenter_Data.Entities.Amenities", b =>

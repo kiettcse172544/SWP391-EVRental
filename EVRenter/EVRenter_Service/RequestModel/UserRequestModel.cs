@@ -27,8 +27,7 @@ namespace EVRenter_Service.RequestModel
         [RegularExpression(@"^\+?[0-9]{10,15}$", ErrorMessage = "Phone number must be between 10 and 15 digits and may start with a '+' sign.")]
         public string Phone { get; set; } = string.Empty;
         public string? Address { get; set; } = string.Empty;
-
-        public int? RoleID { get; set; }
+        public int? StationID { get; set; }
         public bool IsActive { get; set; } = true;
     }
 
@@ -38,15 +37,21 @@ namespace EVRenter_Service.RequestModel
         public int UserID { get; set; }
         [Required(ErrorMessage = "Station ID is required.")]
         public int StationID { get; set; }
-        public string? StaffCode { get; set; }
+        //public string? StaffCode { get; set; }
     }
 
     public class StaffUpdateRequest
     {
-        [Required(ErrorMessage = "User ID is required.")]
-        public int UserID { get; set; }
+        [StringLength(50, ErrorMessage = "Username cannot exceed 50 characters.")]
+        public string? FullName { get; set; } = null;
+
+        [EmailAddress(ErrorMessage = "Invalid email format.")]
+        public string? Email { get; set; }
+
+        [RegularExpression(@"^\+?[0-9]{10,15}$", ErrorMessage = "Phone number must be between 10 and 15 digits and may start with a '+' sign.")]
+        public string? Phone { get; set; } = null;
+        public string? Address { get; set; } = null;
         public int? StationID { get; set; }
-        public string? StaffCode { get; set; }
     }
 
     public class RenterProfileRequest

@@ -22,7 +22,7 @@ namespace EVRenter_Service.Service
     {
         Task<IEnumerable<UserResponseModel>> GetAllUsersAsync();
         Task<UserResponseModel?> GetUserByIdAsync(int id);
-        Task<UserResponseModel> CreateUserAsync(UserCreateRequest request);
+        Task<StaffResponseModel> CreateUserAsync(UserCreateRequest request);
         Task<UserResponseModel?> UpdateUserAsync(int id, UserUpdateRequest request);
 
         Task<IEnumerable<RenterResponseModel>> GetAllRentersAsync();
@@ -31,7 +31,7 @@ namespace EVRenter_Service.Service
         Task<RenterResponseModel?> UpdateRenterAsync(int id, RenterUpdateRequest request);
 
         Task<StaffResponseModel> InitializeStaffProfileAsync(StaffProfileRequest request);
-        Task<StaffResponseModel?> UpdateStaffAsync(StaffUpdateRequest request);
+        Task<StaffResponseModel?> UpdateStaffAsync(int id, StaffUpdateRequest request);
 
         Task<bool> DeleteUserAsync(int id);
 
@@ -70,7 +70,7 @@ namespace EVRenter_Service.Service
 
             foreach (var user in users)
             {
-                if(user.RoleID != 3)
+                if (user.RoleID != 3)
                 {
                     user.Renter = null;
                 }
@@ -156,7 +156,7 @@ namespace EVRenter_Service.Service
 
 
         // Tạo người dùng mới
-        public async Task<UserResponseModel> CreateUserAsync(UserCreateRequest request)
+        public async Task<StaffResponseModel> CreateUserAsync(UserCreateRequest request)
         {
             if (!Regex.IsMatch(request.Phone, "^\\+?[0-9]{10,15}$"))
             {
@@ -169,8 +169,18 @@ namespace EVRenter_Service.Service
                 throw new InvalidOperationException("Email already exists.");
             }
 
+            if (request.StationID.HasValue)
+            {
+                var station = await _unitOfWork.Repository<Station>().FindAsync(u => u.Id == request.StationID.Value);
+                if(station == null)
+                {
+                    throw new InvalidOperationException("Station not found.");
+                }
+            }
+
             var user = _mapper.Map<User>(request);
             user.Password = PasswordTools.HashPassword(user.Password);
+            user.RoleID = RoleType.Staff;
 
             await _unitOfWork.Repository<User>().InsertAsync(user);
             await _unitOfWork.SaveChangesAsync();
@@ -178,12 +188,25 @@ namespace EVRenter_Service.Service
             var createdUser = await _unitOfWork.Repository<User>()
                 .AsQueryable()
                 .Where(u => u.Id == user.Id)
-                .ProjectTo<UserResponseModel>(_mapper.ConfigurationProvider)
+                .Include(u => u.StaffProfile)
+                    .ThenInclude(s => s.Station)
+                .ProjectTo<StaffResponseModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
             if (createdUser == null)
             {
                 throw new Exception("Failed to retrieve created user.");
+            }
+
+            if (request.StationID.HasValue)
+            {
+                var stationPro = new StaffProfileRequest
+                {
+                    UserID = createdUser.Id,
+                    StationID = request.StationID.Value
+                };
+
+                createdUser = await InitializeStaffProfileAsync(stationPro);
             }
 
             return createdUser;
@@ -207,6 +230,8 @@ namespace EVRenter_Service.Service
             var createdUser = await _unitOfWork.Repository<User>()
                 .AsQueryable()
                 .Where(u => u.Id == staff.UserID)
+                .Include(u => u.StaffProfile)
+                    .ThenInclude(s => s.Station)
                 .ProjectTo<StaffResponseModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
@@ -393,22 +418,54 @@ namespace EVRenter_Service.Service
         }
 
 
-        public async Task<StaffResponseModel?> UpdateStaffAsync(StaffUpdateRequest request)
+        public async Task<StaffResponseModel?> UpdateStaffAsync(int id, StaffUpdateRequest request)
         {
             var existingUser = await _unitOfWork.Repository<User>()
                 .AsQueryable()
-                .Where(u => u.Id == request.UserID && !u.IsDelete && u.IsVerified == 1)
+                .Where(u => u.Id == id && !u.IsDelete)
                 .FirstOrDefaultAsync();
             if (existingUser == null) return null;
 
             var existingStaff = await _unitOfWork.Repository<StaffProfile>()
                 .AsQueryable()
-                .Where(u => u.UserID == request.UserID && u.IsDelete != 0)
+                .Where(u => u.UserID == id && !u.IsDelete)
                 .FirstOrDefaultAsync();
             if (existingStaff == null) return null;
 
             // Kiểm tra xem có bất kỳ trường nào được cập nhật không
             bool hasUpdates = false;
+
+            if (!string.IsNullOrEmpty(request.Email))
+            {
+                var emailUser = await _unitOfWork.Repository<User>()
+                    .FindAsync(u => u.Email == request.Email && u.Id != id);
+
+                if (emailUser != null)
+                {
+                    throw new InvalidOperationException("Email already exists.");
+                }
+                existingUser.Email = request.Email;
+                hasUpdates = true;
+            }
+
+            // Cập nhật từng trường nếu có giá trị mới
+            if (!string.IsNullOrEmpty(request.FullName))
+            {
+                existingUser.FullName = request.FullName;
+                hasUpdates = true;
+            }
+
+            if (!string.IsNullOrEmpty(request.Phone))
+            {
+                existingUser.Phone = request.Phone;
+                hasUpdates = true;
+            }
+
+            if (!string.IsNullOrEmpty(request.Address))
+            {
+                existingUser.Address = request.Address;
+                hasUpdates = true;
+            }
 
             if (request.StationID.HasValue)
             {
@@ -416,22 +473,10 @@ namespace EVRenter_Service.Service
                 hasUpdates = true;
             }
 
-            if (!string.IsNullOrEmpty(request.StaffCode))
-            {
-                var staffCode = await _unitOfWork.Repository<StaffProfile>()
-                    .FindAsync(u => u.StaffCode == request.StaffCode && u.IsDelete != 0);
-
-                if (staffCode != null)
-                {
-                    throw new InvalidOperationException("Staff Code already exists.");
-                }
-                existingStaff.StaffCode = request.StaffCode;
-                hasUpdates = true;
-            }
-
             if (hasUpdates)
             {
-                await _unitOfWork.Repository<StaffProfile>().Update(existingStaff, request.UserID);
+                await _unitOfWork.Repository<User>().Update(existingUser, id);
+                await _unitOfWork.Repository<StaffProfile>().UpdateAsync(existingStaff);
                 await _unitOfWork.SaveChangesAsync();
             }
 
