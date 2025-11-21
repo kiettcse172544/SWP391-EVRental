@@ -21,6 +21,7 @@ namespace EVRenter_Service.Service
         Task<LoginResponseModel> LoginAsync(LoginRequestModel request);
         Task<SignupResponseModel> RegisterAsync(SignupRequestModel request);
         Task<VerifyEmailResponseModel> VerifyEmailAsync(string token);
+        Task<ChangePasswordResponseModel> ChangePasswordAsync(ChangePasswordRequestModelV2 request);
 
     }
 
@@ -215,5 +216,70 @@ namespace EVRenter_Service.Service
                 Message = "Xác thực tài khoản thành công."
             };
         }
+
+        public async Task<ChangePasswordResponseModel> ChangePasswordAsync(ChangePasswordRequestModelV2 request)
+        {
+            var userRepo = _unitOfWork.Repository<User>();
+
+            
+            var user = await userRepo.AsQueryable()
+                .FirstOrDefaultAsync(u => u.Id == request.UserId && !u.IsDelete);
+
+            if (user == null)
+            {
+                return new ChangePasswordResponseModel
+                {
+                    Success = false,
+                    Message = "Người dùng không tồn tại."
+                };
+            }
+
+            
+            bool isCurrentPasswordValid = PasswordTools.VerifyPassword(request.CurrentPassword, user.Password);
+
+            if (!isCurrentPasswordValid)
+            {
+                return new ChangePasswordResponseModel
+                {
+                    Success = false,
+                    Message = "Mật khẩu hiện tại không chính xác."
+                };
+            }
+
+            
+            if (request.NewPassword != request.ConfirmNewPassword)
+            {
+                return new ChangePasswordResponseModel
+                {
+                    Success = false,
+                    Message = "Xác nhận mật khẩu mới không trùng khớp."
+                };
+            }
+
+            
+            if (PasswordTools.VerifyPassword(request.NewPassword, user.Password))
+            {
+                return new ChangePasswordResponseModel
+                {
+                    Success = false,
+                    Message = "Mật khẩu mới không được trùng với mật khẩu hiện tại."
+                };
+            }
+
+            
+            string hashedNewPassword = PasswordTools.HashPassword(request.NewPassword);
+
+            
+            user.Password = hashedNewPassword;
+            await userRepo.UpdateAsync(user);
+            await _unitOfWork.SaveChangesAsync();
+
+            return new ChangePasswordResponseModel
+            {
+                Success = true,
+                Message = "Đổi mật khẩu thành công."
+            };
+        }
+
     }
 }

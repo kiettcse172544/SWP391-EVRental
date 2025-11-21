@@ -59,5 +59,10 @@ namespace EVRenter_Service.RequestModel
         public string ContentType { get; set; }
     }
 
+    public class DeleteVehicleImageRequest
+    {
+        public int VehicleId { get; set; }
+        public string Base64Image { get; set; }
+    }
 
 }

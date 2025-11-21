@@ -100,4 +100,6 @@ namespace EVRenter_Service.ResponseModel
         public IsStaff? Staff { get; set; }
 
     }
+
+    
 }

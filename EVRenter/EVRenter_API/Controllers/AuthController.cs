@@ -65,5 +65,26 @@ namespace EVRenter_API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestModelV2 request)
+        {
+            if (request == null)
+            {
+                return BadRequest(new { message = "Dữ liệu không hợp lệ." });
+            }
+
+            var result = await _authService.ChangePasswordAsync(request);
+
+            if (!result.Success)
+            {
+                return BadRequest(new { message = result.Message });
+            }
+
+            return Ok(new
+            {
+                message = result.Message
+            });
+        }
     }
 }
