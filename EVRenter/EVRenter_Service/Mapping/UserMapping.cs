@@ -126,7 +126,8 @@ namespace EVRenter_Service.Mapping
                         .Select(i => i.Image.Base64Image)
                         .FirstOrDefault()
                     ));
-            CreateMap<User, StaffResponseModel>();
+            CreateMap<User, StaffResponseModel>()
+                .ForMember(dest => dest.Staff, opt => opt.MapFrom(src => src));
 
 
             CreateMap<UserCreateRequest, User>();

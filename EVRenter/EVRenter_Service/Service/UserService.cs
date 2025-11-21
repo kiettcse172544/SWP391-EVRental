@@ -9,6 +9,7 @@ using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
@@ -480,7 +481,19 @@ namespace EVRenter_Service.Service
                 await _unitOfWork.SaveChangesAsync();
             }
 
-            return _mapper.Map<StaffResponseModel>(existingUser);
+            var updatedUser = await _unitOfWork.Repository<User>().AsQueryable()
+                .Where(u => u.Id == id)
+                .Include(u => u.StaffProfile)
+                    .ThenInclude(s => s.Station)
+                .ProjectTo<StaffResponseModel>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
+
+            if (updatedUser == null)
+            {
+                throw new Exception("Failed to retrieve updated user.");
+            }
+
+            return updatedUser;
 
         }
 
