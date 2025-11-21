@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EVRenter_Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -31,6 +32,23 @@ namespace EVRenter_Service.RequestModel
         public bool IsActive { get; set; } = true;
     }
 
+    public class StaffProfileRequest
+    {
+        [Required(ErrorMessage = "User ID is required.")]
+        public int UserID { get; set; }
+        [Required(ErrorMessage = "Station ID is required.")]
+        public int StationID { get; set; }
+        public string? StaffCode { get; set; }
+    }
+
+    public class StaffUpdateRequest
+    {
+        [Required(ErrorMessage = "User ID is required.")]
+        public int UserID { get; set; }
+        public int? StationID { get; set; }
+        public string? StaffCode { get; set; }
+    }
+
     public class RenterProfileRequest
     {
         [Required(ErrorMessage = "Renter ID is required.")]
@@ -44,33 +62,31 @@ namespace EVRenter_Service.RequestModel
     public class UserUpdateRequest
     {
         [StringLength(50, ErrorMessage = "Username cannot exceed 50 characters.")]
-        public string? FullName { get; set; } = string.Empty;
+        public string? FullName { get; set; } = null;
 
         [EmailAddress(ErrorMessage = "Invalid email format.")]
         public string? Email { get; set; }
 
         [RegularExpression(@"^\+?[0-9]{10,15}$", ErrorMessage = "Phone number must be between 10 and 15 digits and may start with a '+' sign.")]
-        public string? Phone { get; set; } = string.Empty;
-        public string? Address { get; set; } = string.Empty;
-        public bool? IsEmailVerified { get; set; } = false;
-        public int? RoleID { get; set; }
+        public string? Phone { get; set; } = null;
+        public string? Address { get; set; } = null;
     }
 
     public class RenterUpdateRequest
     {
         [StringLength(50, ErrorMessage = "Username cannot exceed 50 characters.")]
-        public string? FullName { get; set; } = string.Empty;
+        public string? FullName { get; set; } = null;
 
         [EmailAddress(ErrorMessage = "Invalid email format.")]
         public string? Email { get; set; }
 
         [RegularExpression(@"^\+?[0-9]{10,15}$", ErrorMessage = "Phone number must be between 10 and 15 digits and may start with a '+' sign.")]
-        public string? Phone { get; set; } = string.Empty;
-        public string? Address { get; set; } = string.Empty;
+        public string? Phone { get; set; } = null;
+        public string? Address { get; set; } = null;
         //public string? IDNumber { get; set; }
         //public string? DriverLicenseNo { get; set; }
-        public int? Type { get; set; }
-        public bool? IsEmailVerified { get; set; } = false;
+        public int? Type { get; set; } = null;
+        public bool? IsEmailVerified { get; set; } = null;
     }
 
 }

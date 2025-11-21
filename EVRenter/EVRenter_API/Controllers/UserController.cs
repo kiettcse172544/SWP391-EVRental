@@ -30,36 +30,18 @@ namespace EVRenter_API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("GetAllRentersForStaff")]
+        [HttpGet("GetAllRenters")]
         public async Task<IActionResult> GetAllRentersForStaff()
         {
             var response = await _userService.GetAllRentersAsync();
             return Ok(response);
         }
 
+
         // Lấy người dùng theo ID
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            //var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-            //if (userIdClaim == null)
-            //{
-            //    return Unauthorized("User ID not found in token claims");
-            //}
-
-            //// Chuyển đổi ID từ claim sang int
-            //if (!int.TryParse(userIdClaim.Value, out int currentUserId))
-            //{
-            //    return BadRequest("Invalid user ID in token");
-            //}
-
-            //bool isManagerOrStaff = User.IsInRole("Manager") || User.IsInRole("Staff");
-
-            //if (!isManagerOrStaff && currentUserId != id)
-            //{
-            //    return Forbid("You can only view your own user information");
-            //}
 
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
@@ -70,8 +52,8 @@ namespace EVRenter_API.Controllers
             return Ok(user);
         }
 
-        // Lấy người dùng theo ID
-        [HttpGet("GetRenterByIdForStaff/{id}")]
+        
+        [HttpGet("GetRenter/{id}")]
         public async Task<IActionResult> GetRenterById(int id)
         {
             var user = await _userService.GetRentalByIdAsync(id);
@@ -85,7 +67,6 @@ namespace EVRenter_API.Controllers
 
         // Tạo người dùng mới
         [HttpPost]
-        //[Authorize(Roles = "Manager")]
         public async Task<IActionResult> CreateUser([FromForm] UserCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -99,7 +80,6 @@ namespace EVRenter_API.Controllers
 
         // Tạo hồ sơ của renter mới
         [HttpPost("CreateRenterProfile")]
-        //[Authorize(Roles = "Manager")]
         public async Task<IActionResult> CreateRenterProfile([FromForm] RenterProfileRequest request)
         {
             if (!ModelState.IsValid)
@@ -111,9 +91,20 @@ namespace EVRenter_API.Controllers
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
         }
 
+        [HttpPost("CreateStaffProfile")]
+        public async Task<IActionResult> CreateStaffProfile([FromForm] StaffProfileRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userService.InitializeStaffProfileAsync(request);
+            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
+        }
+
         // Cập nhật người dùng
         [HttpPut("{id}")]
-        //[Authorize]
         public async Task<IActionResult> UpdateUser(int id, [FromForm] UserUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -132,7 +123,6 @@ namespace EVRenter_API.Controllers
 
         // Cập nhật người thue
         [HttpPut("UpdateRenter/{id}")]
-        //[Authorize]
         public async Task<IActionResult> UpdateRenter(int id, [FromForm] RenterUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -147,6 +137,36 @@ namespace EVRenter_API.Controllers
             }
 
             return Ok(updatedUser);
+        }
+
+        [HttpPut("UpdateStaff/{id}")]
+        public async Task<IActionResult> UpdateStaff([FromForm] StaffUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedUser = await _userService.UpdateStaffAsync(request);
+            if (updatedUser == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok(updatedUser);
+        }
+
+        [HttpPut("RebootRenterType")]
+        public async Task<IActionResult> RebootRenterType()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedUser = await _userService.RebootRenterType();
+
+            return Ok();
         }
 
         // Xóa người dùng

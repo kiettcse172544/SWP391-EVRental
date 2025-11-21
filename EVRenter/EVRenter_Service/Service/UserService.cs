@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -29,15 +30,20 @@ namespace EVRenter_Service.Service
         Task<RenterResponseModel> InitializeRenterProfileAsync(RenterProfileRequest request);
         Task<RenterResponseModel?> UpdateRenterAsync(int id, RenterUpdateRequest request);
 
+        Task<StaffResponseModel> InitializeStaffProfileAsync(StaffProfileRequest request);
+        Task<StaffResponseModel?> UpdateStaffAsync(StaffUpdateRequest request);
+
         Task<bool> DeleteUserAsync(int id);
 
         Task<bool> UpdateVerifiedStatus(int id, int newStatus);
+
+        Task<bool> RebootRenterType();
     }
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        
+
 
         public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -48,10 +54,33 @@ namespace EVRenter_Service.Service
         // Lấy tất cả người dùng
         public async Task<IEnumerable<UserResponseModel>> GetAllUsersAsync()
         {
-            return await _unitOfWork.Repository<User>().AsQueryable()
+            var users = await _unitOfWork.Repository<User>().AsQueryable()
                 .Where(u => !u.IsDelete)
+                .Include(u => u.StaffProfile)
+                    .ThenInclude(s => s.Station)
+                .Include(u => u.RenterProfile)
+                    .ThenInclude(p => p.IDImages)
+                        .ThenInclude(i => i.Image)
+                .Include(u => u.RenterProfile)
+                    .ThenInclude(p => p.DriverLicenseImages)
+                        .ThenInclude(i => i.Image)
+                .Include(u => u.Bookings)
                 .ProjectTo<UserResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+
+            foreach (var user in users)
+            {
+                if(user.RoleID != 3)
+                {
+                    user.Renter = null;
+                }
+                if (user.RoleID != 2)
+                {
+                    user.Staff = null;
+                }
+            }
+
+            return users;
         }
 
         // Lấy tất cả người thuê
@@ -71,6 +100,21 @@ namespace EVRenter_Service.Service
             return _mapper.Map<IEnumerable<RenterResponseModel>>(renters);
         }
 
+        public async Task<bool> RebootRenterType()
+        {
+            var renters = await _unitOfWork.Repository<RenterProfile>().AsQueryable()
+                .Where(u => !u.IsDelete)
+                .ToListAsync();
+
+            foreach (var renter in renters)
+            {
+                renter.Type = 1;
+                await _unitOfWork.Repository<RenterProfile>().UpdateAsync(renter);
+            }
+
+            return true;
+        }
+
 
         // Lấy người dùng theo ID
         public async Task<UserResponseModel?> GetUserByIdAsync(int id)
@@ -80,6 +124,15 @@ namespace EVRenter_Service.Service
                 .Where(u => !u.IsDelete && u.Id == id)
                 .ProjectTo<UserResponseModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
+
+            if (user.RoleID != 3)
+            {
+                user.Renter = null;
+            }
+            if (user.RoleID != 2)
+            {
+                user.Staff = null;
+            }
 
             return user;
         }
@@ -126,6 +179,35 @@ namespace EVRenter_Service.Service
                 .AsQueryable()
                 .Where(u => u.Id == user.Id)
                 .ProjectTo<UserResponseModel>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
+
+            if (createdUser == null)
+            {
+                throw new Exception("Failed to retrieve created user.");
+            }
+
+            return createdUser;
+        }
+
+        public async Task<StaffResponseModel> InitializeStaffProfileAsync(StaffProfileRequest request)
+        {
+            var existingUser = await _unitOfWork.Repository<User>().FindAsync(u => u.Id == request.UserID);
+            if (existingUser == null)
+            {
+                throw new InvalidOperationException("User is not found.");
+            }
+
+            var staff = _mapper.Map<StaffProfile>(request);
+
+            await _unitOfWork.Repository<StaffProfile>().InsertAsync(staff);
+            await _unitOfWork.SaveChangesAsync();
+
+            //gọi lại
+
+            var createdUser = await _unitOfWork.Repository<User>()
+                .AsQueryable()
+                .Where(u => u.Id == staff.UserID)
+                .ProjectTo<StaffResponseModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
             if (createdUser == null)
@@ -216,18 +298,6 @@ namespace EVRenter_Service.Service
                 hasUpdates = true;
             }
 
-            if (request.IsEmailVerified.HasValue)
-            {
-                existingUser.IsEmailVerified = request.IsEmailVerified.Value;
-                hasUpdates = true;
-            }
-
-            if (request.RoleID.HasValue)
-            {
-                existingUser.RoleID = (RoleType)request.RoleID.Value;
-                hasUpdates = true;
-            }
-
             if (hasUpdates)
             {
                 await _unitOfWork.Repository<User>().Update(existingUser, id);
@@ -242,7 +312,7 @@ namespace EVRenter_Service.Service
         {
             var existingUser = await _unitOfWork.Repository<User>()
                 .AsQueryable()
-                .Where(u => u.Id == id && !u.IsDelete)
+                .Where(u => u.Id == id && !u.IsDelete && u.IsVerified == 1)
                 .FirstOrDefaultAsync();
             if (existingUser == null) return null;
 
@@ -323,6 +393,53 @@ namespace EVRenter_Service.Service
         }
 
 
+        public async Task<StaffResponseModel?> UpdateStaffAsync(StaffUpdateRequest request)
+        {
+            var existingUser = await _unitOfWork.Repository<User>()
+                .AsQueryable()
+                .Where(u => u.Id == request.UserID && !u.IsDelete && u.IsVerified == 1)
+                .FirstOrDefaultAsync();
+            if (existingUser == null) return null;
+
+            var existingStaff = await _unitOfWork.Repository<StaffProfile>()
+                .AsQueryable()
+                .Where(u => u.UserID == request.UserID && u.IsDelete != 0)
+                .FirstOrDefaultAsync();
+            if (existingStaff == null) return null;
+
+            // Kiểm tra xem có bất kỳ trường nào được cập nhật không
+            bool hasUpdates = false;
+
+            if (request.StationID.HasValue)
+            {
+                existingStaff.StationID = request.StationID.Value;
+                hasUpdates = true;
+            }
+
+            if (!string.IsNullOrEmpty(request.StaffCode))
+            {
+                var staffCode = await _unitOfWork.Repository<StaffProfile>()
+                    .FindAsync(u => u.StaffCode == request.StaffCode && u.IsDelete != 0);
+
+                if (staffCode != null)
+                {
+                    throw new InvalidOperationException("Staff Code already exists.");
+                }
+                existingStaff.StaffCode = request.StaffCode;
+                hasUpdates = true;
+            }
+
+            if (hasUpdates)
+            {
+                await _unitOfWork.Repository<StaffProfile>().Update(existingStaff, request.UserID);
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            return _mapper.Map<StaffResponseModel>(existingUser);
+
+        }
+
+
         // Xóa người dùng
         public async Task<bool> DeleteUserAsync(int id)
         {
@@ -337,20 +454,20 @@ namespace EVRenter_Service.Service
                 .FirstOrDefaultAsync();
             if (renterProfile == null)
             {
-                renterProfile.IsDelete = true ;
+                renterProfile.IsDelete = true;
             }
             await _unitOfWork.SaveChangesAsync();
 
             return true;
         }
-        
+
         public async Task<bool> UpdateVerifiedStatus(int id, int newStatus)
         {
             var user = await _unitOfWork.Repository<User>()
                             .AsQueryable()
                             .FirstOrDefaultAsync(u => u.Id == id && !u.IsDelete);
 
-            if(user == null)
+            if (user == null)
             {
                 throw new Exception("User not found");
             }
