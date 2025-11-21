@@ -175,7 +175,7 @@ namespace EVRenter_Data
                 .HasForeignKey(ci => ci.VehicleID);
 
             modelBuilder.Entity<StaffProfile>()
-                .HasKey(sp => new { sp.UserID, sp.StationID });
+                .HasKey(sp => sp.Id);
             modelBuilder.Entity<StaffProfile>()
                 .HasOne(sp => sp.User)
                 .WithOne(u => u.StaffProfile)
@@ -291,6 +291,9 @@ namespace EVRenter_Data
                 .HasOne(vi => vi.Image)
                 .WithMany(i => i.VehicleImages)
                 .HasForeignKey(vi => vi.ImageID);
+
+            modelBuilder.Entity<StaffProfile>()
+                .ToTable("StaffProfile");
 
         }
     }

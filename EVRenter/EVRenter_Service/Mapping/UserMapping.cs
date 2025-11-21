@@ -126,9 +126,9 @@ namespace EVRenter_Service.Mapping
                         .Select(i => i.Image.Base64Image)
                         .FirstOrDefault()
                     ));
+            CreateMap<User, StaffResponseModel>();
 
 
-            
             CreateMap<UserCreateRequest, User>();
             CreateMap<UserUpdateRequest, User>();
             CreateMap<RenterProfileRequest, RenterProfile>();
