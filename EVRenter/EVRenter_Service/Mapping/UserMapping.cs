@@ -62,6 +62,8 @@ namespace EVRenter_Service.Mapping
 
 
             CreateMap<User, CustomerResponseModel>()
+                .ForMember(dest => dest.Id,
+                    opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.IdCard,
                     opt => opt.MapFrom(src => src.RenterProfile.IDNumber))
                 .ForMember(dest => dest.DriverLicense,
