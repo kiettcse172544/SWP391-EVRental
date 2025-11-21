@@ -42,8 +42,11 @@ namespace EVRenter_Service.Service
             return await _unitOfWork.Repository<Model>()
                 .GetQueryable()
                 .Where(x => !x.IsDelete)
+                .Include(m => m.ModelImages)
+                    .ThenInclude(mi => mi.Image)
                 .ProjectTo<ModelResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+
         }
 
         public async Task<ModelResponseModel?> GetModelByIdAsync(int id)
@@ -51,8 +54,11 @@ namespace EVRenter_Service.Service
             // Get the user with basic information
             var model = await _unitOfWork.Repository<Model>().AsQueryable()
                 .Where(u => u.Id == id && !u.IsDelete)
+                .Include(m => m.ModelImages)
+                    .ThenInclude(mi => mi.Image)
                 .ProjectTo<ModelResponseModel>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
+
 
             return model;
         }
@@ -62,8 +68,12 @@ namespace EVRenter_Service.Service
             // Get the user with basic information
             var model = await _unitOfWork.Repository<Model>().GetQueryable()
                 .Where(m => m.Vehicles.Any(v => v.StationID == stationId))
+                .Include(m => m.ModelImages)
+                    .ThenInclude(mi => mi.Image)
                 .ProjectTo<ModelResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+
+
 
             return model;
         }
@@ -114,8 +124,11 @@ namespace EVRenter_Service.Service
             var models = await _unitOfWork.Repository<Model>()
                 .GetQueryable()
                 .Where(m => !m.IsDelete)
+                .Include(m => m.ModelImages)
+                    .ThenInclude(mi => mi.Image)
                 .ProjectTo<ModelResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+
 
             // Gán số lượng thực tế vào từng model
             foreach (var model in models)
@@ -146,8 +159,11 @@ namespace EVRenter_Service.Service
             var models = await _unitOfWork.Repository<Model>()
                 .GetQueryable()
                 .Where(m => !m.IsDelete)
+                .Include(m => m.ModelImages)
+                    .ThenInclude(mi => mi.Image)
                 .ProjectTo<ModelResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+
 
             // Gán số lượng thực tế vào từng model
             foreach (var model in models)
