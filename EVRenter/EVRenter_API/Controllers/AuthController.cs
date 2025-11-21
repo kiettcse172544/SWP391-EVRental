@@ -1,4 +1,5 @@
 ﻿using EVRenter_Service.RequestModel;
+using EVRenter_Service.RequestModel.register;
 using EVRenter_Service.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +38,32 @@ namespace EVRenter_API.Controllers
             }
         }
 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] SignupRequestModel request)
+        {
+            try
+            {
+                var result = await _authService.RegisterAsync(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = ex.Message
+                });
+            }
+        }
 
+        [HttpGet("verify")]
+        public async Task<IActionResult> VerifyEmail([FromQuery] string token)
+        {
+            var result = await _authService.VerifyEmailAsync(token);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
     }
 }

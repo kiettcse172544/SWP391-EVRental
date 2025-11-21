@@ -23,9 +23,10 @@ namespace EVRenter_Service.Service
         Task<List<ImageResponseModel>> GetIDImagesByRenterIdAsync(int renterId);
         Task<List<ImageResponseModel>> GetDriverLicenseImagesByRenterIdAsync(int renterId);
         Task<ImageResponseModel?> GetImageByIdAsync(int imageId);
-        
-        
-        
+
+        Task<bool> DeleteVehicleImageAsync(int vehicleId, int imageId);
+
+
     }
 
     public class ImageService : IImageService
@@ -269,9 +270,45 @@ namespace EVRenter_Service.Service
             };
         }
 
-        
+        public async Task<bool> DeleteVehicleImageAsync(int vehicleId, int imageId)
+        {
+            
+            var vehicleImageRepo = _unitOfWork.Repository<VehicleImage>();
+            var imageRepo = _unitOfWork.Repository<Image>();
 
-        
+            var vehicleImage = await vehicleImageRepo
+                .AsQueryable()
+                .FirstOrDefaultAsync(v => v.VehicleID == vehicleId && v.ImageID == imageId);
+
+            if (vehicleImage == null)
+                throw new KeyNotFoundException("Vehicle image not found.");
+
+            
+            vehicleImageRepo.Delete(vehicleImage);
+
+            
+            bool isImageUsedElsewhere =
+                await vehicleImageRepo.AsQueryable().AnyAsync(v => v.ImageID == imageId)
+                || await _unitOfWork.Repository<ModelImage>().AsQueryable().AnyAsync(m => m.ImageID == imageId)
+                || await _unitOfWork.Repository<IDImage>().AsQueryable().AnyAsync(i => i.ImageID == imageId)
+                || await _unitOfWork.Repository<DriverLicenseImage>().AsQueryable().AnyAsync(d => d.ImageID == imageId);
+
+            
+            if (!isImageUsedElsewhere)
+            {
+                var image = await imageRepo.GetByIdAsync(imageId);
+                if (image != null)
+                {
+                    imageRepo.Delete(image);
+                }
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
+
+
+
 
     }
 }
