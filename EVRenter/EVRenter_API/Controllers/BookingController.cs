@@ -138,7 +138,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut("AutoUpdateBookingStatus/{bookingId}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> AutoUpdateBookingStatus(int bookingId)
         {
             if (!ModelState.IsValid)
@@ -147,6 +147,24 @@ namespace EVRenter_API.Controllers
             }
 
             var updatedBooking = await _bookingService.AutoUpdateBookingStatusAsync(bookingId);
+            if (updatedBooking == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok(updatedBooking);
+        }
+
+        [HttpPut("RefuseBookingStatus/{bookingId}")]
+        //[Authorize]
+        public async Task<IActionResult> RefuseBookingStatus(int bookingId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedBooking = await _bookingService.StaffRefusingAsync(bookingId);
             if (updatedBooking == null)
             {
                 return NotFound("User not found.");
