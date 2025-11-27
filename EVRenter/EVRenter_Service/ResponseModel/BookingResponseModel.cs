@@ -27,9 +27,25 @@ namespace EVRenter_Service.ResponseModel
         [Precision(18, 0)]
         public decimal BaseCost { get; set; }
         public decimal? Overdue { get; set; }
+        public OverdueDetail OverdueDetail { get; set; }
+
         [Precision(18, 0)]
         public decimal? FinalCost { get; set; }
         public int Status { get; set; }
+    }
+
+    public class OverdueDetail
+    {
+        public int OverTime { get; set; }
+
+        [Precision(18, 2)]
+        public decimal UnitPrice { get; set; }
+
+        [Precision(18, 2)] 
+        public decimal Rate { get; set; }
+        
+        [Precision(18, 2)]
+        public decimal PricePerDay { get; set; }
     }
 
     public class CarBookingResponseModel
@@ -73,6 +89,7 @@ namespace EVRenter_Service.ResponseModel
         [Precision(18, 0)]
         public decimal BaseCost { get; set; }
         public decimal? Overdue { get; set; }
+        public OverdueDetail OverdueDetail { get; set; }
         [Precision(18, 0)]
         public decimal? FinalCost { get; set; }
         public CustomerResponseModel Customer { get; set; }

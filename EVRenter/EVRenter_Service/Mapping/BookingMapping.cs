@@ -18,8 +18,20 @@ namespace EVRenter_Service.Mapping
                 .ForMember(dest => dest.StationID, opt => opt.MapFrom(src => src.Vehicle.StationID))
                 .ForMember(dest => dest.StationName, opt => opt.MapFrom(src => src.Vehicle.Station.Name))
                 .ForMember(dest => dest.Overdue, opt => opt.MapFrom(src => src.Overdue))
+                //.ForMember(dest => dest.OverdueDetail, opt => opt.MapFrom(src => new OverdueDetail
+                //{
+                //    OverTime = src.OverdueTime,
+                //    UnitPrice = src.UnitPrice,
+                //    Rate = 0.3m,
+                //    PricePerDay = src.UnitPrice * 0.3m
+                //}))
                 ;
-            
+
+            //CreateMap<RentalPrice, OverdueDetail>()
+            //    .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.Price))
+            //    .ForMember(dest => dest.Rate = 0.3m)
+            //    ;
+
             CreateMap<Booking, StaffBookingResponseModel>()
                 .ForMember(dest => dest.Overdue, opt => opt.MapFrom(src => src.Overdue))
 

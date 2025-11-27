@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Azure;
 using EVRenter_CM.Enums;
 using EVRenter_Data.Entities;
 using EVRenter_Repository.UnitOfWork;
@@ -219,7 +220,9 @@ namespace EVRenter_Service.Service
                 .FirstOrDefaultAsync();
 
             if (existingBooking == null) return null;
+            
             bool hasUpdates = false;
+            OverdueDetail tmpDetail = null;
 
             if (request.Status.HasValue)
             {
@@ -242,6 +245,14 @@ namespace EVRenter_Service.Service
                 
                 existingBooking.FinalCost = existingBooking.BaseCost + existingBooking.Overdue;
 
+                tmpDetail = new OverdueDetail
+                {
+                    OverTime = dateSpan,
+                    UnitPrice = price.Price,
+                    Rate = 0.3m,
+                    PricePerDay = price.Price * 1.3m
+                };
+
                 hasUpdates = true;
             }
 
@@ -251,8 +262,15 @@ namespace EVRenter_Service.Service
                 await _unitOfWork.SaveChangesAsync();
             }
 
-            return _mapper.Map<StaffBookingResponseModel>(existingBooking);
+            var response = _mapper.Map<StaffBookingResponseModel>(existingBooking);
 
+            // Tính thêm OverdueDetail để gắn vào response
+            if (request.EndDate.HasValue && tmpDetail != null )
+            {
+                response.OverdueDetail = tmpDetail;
+            }
+
+            return response;
         }
 
         public async Task<StaffBookingResponseModel> AutoUpdateBookingStatusAsync(int bookingId)
