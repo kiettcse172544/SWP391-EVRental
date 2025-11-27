@@ -243,12 +243,12 @@ namespace EVRenter_Service.Service
 
             if (request.EndDate.HasValue)
             {
-                if (request.EndDate.Value < DateTime.UtcNow.AddHours(7)) throw new Exception("EndDate is lower now");
+                if (request.EndDate.Value < DateTime.UtcNow.AddHours(7) || request.EndDate.Value < existingBooking.EndDate) throw new Exception("EndDate is lower now");
                
                 var dateSpan = (int)(request.EndDate.Value - existingBooking.EndDate).TotalDays;
                 existingBooking.EndDate = request.EndDate.Value;
                 var price = await _unitOfWork.Repository<RentalPrice>().AsQueryable().Where(u => u.ModelID == existingBooking.Vehicle.ModelID).FirstOrDefaultAsync();
-                existingBooking.Overdue = price.Price * dateSpan;
+                existingBooking.Overdue += price.Price * dateSpan;
                 existingBooking.FinalCost = existingBooking.BaseCost + existingBooking.Overdue;
 
                 hasUpdates = true;
