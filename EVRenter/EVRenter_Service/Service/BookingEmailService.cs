@@ -4,14 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
+using EVRenter_Service.IService;
 
 namespace EVRenter_Service.Service
 {
-    public interface IBookingEmailService
-    {
-        Task<bool> SendSignatureEmailAsync(int bookingId);
-        Task<bool> ConfirmSignatureAsync(string token);
-    }
+    
 
     public class BookingEmailService : IBookingEmailService
     {

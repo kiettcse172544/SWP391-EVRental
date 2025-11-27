@@ -4,15 +4,11 @@ using EVRenter_Repository.UnitOfWork;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
+using EVRenter_Service.IService;
 
 namespace EVRenter_Service.Service
 {
-    public interface IExtraFeeService
-    {
-        Task<ExtraFeeResponseModel> CreateExtraFeeAsync(ExtraFeeCreateRequest request);
-        Task<IEnumerable<ExtraFeeResponseModel>> GetAllExtraFeesAsync();
-        Task<IEnumerable<ExtraFeeResponseModel>> GetExtraFeesByBookingAsync(int bookingId);
-    }
+    
 
 
     public class ExtraFeeService : IExtraFeeService

@@ -6,16 +6,11 @@ using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using EVRenter_Service.IService;
 
 namespace EVRenter_Service.Service
 {
-    public interface IHandoverService
-    {
-        Task<HandoverResponseModel> CreateHandoverAsync(HandoverCreateRequest request);
-        Task<bool> ConfirmHandoverAsync(int handoverId);
-        Task<IEnumerable<HandoverResponseModel>> GetAllHandoversAsync();
-        Task<HandoverResponseModel?> GetHandoverByIdAsync(int id);
-    }
+    
 
     public class HandoverService : IHandoverService
     {
