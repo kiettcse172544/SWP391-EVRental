@@ -20,13 +20,13 @@ namespace EVRenter_Service.Mapping
             CreateMap<Vehicle, VehicleResponseModel>()
                 .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.Model.ModelName))
                 .ForMember(dest => dest.StationName, opt => opt.MapFrom(src => src.Station.Name))
-                .ForMember(dest => dest.Specifications, opt => opt.MapFrom(src => src.Model))
+                //.ForMember(dest => dest.Specifications, opt => opt.MapFrom(src => src.Model))
 
-                .ForMember(dest => dest.Customer,
-                    opt => opt.MapFrom(src => src.Bookings
-                        .Where(x => x.VehicleID == src.Id && x.Status < 5 && !x.IsDelete)
-                        .Select(x => x.User)
-                        .FirstOrDefault()))
+                //.ForMember(dest => dest.Customer,
+                //    opt => opt.MapFrom(src => src.Bookings
+                //        .Where(x => x.VehicleID == src.Id && x.Status < 5 && !x.IsDelete)
+                //        .Select(x => x.User)
+                //        .FirstOrDefault()))
 
                 .ForMember(dest => dest.Booking,
                     opt => opt.MapFrom(src =>

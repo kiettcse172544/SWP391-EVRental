@@ -28,6 +28,7 @@ namespace EVRenter_Service.Service
         Task<StaffBookingResponseModel?> UpdateBookingStatsusAsync(int id, BookingUpdateRequest request);
         Task<IEnumerable<StaffBookingResponseModel>> GetStaffBookingsByStattion(int stationID);
         Task<StaffBookingResponseModel> AutoUpdateBookingStatusAsync(int bookingId);
+        Task<StaffBookingResponseModel?> StaffRefusingAsync(int bookingId);
         Task<bool> DeleteUnpaidBookingAsync(int id);
     }
     public class BookingService : IBookingService
@@ -327,6 +328,36 @@ namespace EVRenter_Service.Service
                 if (checkBooking != null) existingVehicle.Status = 1;
                 else existingVehicle.Status = 0;
             }
+
+            await _unitOfWork.Repository<Vehicle>().Update(existingVehicle, existingBooking.VehicleID);
+            await _unitOfWork.Repository<Booking>().Update(existingBooking, bookingId);
+            await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<StaffBookingResponseModel>(existingBooking);
+        }
+
+        public async Task<StaffBookingResponseModel?> StaffRefusingAsync(int bookingId)
+        {
+            var existingBooking = await _unitOfWork.Repository<Booking>()
+                .AsQueryable()
+                .Where(s => s.Id == bookingId && !s.IsDelete && s.Status > 0 && s.Status < 4)
+                .FirstOrDefaultAsync();
+            if (existingBooking == null) return null;
+
+            var existingVehicle = await _unitOfWork.Repository<Vehicle>()
+                .AsQueryable()
+                .Where(s => s.Id == existingBooking.VehicleID && !s.IsDelete)
+                .FirstOrDefaultAsync();
+            if (existingVehicle == null || existingVehicle.Status == 0) return null;
+            existingBooking.Status = 6;
+
+            var checkBooking = await _unitOfWork.Repository<Booking>()
+                .AsQueryable()
+                .Where(s => s.VehicleID == existingBooking.VehicleID && !s.IsDelete && s.Status < 5 && s.Status > 0)
+                .FirstOrDefaultAsync();
+
+            if (checkBooking != null) existingVehicle.Status = 1;
+            else existingVehicle.Status = 0;
 
             await _unitOfWork.Repository<Vehicle>().Update(existingVehicle, existingBooking.VehicleID);
             await _unitOfWork.Repository<Booking>().Update(existingBooking, bookingId);

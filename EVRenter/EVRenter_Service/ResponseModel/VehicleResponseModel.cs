@@ -20,8 +20,8 @@ namespace EVRenter_Service.ResponseModel
         public string Location { get; set; }
         public string Color { get; set; }
         public int Status { get; set; }
-        public CarSpecifications Specifications { get; set; }
-        public CustomerResponseModel Customer {  get; set; }
+        //public CarSpecifications Specifications { get; set; }
+        //public CustomerResponseModel Customer {  get; set; }
         public CarBookingResponseModel Booking { get; set; }
         public List<CategoryChecklistResponse> Categories { get; set; }
 
