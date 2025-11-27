@@ -204,7 +204,7 @@ namespace EVRenter_Service.Service
             booking.VehicleID = vehicle.Id;
             booking.RenterID = request.RenterID;
             booking.Status = 0;
-            booking.CreatedAt = DateTime.UtcNow;
+            booking.CreatedAt = DateTime.UtcNow.AddHours(7);
 
             await _unitOfWork.Repository<Booking>().InsertAsync(booking);
             await _unitOfWork.Repository<Vehicle>().UpdateAsync(vehicle);
@@ -228,6 +228,7 @@ namespace EVRenter_Service.Service
         {
             var existingBooking = await _unitOfWork.Repository<Booking>()
                 .AsQueryable()
+                .Include(b => b.Vehicle)
                 .Where(u => u.Id == id && !u.IsDelete)
                 .FirstOrDefaultAsync();
 
@@ -242,7 +243,7 @@ namespace EVRenter_Service.Service
 
             if (request.EndDate.HasValue)
             {
-                if (request.EndDate.Value < DateTime.UtcNow) throw new Exception("EndDate is lower now");
+                if (request.EndDate.Value < DateTime.UtcNow.AddHours(7)) throw new Exception("EndDate is lower now");
                
                 var dateSpan = (int)(request.EndDate.Value - existingBooking.EndDate).TotalDays;
                 existingBooking.EndDate = request.EndDate.Value;
