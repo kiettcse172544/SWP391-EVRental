@@ -18,7 +18,6 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("GetAll")]
-        [Authorize]
         public async Task<IActionResult> GetAllModels()
         {
             var response = await _modelService.GetAllModel();

@@ -19,7 +19,6 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAllStations()
         {
             var response = await _stationService.GetAllStation();
