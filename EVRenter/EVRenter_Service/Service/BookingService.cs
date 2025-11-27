@@ -27,6 +27,7 @@ namespace EVRenter_Service.Service
         Task<BookingResponseModel> CreateBookingAsync(BookingRequestModel request);
         Task<StaffBookingResponseModel?> UpdateBookingStatsusAsync(int id, BookingUpdateRequest request);
         Task<IEnumerable<StaffBookingResponseModel>> GetStaffBookingsByStattion(int stationID);
+        Task<StaffBookingResponseModel> AutoUpdateBookingStatusAsync(int bookingId);
         Task<bool> DeleteUnpaidBookingAsync(int id);
     }
     public class BookingService : IBookingService
@@ -139,7 +140,7 @@ namespace EVRenter_Service.Service
             {
                 vehicle = await _unitOfWork.Repository<Vehicle>().AsQueryable()
                     .Where(u => !u.IsDelete && u.ModelID == request.ModelID && u.StationID == request.StationID
-                        && !u.Bookings.Any( b => 
+                        && !u.Bookings.Any(b =>
                             b.Status < 5 &&
                             b.StartDate < request.EndDate && b.EndDate > request.StartDate
                         ))
@@ -293,6 +294,45 @@ namespace EVRenter_Service.Service
 
             return _mapper.Map<StaffBookingResponseModel>(existingBooking);
 
+        }
+
+        public async Task<StaffBookingResponseModel> AutoUpdateBookingStatusAsync(int bookingId)
+        {
+            var existingBooking = await _unitOfWork.Repository<Booking>()
+                .AsQueryable()
+                .Where(s => s.Id == bookingId && !s.IsDelete && s.Status < 5 && s.Status > 0)
+                .FirstOrDefaultAsync();
+            if (existingBooking == null) return null;
+
+            var existingVehicle = await _unitOfWork.Repository<Vehicle>()
+                .AsQueryable()
+                .Where(s => s.Id == existingBooking.VehicleID && !s.IsDelete && s.Status < 5 && s.Status > 0)
+                .FirstOrDefaultAsync();
+            if (existingVehicle == null || existingVehicle.Status == 0) return null;
+
+            if (existingBooking.Status < 4)
+            {
+                existingBooking.Status++;
+                existingVehicle.Status++;
+            }
+            else if (existingBooking.Status == 4)
+            {
+                existingBooking.Status = 5;
+
+                var checkBooking = await _unitOfWork.Repository<Booking>()
+                .AsQueryable()
+                .Where(s => s.VehicleID == existingBooking.VehicleID && !s.IsDelete && s.Status < 5 && s.Status > 0)
+                .FirstOrDefaultAsync();
+
+                if (checkBooking != null) existingVehicle.Status = 1;
+                else existingVehicle.Status = 0;
+            }
+
+            await _unitOfWork.Repository<Vehicle>().Update(existingVehicle, existingBooking.VehicleID);
+            await _unitOfWork.Repository<Booking>().Update(existingBooking, bookingId);
+            await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<StaffBookingResponseModel>(existingBooking);
         }
 
         public async Task<bool> DeleteUnpaidBookingAsync(int id)
