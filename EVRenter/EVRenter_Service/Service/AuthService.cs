@@ -73,6 +73,8 @@ namespace EVRenter_Service.Service
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Role, ((RoleType)user.RoleID).ToString()),
                     new Claim("phone", user.Phone ?? string.Empty),
+                    new Claim(ClaimTypes.Name, user.FullName),
+                    new Claim("address", user.Address),
                     new Claim("stationId", isStaff && user.StationId.HasValue
                         ? user.StationId.Value.ToString()
                         : string.Empty),
