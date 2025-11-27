@@ -80,6 +80,8 @@ namespace EVRenter_Service.Service
 
             if (payment.PaymentType == PaymentType.VnPay)
             {
+               // booking.Status = 1;
+               // payment.Status = PaymentStatus.Success;
                 string paymentUrl = _vnPayService.CreatePaymentUrl(
                     payment.ReferenceCode,
                     payment.Amount,
@@ -91,6 +93,8 @@ namespace EVRenter_Service.Service
 
                 await _unitOfWork.Repository<Payment>().InsertAsync(payment);
                 await _unitOfWork.SaveChangesAsync();
+
+                
 
                 var response = _mapper.Map<PaymentResponseModel>(payment);
                 response.PaymentUrl = paymentUrl;
@@ -136,7 +140,7 @@ namespace EVRenter_Service.Service
                 if (booking != null)
                 {
                     booking.Status = 1;
-                    await _unitOfWork.Repository<Booking>().Update(booking, booking.Id);
+                    await _unitOfWork.Repository<Booking>().UpdateAsync(booking);
                 }
             }
             else
@@ -144,7 +148,7 @@ namespace EVRenter_Service.Service
                 payment.Status = PaymentStatus.Failed;
             }
 
-            await _unitOfWork.Repository<Payment>().Update(payment, payment.Id);
+            await _unitOfWork.Repository<Payment>().UpdateAsync(payment);
             await _unitOfWork.SaveChangesAsync();
 
             return true;
