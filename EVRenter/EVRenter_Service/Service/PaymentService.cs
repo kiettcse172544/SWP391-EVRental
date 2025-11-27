@@ -80,8 +80,8 @@ namespace EVRenter_Service.Service
 
             if (payment.PaymentType == PaymentType.VnPay)
             {
-               // booking.Status = 1;
-               // payment.Status = PaymentStatus.Success;
+                booking.Status = 1;
+                payment.Status = PaymentStatus.Success;
                 string paymentUrl = _vnPayService.CreatePaymentUrl(
                     payment.ReferenceCode,
                     payment.Amount,
