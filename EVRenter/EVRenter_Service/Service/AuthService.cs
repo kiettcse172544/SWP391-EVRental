@@ -43,7 +43,7 @@ namespace EVRenter_Service.Service
             
             var user = await _unitOfWork.Repository<User>()
                 .AsQueryable()
-                .FirstOrDefaultAsync(u => u.Email == request.Email && !u.IsDelete);
+                .FirstOrDefaultAsync(u => u.Email.Trim() == request.Email.Trim() && !u.IsDelete);
 
             if (user == null)
                 throw new KeyNotFoundException("User not found.");
@@ -57,7 +57,7 @@ namespace EVRenter_Service.Service
                 throw new UnauthorizedAccessException("Account is inactive.");
 
             
-            if (!PasswordTools.VerifyPassword(request.Password, user.Password))
+            if (!PasswordTools.VerifyPassword(request.Password.Trim(), user.Password))
                 throw new UnauthorizedAccessException("Invalid password.");
 
             
@@ -110,20 +110,20 @@ namespace EVRenter_Service.Service
 
             
             bool emailExists = await userRepo.AsQueryable()
-                .AnyAsync(u => u.Email == request.Email && !u.IsDelete);
+                .AnyAsync(u => u.Email.Trim() == request.Email.Trim() && !u.IsDelete);
 
             if (emailExists)
                 throw new Exception("Email đã được đăng ký.");
 
             
             bool phoneExists = await userRepo.AsQueryable()
-                .AnyAsync(u => u.Phone == request.Phone && !u.IsDelete);
+                .AnyAsync(u => u.Phone.Trim() == request.Phone.Trim() && !u.IsDelete);
 
             if (phoneExists)
                 throw new Exception("Số điện thoại đã được đăng ký.");
 
             
-            string hashedPassword = PasswordTools.HashPassword(request.Password);
+            string hashedPassword = PasswordTools.HashPassword(request.Password.Trim());
 
             
             string token = Guid.NewGuid().ToString();
@@ -131,9 +131,9 @@ namespace EVRenter_Service.Service
            
             var user = new User
             {
-                FullName = request.FullName,
-                Email = request.Email,
-                Phone = request.Phone,
+                FullName = request.FullName.Trim(),
+                Email = request.Email.Trim(),
+                Phone = request.Phone.Trim(),
                 Password = hashedPassword,
                 Address = "",
 
