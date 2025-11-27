@@ -1,5 +1,6 @@
 ﻿using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -112,7 +113,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut("{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> UpdateBookingStatus(int id, [FromForm] BookingUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -121,6 +122,24 @@ namespace EVRenter_API.Controllers
             }
 
             var updatedBooking = await _bookingService.UpdateBookingStatsusAsync(id, request);
+            if (updatedBooking == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            return Ok(updatedBooking);
+        }
+
+        [HttpPut("AutoUpdateBookingStatus/{bookingId}")]
+        [Authorize]
+        public async Task<IActionResult> AutoUpdateBookingStatus(int bookingId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedBooking = await _bookingService.AutoUpdateBookingStatusAsync(bookingId);
             if (updatedBooking == null)
             {
                 return NotFound("User not found.");
