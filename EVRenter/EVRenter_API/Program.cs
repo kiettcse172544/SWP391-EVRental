@@ -1,5 +1,6 @@
 ﻿using EVRenter_Data;
 using EVRenter_Repository.UnitOfWork;
+using EVRenter_Repository.Repositories.Auth;
 using EVRenter_Service;
 using EVRenter_Service.IService;
 using EVRenter_Service.Mapping;
@@ -22,6 +23,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Dependency Injection (DI Container)
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStationService, StationService>();
