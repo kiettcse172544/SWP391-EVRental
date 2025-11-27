@@ -293,7 +293,7 @@ namespace EVRenter_Service.Service
 
                 var checkBooking = await _unitOfWork.Repository<Booking>()
                 .AsQueryable()
-                .Where(s => s.VehicleID == existingBooking.VehicleID && !s.IsDelete && s.Status < 5 && s.Status > 0)
+                .Where(s => s.VehicleID == existingBooking.VehicleID && !s.IsDelete && s.Id != existingBooking.Id && s.Status < 5 && s.Status > 0)
                 .FirstOrDefaultAsync();
 
                 if (checkBooking != null) existingVehicle.Status = 1;
