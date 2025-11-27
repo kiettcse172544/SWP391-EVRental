@@ -27,7 +27,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("GetAllBookingsForStaff")]
-        [Authorize]
+        [Authorize(Roles = "Staff")]
         public async Task<IActionResult> GetAllBookingsForStaff()
         {
             var response = await _bookingService.GetAllBookingsForStaff();
