@@ -1,4 +1,5 @@
 ﻿using EVRenter_Data.Entities;
+using EVRenter_Service.IService;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
 using Microsoft.AspNetCore.Authorization;

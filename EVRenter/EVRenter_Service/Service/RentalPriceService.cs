@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using EVRenter_Data.Entities;
 using EVRenter_Repository.UnitOfWork;
+using EVRenter_Service.IService;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +14,6 @@ using System.Threading.Tasks;
 
 namespace EVRenter_Service.Service
 {
-    public interface IRentalPriceService
-    {
-        Task<IEnumerable<RentalPriceResponse>> GetAllRentalPrice();
-        Task<RentalPriceResponse?> GetPriceByIdAsync(int id);
-        Task<RentalPriceResponse?> GetPriceByModelAsync(int modelId);
-        Task<RentalPriceResponse> CreatePriceAsync(PriceRequestModel request);
-        Task<RentalPriceResponse> UpdatePriceByModelAsync(PriceUpdateRequest request);
-        Task<bool> DeletePriceAsync(int id);
-
-    }
     public class RentalPriceService : IRentalPriceService
     {
         private readonly IUnitOfWork _unitOfWork;
