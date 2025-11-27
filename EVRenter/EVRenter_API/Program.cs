@@ -1,5 +1,7 @@
 ﻿using EVRenter_Data;
 using EVRenter_Repository.UnitOfWork;
+using EVRenter_Service;
+using EVRenter_Service.IService;
 using EVRenter_Service.Mapping;
 using EVRenter_Service.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

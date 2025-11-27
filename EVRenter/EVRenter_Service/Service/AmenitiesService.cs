@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using EVRenter_Data.Entities;
 using EVRenter_Repository.UnitOfWork;
+using EVRenter_Service.IService;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
@@ -13,11 +14,7 @@ using System.Threading.Tasks;
 
 namespace EVRenter_Service.Service
 {
-    public interface IAmenitiesService
-    {
-        Task<IEnumerable<AmenitiesResponseModel>> GetAllAmenitiesByModel(int modelID);
-        Task<IEnumerable<AmenitiesResponseModel>> CreateAmenities(AmenitiesRequestModel request);
-    }
+    
     public class AmenitiesService : IAmenitiesService
     {
         private readonly IUnitOfWork _unitOfWork;

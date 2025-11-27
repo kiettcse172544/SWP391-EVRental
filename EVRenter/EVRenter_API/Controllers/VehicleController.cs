@@ -29,9 +29,9 @@ namespace EVRenter_API.Controllers
 
         [HttpGet("GetAllVehiclesByStation/{stationId}")]
         [Authorize]
-        public async Task<IActionResult> GetAllVehiclesByStationID(int stationID)
+        public async Task<IActionResult> GetAllVehiclesByStationID(int stationId)
         {
-            var response = await _vehicleService.GetAllVehicleByStation(stationID);
+            var response = await _vehicleService.GetAllVehicleByStation(stationId);
             return Ok(response);
         }
 
