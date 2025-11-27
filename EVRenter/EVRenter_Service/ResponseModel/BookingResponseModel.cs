@@ -58,12 +58,12 @@ namespace EVRenter_Service.ResponseModel
         public int Status { get; set; }
         public int VehicleID { get; set; }
         public int RenterID { get; set; }
-        public int StationID { get; set; }
-        public string StationName { get; set; }
+        public int? StationID { get; set; }
+        public string? StationName { get; set; }
         public DateTime RequestTime { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int RentalTime { get; set; }
+        public int? RentalTime { get; set; }
         [Precision(18, 0)]
         public decimal Deposit { get; set; }
         [Precision(18, 0)]
