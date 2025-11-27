@@ -26,8 +26,6 @@ namespace EVRenter_Service.RequestModel
     public class BookingUpdateRequest
     {
         public int? Status { get; set; }
-        public int? VehicleID { get; set; }
-        public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
     }

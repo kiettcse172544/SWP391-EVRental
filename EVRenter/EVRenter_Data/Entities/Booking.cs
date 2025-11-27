@@ -19,8 +19,13 @@ namespace EVRenter_Data.Entities
         [Precision(18, 2)]
         public decimal RetalCost { get; set; } // base rate
         public int? VoucherID { get; set; }
+
         [Precision(18, 2)]
         public decimal BaseCost { get; set; }
+
+        [Precision(18, 2)]
+        public decimal Overdue { get; set; }
+
         [Precision(18, 2)]
         public decimal? FinalCost { get; set; }
         public DateTime CreatedAt { get; set; }
