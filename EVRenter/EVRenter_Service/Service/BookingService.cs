@@ -26,6 +26,7 @@ namespace EVRenter_Service.Service
         Task<IEnumerable<BookingResponseModel>> GetBookingByRenter(int renterID);
         Task<BookingResponseModel> CreateBookingAsync(BookingRequestModel request);
         Task<StaffBookingResponseModel?> UpdateBookingStatsusAsync(int id, BookingUpdateRequest request);
+        Task<IEnumerable<StaffBookingResponseModel>> GetStaffBookingsByStattion(int stationID);
         Task<bool> DeleteUnpaidBookingAsync(int id);
     }
     public class BookingService : IBookingService
@@ -52,7 +53,26 @@ namespace EVRenter_Service.Service
         {
             return await _unitOfWork.Repository<Booking>()
                 .GetQueryable()
-                .Where(x => !x.IsDelete)
+                .Where(x => !x.IsDelete && x.Status < 5 && x.Status > 0)
+                //.Include(x => x.Vehicle.VehicleImages).ThenInclude(x => x.Image)
+                //.Include(x => x.Vehicle).ThenInclude(x => x.Station)
+                //.Include(x => x.Vehicle).ThenInclude(x => x.Model)
+                //.Include(x => x.Vehicle).ThenInclude(x => x.CarItems).ThenInclude(x => x.Category)
+                //.Include(x => x.User)
+                .ProjectTo<StaffBookingResponseModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<StaffBookingResponseModel>> GetStaffBookingsByStattion(int stationID)
+        {
+            return await _unitOfWork.Repository<Booking>()
+                .GetQueryable()
+                .Where(x => !x.IsDelete && x.Status < 5 && x.Status > 0 && x.Vehicle.StationID == stationID)
+                //.Include(x => x.Vehicle.VehicleImages).ThenInclude(x => x.Image)
+                //.Include(x => x.Vehicle).ThenInclude(x => x.Station)
+                //.Include(x => x.Vehicle).ThenInclude(x => x.Model)
+                //.Include(x => x.Vehicle).ThenInclude(x => x.CarItems).ThenInclude(x => x.Category)
+                //.Include(x => x.User)
                 .ProjectTo<StaffBookingResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -104,14 +124,31 @@ namespace EVRenter_Service.Service
             if (request == null)
                 throw new ArgumentException("Invalid request data.");
 
+            // Validate time
+            if (request.StartDate >= request.EndDate)
+                throw new Exception("StartDate must be earlier than EndDate.");
+
             var vehicle = await _unitOfWork.Repository<Vehicle>().AsQueryable()
                .Where(u => !u.IsDelete && u.ModelID == request.ModelID && u.StationID == request.StationID && u.Status == 0)
                .FirstOrDefaultAsync();
-            if (vehicle == null)
+            if (vehicle != null)
             {
-                throw new Exception("Car is full");
+                vehicle.Status = 1;
             }
-            vehicle.Status = 1;
+            else
+            {
+                vehicle = await _unitOfWork.Repository<Vehicle>().AsQueryable()
+                    .Where(u => !u.IsDelete && u.ModelID == request.ModelID && u.StationID == request.StationID
+                        && !u.Bookings.Any( b => 
+                            b.Status < 5 &&
+                            b.StartDate < request.EndDate && b.EndDate > request.StartDate
+                        ))
+                    .FirstOrDefaultAsync();
+
+                if (vehicle == null) throw new Exception("Car is full");
+
+            }
+
 
             var user = await _unitOfWork.Repository<User>().AsQueryable()
                .Where(u => !u.IsDelete && u.Id == request.RenterID)
@@ -134,7 +171,8 @@ namespace EVRenter_Service.Service
             if (request.RentalType == 1)
             {
                 if (!request.EndDate.HasValue) throw new Exception("EndDate is require!");
-            } else if (request.RentalType == 2)
+            }
+            else if (request.RentalType == 2)
             {
                 if (request.RentTime.HasValue)
                 {
@@ -144,7 +182,8 @@ namespace EVRenter_Service.Service
                 {
                     throw new Exception("RentTime is require!");
                 }
-            } else if (request.RentalType == 3)
+            }
+            else if (request.RentalType == 3)
             {
                 if (request.RentTime.HasValue)
                 {

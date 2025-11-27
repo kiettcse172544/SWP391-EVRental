@@ -1,5 +1,6 @@
 ﻿using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("{modelId}")]
+        [Authorize]
         public async Task<IActionResult> GetAmenitiesByModel(int modelId)
         {
             var amenities = await _amenitiesService.GetAllAmenitiesByModel(modelId);

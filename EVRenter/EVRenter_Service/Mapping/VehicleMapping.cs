@@ -60,8 +60,23 @@ namespace EVRenter_Service.Mapping
             CreateMap<Vehicle, VehicleForBookingResponseModel>()
                 .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.Model.ModelName))
                 .ForMember(dest => dest.StationName, opt => opt.MapFrom(src => src.Station.Name))
+                .ForMember(dest => dest.Specifications, opt => opt.MapFrom(src => src.Model))
 
-                
+                .ForMember(dest => dest.Categories,
+                    opt => opt.MapFrom(src => src.CarItems
+                        .GroupBy(i => new { i.CategoryID, i.Category.Name })
+                        .Select(g => new CategoryChecklistResponse
+                        {
+                            CategoryName = g.Key.Name,
+                            Items = g.Select(i => new CarItemResponse
+                            {
+                                Id = i.Id,
+                                Name = i.Name,
+                                Status = i.Status
+                            }).ToList()
+                        }).ToList()
+                    ))
+
                 .ForMember(dest => dest.Images,
                     opt => opt.MapFrom(src =>
                         src.VehicleImages.Select(vi =>

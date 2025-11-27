@@ -58,6 +58,17 @@ namespace EVRenter_API.Controllers
             return Ok(vehicle);
         }
 
+        [HttpGet("StaffGetBookingByStation/{stationId}")]
+        public async Task<IActionResult> GetStaffBookingByStation(int stationId)
+        {
+            var booking = await _bookingService.GetStaffBookingsByStattion(stationId);
+            if (booking == null)
+            {
+                return NotFound("Booking not found.");
+            }
+
+            return Ok(booking);
+        }
 
         [HttpGet("GetByCar/{vehicleID}")]
         public async Task<IActionResult> GetBookingByCar(int vehicleID)
