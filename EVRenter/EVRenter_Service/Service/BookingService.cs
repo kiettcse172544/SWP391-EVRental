@@ -70,11 +70,6 @@ namespace EVRenter_Service.Service
             return await _unitOfWork.Repository<Booking>()
                 .GetQueryable()
                 .Where(x => !x.IsDelete && x.Status < 5 && x.Status > 0 && x.Vehicle.StationID == stationID)
-                //.Include(x => x.Vehicle.VehicleImages).ThenInclude(x => x.Image)
-                //.Include(x => x.Vehicle).ThenInclude(x => x.Station)
-                //.Include(x => x.Vehicle).ThenInclude(x => x.Model)
-                //.Include(x => x.Vehicle).ThenInclude(x => x.CarItems).ThenInclude(x => x.Category)
-                //.Include(x => x.User)
                 .ProjectTo<StaffBookingResponseModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }

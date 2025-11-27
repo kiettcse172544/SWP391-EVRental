@@ -24,7 +24,7 @@ namespace EVRenter_Data.Entities
         public decimal BaseCost { get; set; }
 
         [Precision(18, 2)]
-        public decimal Overdue { get; set; }
+        public decimal? Overdue { get; set; }
 
         [Precision(18, 2)]
         public decimal? FinalCost { get; set; }
