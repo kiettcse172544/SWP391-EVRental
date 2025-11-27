@@ -204,7 +204,7 @@ namespace EVRenter_Service.Service
             booking.VehicleID = vehicle.Id;
             booking.RenterID = request.RenterID;
             booking.Status = 0;
-            booking.CreatedAt = DateTime.Now;
+            booking.CreatedAt = DateTime.UtcNow;
 
             await _unitOfWork.Repository<Booking>().InsertAsync(booking);
             await _unitOfWork.Repository<Vehicle>().UpdateAsync(vehicle);
