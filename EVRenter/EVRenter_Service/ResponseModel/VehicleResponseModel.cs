@@ -59,7 +59,8 @@ namespace EVRenter_Service.ResponseModel
         public string Location { get; set; }
         public string Color { get; set; }
         public int Status { get; set; }
-        //public List<CategoryChecklistResponse> Categories { get; set; }
+        public CarSpecifications Specifications { get; set; }
+        public List<CategoryChecklistResponse> Categories { get; set; }
 
         public List<string> Images { get; set; }
 

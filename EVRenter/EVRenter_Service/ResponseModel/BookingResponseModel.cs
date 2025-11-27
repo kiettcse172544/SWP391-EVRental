@@ -63,6 +63,7 @@ namespace EVRenter_Service.ResponseModel
         public DateTime RequestTime { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public int RentalTime { get; set; }
         [Precision(18, 0)]
         public decimal Deposit { get; set; }
         [Precision(18, 0)]
@@ -72,7 +73,6 @@ namespace EVRenter_Service.ResponseModel
         public decimal BaseCost { get; set; }
         [Precision(18, 0)]
         public decimal? FinalCost { get; set; }
-        public ModelResponseModel Model { get; set; }
         public CustomerResponseModel Customer { get; set; }
         public VehicleForBookingResponseModel Vehicle {  get; set; }
 
