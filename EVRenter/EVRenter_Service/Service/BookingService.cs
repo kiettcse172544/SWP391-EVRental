@@ -245,45 +245,16 @@ namespace EVRenter_Service.Service
                 hasUpdates = true;
             }
 
-            if (request.VehicleID.HasValue)
-            {
-                var existingVehicle = await _unitOfWork.Repository<Vehicle>()
-                .AsQueryable()
-                .Where(u => u.Id == request.VehicleID && !u.IsDelete && u.Status == 0)
-                .FirstOrDefaultAsync();
-                if (existingVehicle == null) return null;
-
-                existingBooking.VehicleID = request.VehicleID.Value;
-                hasUpdates = true;
-            }
-
-            if (request.StartDate.HasValue)
-            {
-                if (request.EndDate.HasValue)
-                {
-                    if (request.EndDate.Value < request.StartDate.Value) throw new Exception("EndDate is lower StartDate");
-
-                    existingBooking.StartDate = request.StartDate.Value;
-                    existingBooking.EndDate = request.EndDate.Value;
-                }
-                else
-                {
-                    if (existingBooking.EndDate < request.StartDate.Value) throw new Exception("EndDate is lower StartDate");
-                    existingBooking.StartDate = request.StartDate.Value;
-                }
-                hasUpdates = true;
-            }
-
             if (request.EndDate.HasValue)
             {
-                if (request.EndDate.Value < existingBooking.StartDate) throw new Exception("EndDate is lower StartDate");
+                if (request.EndDate.Value < DateTime.UtcNow) throw new Exception("EndDate is lower now");
+               
+                var dateSpan = (int)(request.EndDate.Value - existingBooking.EndDate).TotalDays;
                 existingBooking.EndDate = request.EndDate.Value;
-                hasUpdates = true;
-            }
+                var price = await _unitOfWork.Repository<RentalPrice>().AsQueryable().Where(u => u.ModelID == existingBooking.Vehicle.ModelID).FirstOrDefaultAsync();
+                existingBooking.Overdue = price.Price * dateSpan;
+                existingBooking.FinalCost = existingBooking.BaseCost + existingBooking.Overdue;
 
-            if (request.StartDate.HasValue)
-            {
-                existingBooking.Status = request.Status.Value;
                 hasUpdates = true;
             }
 
