@@ -74,14 +74,16 @@ namespace EVRenter_Service.Service
                     new Claim(ClaimTypes.Role, ((RoleType)user.RoleID).ToString()),
                     new Claim("phone", user.Phone ?? string.Empty),
                     new Claim("stationId", isStaff && user.StationId.HasValue
-            ? user.StationId.Value.ToString()
-            : string.Empty),
+                        ? user.StationId.Value.ToString()
+                        : string.Empty),
                     new Claim("verifiedStatus", user.IsVerified.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(6),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
+                    SecurityAlgorithms.HmacSha256Signature),
+                Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"]
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

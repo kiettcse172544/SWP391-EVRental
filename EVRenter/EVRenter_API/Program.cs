@@ -75,6 +75,23 @@ builder.Services.AddAuthentication(options =>
 {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
+
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var authHeader = context.Request.Headers["Authorization"].ToString();
+
+            
+            if (!string.IsNullOrEmpty(authHeader) && !authHeader.StartsWith("Bearer "))
+            {
+                context.Token = authHeader;  
+            }
+
+            return Task.CompletedTask;
+        }
+    };
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -86,6 +103,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
+
 
 builder.Services.AddAuthorization();
 
@@ -160,7 +178,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseDeveloperExceptionPage();
+
 
 
 app.Run();
