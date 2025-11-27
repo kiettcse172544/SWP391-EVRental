@@ -1,6 +1,7 @@
 ﻿using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using EVRenter_Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EVRenter_API.Controllers
@@ -22,6 +23,7 @@ namespace EVRenter_API.Controllers
 
         
         [HttpPost("upload-profile")]
+        [Authorize]
         public async Task<IActionResult> UploadRenterProfile([FromForm] UploadRenterProfileForm form)
         {
             try
@@ -67,6 +69,7 @@ namespace EVRenter_API.Controllers
 
         
         [HttpGet("{userId}")]
+        [Authorize]
         public async Task<IActionResult> GetRenterProfile(int userId)
         {
             try
@@ -88,6 +91,7 @@ namespace EVRenter_API.Controllers
 
         
         [HttpPut("approve/{renterId}")]
+        [Authorize]
         public async Task<IActionResult> ApproveProfile(int renterId)
         {
             try
@@ -109,6 +113,7 @@ namespace EVRenter_API.Controllers
 
         
         [HttpPut("reject/{renterId}")]
+        [Authorize]
         public async Task<IActionResult> RejectProfile(int renterId)
         {
             try

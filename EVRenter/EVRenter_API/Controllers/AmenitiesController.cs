@@ -26,6 +26,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateAmenities([FromBody] AmenitiesRequestModel request)
         {
             if (!ModelState.IsValid)

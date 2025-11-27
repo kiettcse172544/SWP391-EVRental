@@ -1,5 +1,6 @@
 ﻿using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("GetAll")]
+        [Authorize]
         public async Task<IActionResult> GetAllModels()
         {
             var response = await _modelService.GetAllModel();
@@ -24,6 +26,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("SyncQuantity")]
+        [Authorize]
         public async Task<IActionResult> SyncQuantity()
         {
             await _modelService.RebootModelQuantitiesAsync();
@@ -31,6 +34,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetModelById(int id)
         {
 
@@ -45,6 +49,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("GetByStationId/{stationId}")]
+        [Authorize]
         public async Task<IActionResult> GetModelsByStation(int stationId)
         {
 
@@ -60,6 +65,7 @@ namespace EVRenter_API.Controllers
 
 
         [HttpGet("GetAvailableQuantityOfAll")]
+        [Authorize]
         public async Task<IActionResult> GetAvailableQuantityOfAll()
         {
             var response = await _modelService.GetAllModelQuantityAsync();
@@ -67,6 +73,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("GetAvailableQuantityByStationId/{stationId}")]
+        [Authorize]
         public async Task<IActionResult> GetAvailableQuantityByStationId(int stationId)
         {
 
@@ -81,7 +88,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Manager")]
+        [Authorize]
         public async Task<IActionResult> CreateModel([FromForm] ModelRequestModel request)
         {
             if (!ModelState.IsValid)
@@ -94,7 +101,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut("{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> UpdateModel(int id, [FromForm] ModelUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -112,6 +119,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteModel(int id)
         {
             var result = await _modelService.DeleteModelAsync(id);

@@ -18,6 +18,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllBookings()
         {
             var response = await _bookingService.GetAllBooking();
@@ -25,6 +26,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("GetAllBookingsForStaff")]
+        [Authorize]
         public async Task<IActionResult> GetAllBookingsForStaff()
         {
             var response = await _bookingService.GetAllBookingsForStaff();
@@ -32,6 +34,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetBookingById(int id)
         {
 
@@ -46,6 +49,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("GetBookingByIdForStaff/{id}")]
+        [Authorize]
         public async Task<IActionResult> GetBookingByIdForStaff(int id)
         {
 
@@ -60,6 +64,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("StaffGetBookingByStation/{stationId}")]
+        [Authorize]
         public async Task<IActionResult> GetStaffBookingByStation(int stationId)
         {
             var booking = await _bookingService.GetStaffBookingsByStattion(stationId);
@@ -72,6 +77,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("GetByCar/{vehicleID}")]
+        [Authorize]
         public async Task<IActionResult> GetBookingByCar(int vehicleID)
         {
 
@@ -86,6 +92,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("GetBookingsByRenter/{renterID}")]
+        [Authorize]
         public async Task<IActionResult> GetBookingsByRenter(int renterID)
         {
             var response = await _bookingService.GetBookingByRenter(renterID);
@@ -94,7 +101,7 @@ namespace EVRenter_API.Controllers
 
 
         [HttpPost]
-        //[Authorize(Roles = "Manager")]
+        [Authorize]
         public async Task<IActionResult> CreateBooking([FromForm] BookingRequestModel request)
         { try
             {
