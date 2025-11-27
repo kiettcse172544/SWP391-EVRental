@@ -26,6 +26,7 @@ namespace EVRenter_Service.ResponseModel
         public int? VoucherID { get; set; }
         [Precision(18, 0)]
         public decimal BaseCost { get; set; }
+        public decimal? Overdue { get; set; }
         [Precision(18, 0)]
         public decimal? FinalCost { get; set; }
         public int Status { get; set; }
