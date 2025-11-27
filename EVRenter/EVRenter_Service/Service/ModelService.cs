@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using Azure.Core;
 using EVRenter_Data.Entities;
 using EVRenter_Repository.UnitOfWork;
+using EVRenter_Service.IService;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
@@ -14,18 +15,6 @@ using System.Threading.Tasks;
 
 namespace EVRenter_Service.Service
 {
-    public interface IModelService
-    {
-        Task<IEnumerable<ModelResponseModel>> GetAllModel();
-        Task<ModelResponseModel?> GetModelByIdAsync(int id);
-        Task<IEnumerable<ModelResponseModel>> GetModelByStationAsync(int stationId);
-        Task<IEnumerable<ModelResponseModel>> GetModelQuantityByStationIdAsync(int stationID);
-        Task<IEnumerable<ModelResponseModel>> GetAllModelQuantityAsync();
-        Task<ModelResponseModel> CreateModelAsync(ModelRequestModel request);
-        Task<ModelResponseModel?> UpdateModelAsync(int id, ModelUpdateRequest request);
-        Task<bool> DeleteModelAsync(int id);
-        Task RebootModelQuantitiesAsync();
-    }
     public class ModelService : IModelService
     {
         private readonly IUnitOfWork _unitOfWork;

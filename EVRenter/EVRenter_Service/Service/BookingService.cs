@@ -4,6 +4,7 @@ using AutoMapper.QueryableExtensions;
 using EVRenter_CM.Enums;
 using EVRenter_Data.Entities;
 using EVRenter_Repository.UnitOfWork;
+using EVRenter_Service.IService;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
@@ -16,21 +17,6 @@ using System.Threading.Tasks;
 
 namespace EVRenter_Service.Service
 {
-    public interface IBookingService
-    {
-        Task<IEnumerable<BookingResponseModel>> GetAllBooking();
-        Task<BookingResponseModel?> GetBookingByIdAsync(int id);
-        Task<BookingResponseModel?> GetBookingByVehicleAsync(int vehicleId);
-        Task<StaffBookingResponseModel?> GetBookingByIdForStaffAsync(int id);
-        Task<IEnumerable<StaffBookingResponseModel>> GetAllBookingsForStaff();
-        Task<IEnumerable<BookingResponseModel>> GetBookingByRenter(int renterID);
-        Task<BookingResponseModel> CreateBookingAsync(BookingRequestModel request);
-        Task<StaffBookingResponseModel?> UpdateBookingStatsusAsync(int id, BookingUpdateRequest request);
-        Task<IEnumerable<StaffBookingResponseModel>> GetStaffBookingsByStattion(int stationID);
-        Task<StaffBookingResponseModel> AutoUpdateBookingStatusAsync(int bookingId);
-        Task<StaffBookingResponseModel?> StaffRefusingAsync(int bookingId);
-        Task<bool> DeleteUnpaidBookingAsync(int id);
-    }
     public class BookingService : IBookingService
     {
         private readonly IUnitOfWork _unitOfWork;

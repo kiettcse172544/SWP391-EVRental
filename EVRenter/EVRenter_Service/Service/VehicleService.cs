@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using Azure.Core;
 using EVRenter_Data.Entities;
 using EVRenter_Repository.UnitOfWork;
+using EVRenter_Service.IService;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
@@ -14,18 +15,6 @@ using System.Threading.Tasks;
 
 namespace EVRenter_Service.Service
 {
-    public interface IVehicleService
-    {
-        Task<IEnumerable<VehicleResponseModel>> GetAllVehicle();
-        Task<VehicleResponseModel?> GetVehicleByIdAsync(int id);
-        Task<IEnumerable<VehicleResponseModel>> GetAllVehicleByStation(int stationID);
-        Task<VehicleResponseModel> CreateVehicleAsync(VehicleRequestModel request);
-        Task<VehicleResponseModel?> UpdateVehicleAsync(int id, VehicleUpdateRequest request);
-        Task<VehicleResponseModel?> UpdateVehicleStatusAsync(int vehicleId);
-        Task<bool> UpdateCarItemsByVehicleAsync(UpdateCarItemsRequest request);
-        Task<bool> DeleteVehicleAsync(int id);
-        Task<VehicleResponseModel?> StaffRefusingAsync(int vehicleId);
-    }
     public class VehicleService : IVehicleService
     {
         private readonly IUnitOfWork _unitOfWork;

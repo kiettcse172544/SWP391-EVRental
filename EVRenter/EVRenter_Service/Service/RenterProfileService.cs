@@ -4,16 +4,10 @@ using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using EVRenter_CM.Enums;
+using EVRenter_Service.IService;
 
 namespace EVRenter_Service.Service
 {
-    public interface IRenterProfileService
-    { 
-        Task<UploadRPResponseModel> CreateOrUpdateProfileAsync(UploadRPRequestModel request);   
-        Task<bool> ApproveProfileAsync(int profileId);      
-        Task<bool> RejectProfileAsync(int profileId);
-        Task<UploadRPResponseModel> GetProfileByUserIdAsync(int userId);
-    }
     public class RenterProfileService : IRenterProfileService
     {
         private readonly IUnitOfWork _unitOfWork;

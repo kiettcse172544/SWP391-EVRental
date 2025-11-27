@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using EVRenter_Data.Entities;
 using EVRenter_Repository.UnitOfWork;
+using EVRenter_Service.IService;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +14,6 @@ using System.Threading.Tasks;
 
 namespace EVRenter_Service.Service
 {
-    public interface IStationService
-    {
-        Task<IEnumerable<StationResponseModel>> GetAllStation();
-        Task<StationResponseModel?> GetStationByIdAsync(int id);
-        Task<StationResponseModel> CreateStationAsync(StationRequestModel request);
-        Task<StationResponseModel?> UpdateStationAsync(int id, StationUpdateRequest request);
-        Task RebootStationQuantitiesAsync();
-        Task<bool> DeleteStationAsync(int id);
-    }
     public class StationService : IStationService
     {
         private readonly IUnitOfWork _unitOfWork;
