@@ -17,6 +17,7 @@ namespace EVRenter_API.Controllers
             _bookingService = bookingService;
         }
 
+        
         [HttpGet]
         public async Task<IActionResult> GetAllBookings()
         {
