@@ -1,6 +1,7 @@
 ﻿using EVRenter_API.FormModels;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EVRenter_API.Controllers
@@ -18,6 +19,7 @@ namespace EVRenter_API.Controllers
 
 
         [HttpPost("upload-model")]
+        [Authorize]
         public async Task<IActionResult> UploadModelImage([FromForm] ModelImageUploadForm form)
         {
             using var ms = new MemoryStream();
@@ -37,6 +39,7 @@ namespace EVRenter_API.Controllers
 
 
         [HttpPost("upload-vehicle")]
+        [Authorize]
         public async Task<IActionResult> UploadVehicleImage([FromForm] VehicleImageUploadForm form)
         {
             using var ms = new MemoryStream();
@@ -95,6 +98,7 @@ namespace EVRenter_API.Controllers
         //}
 
         [HttpGet("file/{imageId}")]
+        [Authorize]
         public async Task<IActionResult> GetImageFile(int imageId)
         {
             var image = await _imageService.GetImageByIdAsync(imageId);
@@ -105,6 +109,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("model/{modelId}")]
+        [Authorize]
         public async Task<IActionResult> GetModelImages(int modelId)
         {
             var images = await _imageService.GetImagesByModelIdAsync(modelId);
@@ -120,6 +125,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("vehicle/{vehicleId}")]
+        [Authorize]
         public async Task<IActionResult> GetVehicleImages(int vehicleId)
         {
             var base64Images = await _imageService.GetImagesByVehicleIdAsync(vehicleId);
@@ -133,6 +139,7 @@ namespace EVRenter_API.Controllers
 
 
         [HttpGet("id/{renterId}")]
+        [Authorize]
         public async Task<IActionResult> GetIDImages(int renterId)
         {
             var images = await _imageService.GetIDImagesByRenterIdAsync(renterId);
@@ -147,6 +154,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("driver-license/{renterId}")]
+        [Authorize]
         public async Task<IActionResult> GetDriverLicenseImages(int renterId)
         {
             var images = await _imageService.GetDriverLicenseImagesByRenterIdAsync(renterId);
@@ -161,6 +169,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPost("vehicle/delete-by-base64")]
+        [Authorize]
         public async Task<IActionResult> DeleteByBase64([FromBody] DeleteVehicleImageRequest request)
         {
             try

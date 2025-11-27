@@ -19,6 +19,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllStations()
         {
             var response = await _stationService.GetAllStation();
@@ -26,6 +27,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("RebootVehicleQuantitiesByStation")]
+        [Authorize]
         public async Task<IActionResult> RebootQuantities()
         {
             await _stationService.RebootStationQuantitiesAsync();
@@ -33,6 +35,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetStationById(int id)
         {
 
@@ -47,7 +50,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Manager")]
+        [Authorize]
         public async Task<IActionResult> CreateStation([FromForm] StationRequestModel request)
         {
             if (!ModelState.IsValid)
@@ -60,7 +63,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut("{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> UpdateStation(int id, [FromForm] StationUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -78,6 +81,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteStation(int id)
         {
             var result = await _stationService.DeleteStationAsync(id);

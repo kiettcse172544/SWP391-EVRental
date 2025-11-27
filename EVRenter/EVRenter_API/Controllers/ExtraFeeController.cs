@@ -1,5 +1,6 @@
 ﻿using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EVRenter_API.Controllers
@@ -19,6 +20,7 @@ namespace EVRenter_API.Controllers
 
         
         [HttpPost("create")]
+        [Authorize]
         public async Task<IActionResult> CreateExtraFee([FromBody] ExtraFeeCreateRequest request)
         {
             try
@@ -40,6 +42,7 @@ namespace EVRenter_API.Controllers
 
         
         [HttpGet("all")]
+        [Authorize]
         public async Task<IActionResult> GetAllExtraFees()
         {
             try
@@ -59,6 +62,7 @@ namespace EVRenter_API.Controllers
 
         
         [HttpGet("booking/{bookingId}")]
+        [Authorize]
         public async Task<IActionResult> GetExtraFeesByBooking(int bookingId)
         {
             try

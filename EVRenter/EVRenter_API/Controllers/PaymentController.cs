@@ -1,5 +1,6 @@
 ﻿using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EVRenter_API.Controllers
@@ -21,6 +22,7 @@ namespace EVRenter_API.Controllers
         // TẠO THANH TOÁN
         
         [HttpPost("create")]
+        [Authorize]
         public async Task<IActionResult> CreatePayment([FromBody] PaymentCreateRequest request)
         {
             try
@@ -51,6 +53,7 @@ namespace EVRenter_API.Controllers
         // XỬ LÝ IPN CALLBACK (SERVER-TO-SERVER)
         
         [HttpGet("vnpay/ipn")]
+        [Authorize]
         public async Task<IActionResult> VnPayIpn()
         {
             try
@@ -98,6 +101,7 @@ namespace EVRenter_API.Controllers
         // LỊCH SỬ THANH TOÁN THEO USER
         
         [HttpGet("user/{userId}")]
+        [Authorize]
         public async Task<IActionResult> GetPaymentsByUser(int userId)
         {
             try
@@ -116,6 +120,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("all")]
+        [Authorize]
         public async Task<IActionResult> GetAllPayments()
         {
             try

@@ -1,5 +1,6 @@
 ﻿using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllPrices()
         {
             var response = await _priceService.GetAllRentalPrice();
@@ -24,6 +26,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetPriceById(int id)
         {
 
@@ -38,6 +41,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("{modelId}")]
+        [Authorize]
         public async Task<IActionResult> GetPriceByModelId(int modelId)
         {
 
@@ -52,7 +56,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Manager")]
+        [Authorize]
         public async Task<IActionResult> CreatePrice([FromForm] PriceRequestModel request)
         {
             if (!ModelState.IsValid)
@@ -65,7 +69,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> UpdatePrice([FromForm] PriceUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -83,6 +87,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteModel(int id)
         {
             var result = await _priceService.DeletePriceAsync(id);

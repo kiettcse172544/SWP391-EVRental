@@ -1,5 +1,6 @@
 ﻿using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EVRenter_API.Controllers
@@ -19,6 +20,7 @@ namespace EVRenter_API.Controllers
 
         
         [HttpPost("create")]
+        [Authorize]
         public async Task<IActionResult> CreateHandover([FromBody] HandoverCreateRequest request)
         {
             try
@@ -40,6 +42,7 @@ namespace EVRenter_API.Controllers
 
         
         [HttpPut("{id}/confirm-handover")]
+        [Authorize]
         public async Task<IActionResult> ConfirmHandover(int id)
         {
             try
@@ -60,6 +63,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllHandovers()
         {
             var result = await _handoverService.GetAllHandoversAsync();

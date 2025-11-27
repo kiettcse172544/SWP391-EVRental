@@ -24,6 +24,7 @@ namespace EVRenter_API.Controllers
         // Lấy tất cả người dùng (hiện tại chỉ hỗ trợ lấy tất cả, không có lọc và phân trang)
         // Giữ lại để tương thích ngược với code cũ
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllUsers()
         {
             var response = await _userService.GetAllUsersAsync();
@@ -31,6 +32,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("GetAllRenters")]
+        [Authorize]
         public async Task<IActionResult> GetAllRentersForStaff()
         {
             var response = await _userService.GetAllRentersAsync();
@@ -40,6 +42,7 @@ namespace EVRenter_API.Controllers
 
         // Lấy người dùng theo ID
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetUserById(int id)
         {
 
@@ -52,8 +55,8 @@ namespace EVRenter_API.Controllers
             return Ok(user);
         }
 
-        
         [HttpGet("GetRenter/{id}")]
+        [Authorize]
         public async Task<IActionResult> GetRenterById(int id)
         {
             var user = await _userService.GetRentalByIdAsync(id);
@@ -67,6 +70,7 @@ namespace EVRenter_API.Controllers
 
         // Tạo người dùng mới
         [HttpPost("CreatedStaff")]
+        [Authorize]
         public async Task<IActionResult> CreateUser([FromForm] UserCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -80,6 +84,7 @@ namespace EVRenter_API.Controllers
 
         // Tạo hồ sơ của renter mới
         [HttpPost("CreateRenterProfile")]
+        [Authorize]
         public async Task<IActionResult> CreateRenterProfile([FromForm] RenterProfileRequest request)
         {
             if (!ModelState.IsValid)
@@ -92,6 +97,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPost("CreateStaffProfile")]
+        [Authorize]
         public async Task<IActionResult> CreateStaffProfile([FromForm] StaffProfileRequest request)
         {
             if (!ModelState.IsValid)
@@ -105,6 +111,7 @@ namespace EVRenter_API.Controllers
 
         // Cập nhật người dùng
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateUser(int id, [FromForm] UserUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -123,6 +130,7 @@ namespace EVRenter_API.Controllers
 
         // Cập nhật người thue
         [HttpPut("UpdateRenter/{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateRenter(int id, [FromForm] RenterUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -140,6 +148,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut("UpdateStaff/{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateStaff(int id, [FromForm] StaffUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -157,6 +166,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut("RebootRenterType")]
+        [Authorize]
         public async Task<IActionResult> RebootRenterType()
         {
             if (!ModelState.IsValid)
@@ -171,6 +181,7 @@ namespace EVRenter_API.Controllers
 
         // Xóa người dùng
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var result = await _userService.DeleteUserAsync(id);
@@ -183,6 +194,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut("UpdateVerifiedStatus/{id}/{status}")]
+        [Authorize]
         public async Task<IActionResult> UpdateVerifiedStatus(int id, int status)
         {
             try

@@ -2,6 +2,7 @@
 using EVRenter_Data.Entities;
 using EVRenter_Service.RequestModel;
 using EVRenter_Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllVehicles()
         {
             var response = await _vehicleService.GetAllVehicle();
@@ -26,6 +28,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("GetAllVehiclesByStation/{stationId}")]
+        [Authorize]
         public async Task<IActionResult> GetAllVehiclesByStationID(int stationID)
         {
             var response = await _vehicleService.GetAllVehicleByStation(stationID);
@@ -33,6 +36,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetVehicleById(int id)
         {
 
@@ -47,7 +51,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Manager")]
+        [Authorize]
         public async Task<IActionResult> CreateVehicle([FromForm] VehicleRequestModel request)
         {
             if (!ModelState.IsValid)
@@ -60,7 +64,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut("{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> UpdateVehicle(int id, [FromForm] VehicleUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -78,6 +82,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut("UpdateCarItems/{vehicleId}")]
+        [Authorize]
         public async Task<IActionResult> UpdateCarItemsByVehicle(int vehicleId,[FromBody] UpdateCarItemsRequest request)
         {
             if (vehicleId != request.VehicleID)
@@ -101,6 +106,7 @@ namespace EVRenter_API.Controllers
 
 
         [HttpPut("AutpUpdateStatus/{vehicleId}")]
+        [Authorize]
         public async Task<IActionResult> UpdateVehicleStatus(int vehicleId)
         {
             if (!ModelState.IsValid)
@@ -118,6 +124,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteModel(int id)
         {
             var result = await _vehicleService.DeleteVehicleAsync(id);
@@ -130,6 +137,7 @@ namespace EVRenter_API.Controllers
         }
 
         [HttpPut("StaffRefusedStatus/{vehicleId}")]
+        [Authorize]
         public async Task<IActionResult> StaffRefusedStatus(int vehicleId)
         {
             if (!ModelState.IsValid)
