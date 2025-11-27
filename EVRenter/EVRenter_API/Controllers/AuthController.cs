@@ -1,6 +1,6 @@
 ﻿using EVRenter_Service.RequestModel;
 using EVRenter_Service.RequestModel.register;
-using EVRenter_Service.Service;
+using EVRenter_Service.IService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EVRenter_API.Controllers

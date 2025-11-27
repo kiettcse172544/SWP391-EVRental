@@ -13,37 +13,32 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Security.Cryptography;
+using EVRenter_Service.IService;
+using EVRenter_Repository.Repositories.Auth;
 
 namespace EVRenter_Service.Service
 {
-    public interface IAuthService
-    {
-        Task<LoginResponseModel> LoginAsync(LoginRequestModel request);
-        Task<SignupResponseModel> RegisterAsync(SignupRequestModel request);
-        Task<VerifyEmailResponseModel> VerifyEmailAsync(string token);
-        Task<ChangePasswordResponseModel> ChangePasswordAsync(ChangePasswordRequestModelV2 request);
-
-    }
+    
 
     public class AuthService : IAuthService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
+        private readonly IAuthRepository _authRepository;
 
-        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration, IEmailService emailService )
+        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration, IEmailService emailService, IAuthRepository authRepository)
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
             _emailService = emailService;
+            _authRepository = authRepository;
         }
 
         public async Task<LoginResponseModel> LoginAsync(LoginRequestModel request)
         {
             
-            var user = await _unitOfWork.Repository<User>()
-                .AsQueryable()
-                .FirstOrDefaultAsync(u => u.Email.Trim() == request.Email.Trim() && !u.IsDelete);
+            var user = await _authRepository.GetUserByEmailAsync(request.Email);
 
             if (user == null)
                 throw new KeyNotFoundException("User not found.");
@@ -107,20 +102,13 @@ namespace EVRenter_Service.Service
     
 
         public async Task<SignupResponseModel> RegisterAsync(SignupRequestModel request)
-        {
-            var userRepo = _unitOfWork.Repository<User>();
-
-            
-            bool emailExists = await userRepo.AsQueryable()
-                .AnyAsync(u => u.Email.Trim() == request.Email.Trim() && !u.IsDelete);
-
+        {        
+            bool emailExists = await _authRepository.CheckEmail(request.Email);
             if (emailExists)
                 throw new Exception("Email đã được đăng ký.");
 
             
-            bool phoneExists = await userRepo.AsQueryable()
-                .AnyAsync(u => u.Phone.Trim() == request.Phone.Trim() && !u.IsDelete);
-
+            bool phoneExists = await _authRepository.CheckPhoneAsync(request.Phone);
             if (phoneExists)
                 throw new Exception("Số điện thoại đã được đăng ký.");
 
@@ -152,8 +140,7 @@ namespace EVRenter_Service.Service
                 EmailVerificationTokenExpiresAt = DateTime.UtcNow.AddHours(1)
             };
 
-            await userRepo.AddAsync(user);
-            await _unitOfWork.SaveChangesAsync();
+            await _authRepository.AddUserAsync(user);
 
             string verifyUrl = $"https://swp-391-fawn.vercel.app/verify?token={token}";
             string body = $@"
@@ -179,12 +166,9 @@ namespace EVRenter_Service.Service
 
         public async Task<VerifyEmailResponseModel> VerifyEmailAsync(string token)
         {
-            var userRepo = _unitOfWork.Repository<User>();
+            
 
-            var user = await userRepo.AsQueryable()
-                .FirstOrDefaultAsync(u =>
-                    u.EmailVerificationToken == token &&
-                    !u.IsDelete);
+            var user = await _authRepository.GetUserByToken(token);
 
             if (user == null)
             {
@@ -207,12 +191,10 @@ namespace EVRenter_Service.Service
             
             user.IsEmailVerified = true;
             user.IsActive = true;
-
             user.EmailVerificationToken = null;
             user.EmailVerificationTokenExpiresAt = null;
 
-            userRepo.Update(user);
-            await _unitOfWork.SaveChangesAsync();
+            _authRepository.UpdateUserAsync(user);
 
             return new VerifyEmailResponseModel
             {
@@ -226,8 +208,7 @@ namespace EVRenter_Service.Service
             var userRepo = _unitOfWork.Repository<User>();
 
             
-            var user = await userRepo.AsQueryable()
-                .FirstOrDefaultAsync(u => u.Id == request.UserId && !u.IsDelete);
+            var user = await _authRepository.GetUserById(request.UserId);
 
             if (user == null)
             {
@@ -275,8 +256,7 @@ namespace EVRenter_Service.Service
 
             
             user.Password = hashedNewPassword;
-            await userRepo.UpdateAsync(user);
-            await _unitOfWork.SaveChangesAsync();
+            await _authRepository.UpdateUserAsync(user);
 
             return new ChangePasswordResponseModel
             {

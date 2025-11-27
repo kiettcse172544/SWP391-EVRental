@@ -5,25 +5,12 @@ using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using EVRenter_Service.IService;
 
 namespace EVRenter_Service.Service
 {
-    /// <summary>
-    /// Interface định nghĩa các nghiệp vụ thanh toán của hệ thống EVRenter.
-    /// </summary>
-    public interface IPaymentService
-    {
-        Task<IEnumerable<PaymentResponseModel>> GetAllPaymentsAsync();
-
-
-        Task<PaymentResponseModel> CreatePaymentAsync(PaymentCreateRequest request, string ipAddr);
-
-       
-        Task<bool> HandleVnPayCallbackAsync(PaymentCallbackRequest callback);
-
-        
-        Task<IEnumerable<PaymentResponseModel>> GetPaymentsByUserAsync(int userId);
-    }
+    
+    
 
     public class PaymentService : IPaymentService
     {
@@ -80,8 +67,8 @@ namespace EVRenter_Service.Service
 
             if (payment.PaymentType == PaymentType.VnPay)
             {
-               // booking.Status = 1;
-               // payment.Status = PaymentStatus.Success;
+                booking.Status = 1;
+                payment.Status = PaymentStatus.Success;
                 string paymentUrl = _vnPayService.CreatePaymentUrl(
                     payment.ReferenceCode,
                     payment.Amount,

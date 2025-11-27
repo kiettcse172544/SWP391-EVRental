@@ -6,13 +6,10 @@ using System.Net.Mail;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using EVRenter_Service.IService;
 
 namespace EVRenter_Service.Service
 {
-    public interface IEmailService
-    {
-        Task SendEmailAsync(string toEmail, string subject, string body);
-    }
 
     public class EmailService : IEmailService
     {
