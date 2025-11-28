@@ -7,6 +7,7 @@ using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using EVRenter_Service.IService;
+using EVRenter_Repository.Repositories.HandoverRepo;
 
 namespace EVRenter_Service.Service
 {
@@ -17,28 +18,23 @@ namespace EVRenter_Service.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<HandoverService> _logger;
+        private readonly IHandoverRepository _handoverRepository;
 
-        public HandoverService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<HandoverService> logger)
+        public HandoverService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<HandoverService> logger, IHandoverRepository handoverRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _handoverRepository = handoverRepository;   
         }
 
         
         public async Task<HandoverResponseModel> CreateHandoverAsync(HandoverCreateRequest request)
         {
             
-            var booking = await _unitOfWork.Repository<Booking>()
-                .AsQueryable()
-                .Include(b => b.Vehicle)
-                .FirstOrDefaultAsync(b => b.Id == request.BookingID && !b.IsDelete);
+            var booking = await _handoverRepository.GetBookingById(request.BookingID);
 
-            bool isExist = await _unitOfWork.Repository<User>()
-                            .AsQueryable()
-                            .AnyAsync(stf => stf.Id == request.StaffID 
-                                            && !stf.IsDelete 
-                                            && stf.RoleID == RoleType.Staff);
+            bool isExist = await _handoverRepository.CheckStaff(request.StaffID);
 
             if (!isExist)
             {
@@ -75,17 +71,14 @@ namespace EVRenter_Service.Service
 
             vehicle.Status = 4;
             booking.Status = 4;
-            await _unitOfWork.Repository<HandoverAndReturn>().AddAsync(handover);
-            await _unitOfWork.SaveChangesAsync();
+            await _handoverRepository.UpdateVehicle(vehicle);
+            await _handoverRepository.UpdateBooking(booking);
+            await _handoverRepository.AddHandover(handover);
 
             _logger.LogInformation($"Handover #{handover.Id} created for Booking #{booking.Id}");
 
-            
-            var carItems = await _unitOfWork.Repository<CarItem>()
-                .AsQueryable()
-                .Include(c => c.Category)
-                .Where(c => c.VehicleID == booking.VehicleID && !c.IsDelete)
-                .ToListAsync();
+
+            var carItems = await _handoverRepository.GetCarItems(booking.VehicleID);
 
             var itemResponses = carItems.Select(c => new HandoverItemStatusResponse
             {
@@ -113,25 +106,20 @@ namespace EVRenter_Service.Service
         
         public async Task<bool> ConfirmHandoverAsync(int handoverId)
         {
-            var handover = await _unitOfWork.Repository<HandoverAndReturn>()
-                .GetByIdAsync(handoverId);
+            var handover = await _handoverRepository.GetHandover(handoverId);
 
             
 
             if (handover == null || handover.IsDelete)
                 throw new KeyNotFoundException("Handover record not found.");
 
-            var booking = await _unitOfWork.Repository<Booking>()
-                .AsQueryable()
-                .FirstOrDefaultAsync(b => b.Id == handover.BookingID && !b.IsDelete);
+            var booking = await _handoverRepository.GetBookingById(handover.BookingID);
 
             if (booking == null)
                 throw new KeyNotFoundException("Booking not found for this handover.");
 
 
-            var vehicle = await _unitOfWork.Repository<Vehicle>()
-                .AsQueryable()
-                .FirstOrDefaultAsync(v => v.Id == handover.VehicleID && !v.IsDelete);
+            var vehicle = await _handoverRepository.GetVehicle(handover.VehicleID);
 
             if (vehicle == null)
                 throw new KeyNotFoundException("Vehicle not found for this handover.");
@@ -171,11 +159,7 @@ namespace EVRenter_Service.Service
 
             foreach (var handover in handovers)
             {
-                var carItems = await _unitOfWork.Repository<CarItem>()
-                    .AsQueryable()
-                    .Include(c => c.Category)
-                    .Where(c => c.VehicleID == handover.VehicleID && !c.IsDelete)
-                    .ToListAsync();
+                var carItems = await _handoverRepository.GetCarItems(handover.VehicleID);
 
                 var items = carItems.Select(c => new HandoverItemStatusResponse
                 {
@@ -205,21 +189,12 @@ namespace EVRenter_Service.Service
 
         public async Task<HandoverResponseModel?> GetHandoverByIdAsync(int id)
         {
-            var handover = await _unitOfWork.Repository<HandoverAndReturn>()
-                .AsQueryable()
-                .Include(h => h.Booking)
-                .Include(h => h.Vehicle)
-                .Include(h => h.Station)
-                .FirstOrDefaultAsync(h => h.Id == id && !h.IsDelete);
+            var handover = await _handoverRepository.GetHandoverById(id);
 
             if (handover == null)
                 return null;
 
-            var carItems = await _unitOfWork.Repository<CarItem>()
-                .AsQueryable()
-                .Include(c => c.Category)
-                .Where(c => c.VehicleID == handover.VehicleID && !c.IsDelete)
-                .ToListAsync();
+            var carItems = await _handoverRepository.GetCarItems(handover.VehicleID);
 
             var items = carItems.Select(c => new HandoverItemStatusResponse
             {

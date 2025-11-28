@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 using EVRenter_Service.IService;
+using EVRenter_Repository.Repositories.BookingEmail;
 
 namespace EVRenter_Service.Service
 {
@@ -15,20 +16,19 @@ namespace EVRenter_Service.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _config;
+        private readonly IBookingEmail _bookingEmail;
 
-        public BookingEmailService(IUnitOfWork unitOfWork, IEmailService emailService, IConfiguration config)
+        public BookingEmailService(IUnitOfWork unitOfWork, IEmailService emailService, IConfiguration config, IBookingEmail bookingEmail)
         {
             _unitOfWork = unitOfWork;
             _emailService = emailService;
             _config = config;
+            _bookingEmail = bookingEmail;
         }
 
         public async Task<bool> SendSignatureEmailAsync(int bookingId)
         {
-            var booking = await _unitOfWork.Repository<Booking>()
-                .AsQueryable()
-                .Include(b => b.User)
-                .FirstOrDefaultAsync(b => b.Id == bookingId && !b.IsDelete);
+            var booking = await _bookingEmail.GetBookingById(bookingId);
 
             if (booking == null)
                 throw new Exception("Booking not found.");
@@ -41,8 +41,7 @@ namespace EVRenter_Service.Service
             booking.SignatureToken = token;
             booking.SignatureTokenExpiresAt = DateTime.UtcNow.AddHours(24);
 
-            await _unitOfWork.Repository<Booking>().UpdateAsync(booking);
-            await _unitOfWork.SaveChangesAsync();
+            await _bookingEmail.UpdateBooking(booking);
 
             // URL xác nhận
             var frontendUrl = "https://swp-391-fawn.vercel.app";
@@ -66,18 +65,14 @@ namespace EVRenter_Service.Service
 
         public async Task<bool> ConfirmSignatureAsync(string token)
         {
-            var booking = await _unitOfWork.Repository<Booking>()
-                .AsQueryable()
-                .FirstOrDefaultAsync(b => b.SignatureToken == token && !b.IsDelete);
+            var booking = await _bookingEmail.GetBookingByToken(token);
 
             
 
             if (booking == null)
                 throw new Exception("Invalid or used token.");
 
-            var vehicle = await _unitOfWork.Repository<Vehicle>()
-                            .AsQueryable()
-                            .FirstOrDefaultAsync(v => v.Id == booking.VehicleID);
+            var vehicle = await _bookingEmail.GetVehicleById(booking.VehicleID);
 
             if (vehicle == null)
                 throw new Exception("Vehicle not found.");
@@ -91,8 +86,8 @@ namespace EVRenter_Service.Service
             booking.SignatureToken = null;
             booking.SignatureTokenExpiresAt = null;
 
-            await _unitOfWork.Repository<Booking>().UpdateAsync(booking);
-            await _unitOfWork.SaveChangesAsync();
+            await _bookingEmail.UpdateBooking(booking);
+            await _bookingEmail.UpdateVehicle(vehicle);
 
             return true;
         }
