@@ -1,4 +1,5 @@
-﻿using EVRenter_Service.RequestModel;
+﻿using EVRenter_Data.Entities;
+using EVRenter_Service.RequestModel;
 using EVRenter_Service.ResponseModel;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace EVRenter_Service.IService
 {
     public interface IPaymentService
     {
-        Task<IEnumerable<PaymentResponseModel>> GetAllPaymentsAsync();
+        Task<IEnumerable<Payment>> GetAllPaymentsAsync();
 
 
         Task<PaymentResponseModel> CreatePaymentAsync(PaymentCreateRequest request, string ipAddr);
@@ -20,5 +21,7 @@ namespace EVRenter_Service.IService
 
 
         Task<IEnumerable<PaymentResponseModel>> GetPaymentsByUserAsync(int userId);
+
+        Task Update(int bookingId, int paymentId);
     }
 }
