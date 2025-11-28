@@ -30,6 +30,7 @@ namespace EVRenter_API.Controllers
                 var clientIp = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "127.0.0.1";
 
                 var result = await _paymentService.CreatePaymentAsync(request, clientIp);
+                _paymentService.Update(result.BookingId, result.Id);
                 return Ok(result);
             }
             catch (KeyNotFoundException ex)

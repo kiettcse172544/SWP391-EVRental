@@ -6,6 +6,7 @@ using EVRenter_Service.ResponseModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using EVRenter_Service.IService;
+using EVRenter_Repository.Repositories.Payment;
 
 namespace EVRenter_Service.Service
 {
@@ -17,15 +18,16 @@ namespace EVRenter_Service.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly VnPayService _vnPayService;
+        private readonly IPaymentRepository _paymentRepository;
 
         private readonly ILogger<PaymentService> _logger;
 
-        public PaymentService(IUnitOfWork unitOfWork, IMapper mapper, VnPayService vnPayService, ILogger<PaymentService> logger)
+        public PaymentService(IUnitOfWork unitOfWork, IMapper mapper, VnPayService vnPayService, ILogger<PaymentService> logger, IPaymentRepository paymentRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _vnPayService = vnPayService;
-
+            _paymentRepository = paymentRepository;
             _logger = logger;
         }
 
@@ -34,10 +36,7 @@ namespace EVRenter_Service.Service
         
         public async Task<PaymentResponseModel> CreatePaymentAsync(PaymentCreateRequest request, string ipAddr)
         {
-            var booking = await _unitOfWork.Repository<Booking>()
-                .AsQueryable()
-                .Include(b => b.User)
-                .FirstOrDefaultAsync(b => b.Id == request.BookingId && !b.IsDelete);
+            var booking = await _paymentRepository.GetBookingByIdAsync(request.BookingId);
 
             if (booking == null)
                 throw new KeyNotFoundException("Booking not found.");
@@ -58,17 +57,15 @@ namespace EVRenter_Service.Service
 
                 booking.Status = 1;
 
-                await _unitOfWork.Repository<Booking>().UpdateAsync(booking);
-                await _unitOfWork.Repository<Payment>().InsertAsync(payment);
-                await _unitOfWork.SaveChangesAsync();
+                await _paymentRepository.UpdateBookingAsync(booking);
+                await _paymentRepository.AddPaymentAsync(payment);
+                
                 
                 return _mapper.Map<PaymentResponseModel>(payment);
             }
 
             if (payment.PaymentType == PaymentType.VnPay)
             {
-                booking.Status = 1;
-                payment.Status = PaymentStatus.Success;
                 string paymentUrl = _vnPayService.CreatePaymentUrl(
                     payment.ReferenceCode,
                     payment.Amount,
@@ -78,8 +75,8 @@ namespace EVRenter_Service.Service
 
                 payment.PaymentUrl = paymentUrl;
 
-                await _unitOfWork.Repository<Payment>().InsertAsync(payment);
-                await _unitOfWork.SaveChangesAsync();
+                await _paymentRepository.AddPaymentAsync(payment);
+                
 
                 
 
@@ -103,9 +100,7 @@ namespace EVRenter_Service.Service
 
             _logger.LogInformation($"[IPN RECEIVED] TxnRef={refCode}");
 
-            var payment = await _unitOfWork.Repository<Payment>()
-                .AsQueryable()
-                .FirstOrDefaultAsync(p => p.ReferenceCode == refCode);
+            var payment = await _paymentRepository.GetPaymentByRefCode(refCode);
 
             if (payment == null)
                 throw new KeyNotFoundException("Payment not found for this transaction.");
@@ -121,13 +116,11 @@ namespace EVRenter_Service.Service
                 payment.Status = PaymentStatus.Success;
                 payment.PaymentTime = DateTime.UtcNow;
 
-                var booking = await _unitOfWork.Repository<Booking>()
-                    .AsQueryable()
-                    .FirstOrDefaultAsync(b => b.Id == payment.BookingID);
+                var booking = await _paymentRepository.GetBookingByIdAsync(payment.BookingID);
                 if (booking != null)
                 {
                     booking.Status = 1;
-                    await _unitOfWork.Repository<Booking>().UpdateAsync(booking);
+                    await _paymentRepository.UpdateBookingAsync(booking);
                 }
             }
             else
@@ -135,8 +128,8 @@ namespace EVRenter_Service.Service
                 payment.Status = PaymentStatus.Failed;
             }
 
-            await _unitOfWork.Repository<Payment>().UpdateAsync(payment);
-            await _unitOfWork.SaveChangesAsync();
+            await _paymentRepository.UpdatePaymentAsync(payment);
+            
 
             return true;
         }
@@ -146,47 +139,40 @@ namespace EVRenter_Service.Service
        
         public async Task<IEnumerable<PaymentResponseModel>> GetPaymentsByUserAsync(int userId)
         {
-            var payments = await _unitOfWork.Repository<Payment>()
-                .AsQueryable()
-                .Include(p => p.User)
-                .Where(p => p.UserID == userId && !p.IsDelete)
-                .ToListAsync();
+            var payments = await _paymentRepository.GetPaymentByUserAsync(userId);
 
             return _mapper.Map<IEnumerable<PaymentResponseModel>>(payments);
         }
 
-        public async Task<IEnumerable<PaymentResponseModel>> GetAllPaymentsAsync()
+        public async Task<IEnumerable<Payment>> GetAllPaymentsAsync()
         {
-            var payments = await _unitOfWork.Repository<Payment>()
-                .AsQueryable()
-                .Include(p => p.User)
-                .Include(p => p.Booking)
-                .Where(p => !p.IsDelete)
-                .OrderByDescending(p => p.PaymentTime)        // Sắp theo thời gian thanh toán
-                .ThenByDescending(p => p.Id)                  // Nếu null, sắp theo Id giảm dần
-                .Select(p => new PaymentResponseModel
-                {
-                    Id = p.Id,
-                    BookingId = p.BookingID,
-                    UserEmail = p.User != null ? p.User.Email : "(Unknown)",
-                    PaymentMethod = p.PaymentType == PaymentType.VnPay ? "VNPAY" :
-                                    p.PaymentType == PaymentType.Cash ? "Cash" : "Other",
-                    Amount = p.Amount,
-                    Status = p.Status == PaymentStatus.Pending ? "Pending" :
-                             p.Status == PaymentStatus.Success ? "Success" :
-                             p.Status == PaymentStatus.Failed ? "Failed" : "Unknown",
-                    PaymentTime = p.PaymentTime,
-                    PaymentUrl = p.PaymentUrl,
-                    TransactionId = p.TransactionId,
-                    ReferenceCode = p.ReferenceCode,
-                    Note = p.Note
-                })
-                .ToListAsync();
+            var payments = await _paymentRepository.GetPayments();
+
+
 
             return payments;
         }
 
 
+        public async Task Update(int bookingId, int paymentId)
+        {
+            var payment = await _paymentRepository.GetPaymentById(paymentId);
+            var booking = await _paymentRepository.GetBookingByIdAsync(bookingId);
 
+            if (booking != null)
+            {
+                booking.Status = 1;
+                await _paymentRepository.UpdateBookingAsync(booking);
+            }
+
+            if (payment != null)
+            {
+                payment.Status = PaymentStatus.Success;
+                payment.PaymentTime = DateTime.UtcNow;
+                await _paymentRepository.UpdatePaymentAsync(payment);
+            }
+
+
+        }
     }
 }
